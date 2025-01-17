@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilo global para el fondo */
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color:burlywood; /* Color de fondo suave (azul claro) */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Asegurar que el contenido esté centrado */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header, footer {
+            background-color: aqua;
+            padding: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+    </style>
+
+        </body>
+     <!-- Sección de Registro e Inicio de sesión -->
+<div class="container my-5">
+    <h2 class="text-center">Iniciar sesión o Registrarse</h2>
+    <div class="row justify-content-center">
+        <!-- Formulario de Inicio de Sesión -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Iniciar sesión</h5>
+                </div>
+                <div class="card-body">
+                    <form action="login.php" method="post">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="loginEmail" name="loginEmail" placeholder="Ingrese su correo electrónico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="loginPassword" name="loginPassword" placeholder="Ingrese su contraseña" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>

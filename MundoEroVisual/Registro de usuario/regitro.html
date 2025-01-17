@@ -1,0 +1,32 @@
+ <!-- Espaciador entre los formularios -->
+ <div class="col-md-1 d-flex align-items-center justify-content-center">
+    <span class="text-muted">o</span>
+</div>
+
+<!-- Formulario de Registro -->
+<div class="col-md-5">
+    <div class="card">
+        <div class="card-header">
+            <h5>Registrarse</h5>
+        </div>
+        <div class="card-body">
+            <form action="register.php" method="post">
+                <div class="mb-3">
+                    <label for="registerUsername" class="form-label">Nombre de usuario</label>
+                    <input type="text" class="form-control" id="registerUsername" name="registerUsername" placeholder="Elija su nombre de usuario" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerEmail" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="registerEmail" name="registerEmail" placeholder="Ingrese su correo electrónico" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerPassword" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="registerPassword" name="registerPassword" placeholder="Cree una contraseña" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerConfirmPassword" class="form-label">Confirmar contraseña</label>
+                    <input type="password" class="form-control" id="registerConfirmPassword" name="registerConfirmPassword" placeholder="Confirme su contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Registrarse</button>
+            </form>
+        </div>
