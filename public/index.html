@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mundo Ero Visual</title>
+  <link rel="icon" type="image/png" href="imagenes/logo.png">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+ <style> 
+  :root {
+  --bg: #181828;
+  --bg-dark: #12121a;
+  --accent: #a259ff;
+  --accent2: #ff3cac;
+  --text: #f3f3f7;
+  --text-muted: #b3b3c6;
+  --card: #23233a;
+  --border: #2d2d44;
+}
+/* Estructura general */
+body {
+  margin: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+.sidebar {
+  width: 70px;
+  background: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 30px;
+  border-right: 1px solid var(--border);
+  position: fixed;
+  height: 100vh;
+  z-index: 10;
+}
+.sidebar svg {
+  width: 32px;
+  height: 32px;
+  fill: var(--accent);
+  transition: fill 0.2s;
+  cursor: pointer;
+}
+.sidebar svg:hover {
+  fill: var(--accent2);
+}
+.sidebar .sidebar-fav.active svg {
+  fill: gold;
+}
+.main-content {
+  margin-left: 70px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg);
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 40px 16px 40px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo img {
+  height: 38px;
+  width: auto;
+  border-radius: 8px;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border-radius: 24px;
+  padding: 6px 16px;
+  margin-right: 4px;
+}
+.search-bar input {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  margin-left: 8px;
+  width: 180px;
+}
+.categories-header-btn {
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 8px 19px 8px 19px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px #a259ff44;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.categories-header-btn:hover {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  box-shadow: 0 4px 18px #ff3cac55;
+}
+.register-btn, .login-btn {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px #a259ff33;
+  margin-left: 8px;
+}
+.register-btn:hover, .login-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px #ff3cac44;
+}
+.favorites-btn {
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.favorites-btn svg {
+  vertical-align: middle;
+}
+.content-area {
+  display: flex;
+  gap: 32px;
+  padding: 32px 40px;
+  flex: 1;
+}
+.main-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.featured-post {
+  background: linear-gradient(120deg, var(--card) 80%, var(--accent) 120%);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  min-height: 260px;
+  max-width: 100%;
+  margin: 0 0 0 0;
+  box-shadow: 0 4px 24px #a259ff22;
+  position: relative;
+}
+.featured-post img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  filter: brightness(0.7);
+  position: absolute;
+  left: 0; top: 0;
+  z-index: 1;
+}
+.featured-overlay {
+  position: relative;
+  z-index: 2;
+  padding: 32px;
+  color: #fff;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: linear-gradient(0deg, #181828cc 70%, #18182800 100%);
+}
+.featured-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+.featured-author img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+}
+.verified {
+  color: var(--accent2);
+  font-size: 1.1em;
+  margin-left: 4px;
+}
+.featured-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+.featured-meta {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+.featured-btn {
+  align-self: flex-start;
+  margin-top: 8px;
+  background: var(--accent2);
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  padding: 8px 22px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.featured-btn:hover {
+  background: var(--accent);
+}
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  justify-items: center;
+}
+.post-card {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #0002;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  max-width: 350px;
+  width: 100%;
+  min-height: 400px;
+  max-height: 425px;
+  height: 460px;
+  margin: 0 auto;
+}
+.post-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 32px #a259ff33;
+}
+.post-image {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+.post-info {
+  padding: 14px 14px 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  overflow: hidden;
+}
+.post-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.post-desc {
+  display: none; /* Oculta la descripción en la carta */
+}
+.post-genres {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.genre-chip {
+  background: var(--bg-dark);
+  color: var(--accent2);
+  border: 1px solid var(--accent2);
+  border-radius: 10px;
+  padding: 4px 16px;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  outline: none;
+  border-width: 2px;
+}
+.genre-chip:hover, .genre-chip.active {
+  background: var(--accent2);
+  color: #fff;
+}
+.descargar-btn {
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 8px 20px;
+  font-weight: 700;
+  font-size: 1em;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background 0.18s;
+  margin-top: 8px;
+}
+.descargar-btn:hover {
+  background: var(--accent);
+}
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+.fav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--accent2);
+  font-size: 1.3em;
+  transition: color 0.2s;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+}
+.fav-btn.active {
+  color: gold;
+}
+.genero-header {
+  margin: 24px 0 10px 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent2);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* PANEL LATERAL DE CATEGORÍAS */
+#panel-categorias-bg {
+  display: none;
+  position: fixed;
+  z-index: 1002;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(18,18,40,0.68);
+}
+#panel-categorias {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100vh;
+  width: 320px;
+  max-width: 96vw;
+  background: var(--card);
+  box-shadow: -4px 0 30px #000a;
+  z-index: 1003;
+  transform: translateX(110%);
+  transition: transform 0.22s cubic-bezier(.4,1.6,.42,1);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+#panel-categorias.open {
+  transform: translateX(0%);
+}
+#panel-categorias .panel-categorias-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px 10px 20px;
+  border-bottom: 1.5px solid var(--accent2);
+  background: var(--card);
+}
+#panel-categorias .panel-categorias-header h2 {
+  font-size: 1.3rem;
+  color: var(--accent2);
+  margin: 0;
+}
+#panel-categorias .panel-categorias-close {
+  font-size: 2.1rem;
+  color: var(--accent2);
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-left: 10px;
+  line-height: 1;
+}
+#panel-categorias-lista {
+  padding: 22px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+.category-chip2 {
+  background: var(--bg-dark);
+  color: var(--accent2);
+  border: 1.5px solid var(--accent2);
+  border-radius: 13px;
+  padding: 7px 18px;
+  font-size: 1.01em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  margin-right: 0;
+}
+.category-chip2:hover {
+  background: var(--accent2);
+  color: #fff;
+}
+@media (max-width: 500px) {
+  #panel-categorias {
+    width: 97vw;
+    min-width: 0;
+    padding: 0;
+  }
+  #panel-categorias-lista { padding: 17px 6px; }
+}
+
+/* MODALES CENTRADOS Y ESTILO UNIFICADO */
+.modal-form,
+#admin-login-modal,
+#add-novela-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1100;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(120deg, var(--card) 80%, var(--accent) 120%);
+  border: 2px solid var(--accent2);
+  box-shadow: 0 8px 40px #ff3cac55;
+  padding: 36px 36px 28px 36px;
+  border-radius: 18px;
+}
+#admin-login-modal h2,
+#add-novela-modal h2 {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+#admin-login-modal input[type="text"],
+#admin-login-modal input[type="password"],
+#add-novela-modal input[type="text"],
+#add-novela-modal input[type="file"] {
+  margin-bottom: 14px;
+  border: 1.5px solid var(--accent2);
+  background: var(--bg-dark);
+  color: var(--text);
+  font-size: 1em;
+  border-radius: 8px;
+  padding: 9px 14px;
+}
+#admin-login-modal input[type="text"]:focus,
+#admin-login-modal input[type="password"]:focus,
+#add-novela-modal input[type="text"]:focus,
+#add-novela-modal input[type="file"]:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+#admin-login-modal button[type="submit"],
+#add-novela-modal button[type="submit"] {
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
+  box-shadow: 0 4px 16px #a259ff33;
+  letter-spacing: 1px;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.15s;
+}
+#admin-login-modal button[type="submit"]:hover,
+#add-novela-modal button[type="submit"]:hover {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  box-shadow: 0 6px 24px #ff3cac60;
+  transform: translateY(-2px) scale(1.04);
+}
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  cursor: pointer;
+  color: var(--accent2);
+  font-size: 1.3em;
+}
+.modal-msg { color: var(--accent2); font-size: 0.95em; min-height: 18px; }
+
+@media (max-width: 700px) {
+  .modal-form,
+  #admin-login-modal,
+  #add-novela-modal {
+    min-width: 90vw;
+    padding: 14vw 2vw 6vw 2vw;
+  }
+}
+/* Opcional: para evitar modales fuera de la pantalla en móviles */
+@media (max-width: 500px) {
+  .modal-form,
+  #admin-login-modal,
+  #add-novela-modal {
+    min-width: 96vw;
+    padding: 10vw 1vw 4vw 1vw;
+  }
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+</style>
+</head>
+<body>
+<nav class="sidebar">
+    <a href="index.html" title="Inicio">
+      <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9-1.5 1.5L12 5.5 4.5 13.5z"/><path d="M4 10v10h16V10"/></svg>
+    </a>
+    <button id="add-novela-btn" title="Añadir novela" style="background:none;border:none;padding:0;cursor:pointer;">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <button id="btnEliminarMultiples" title="Eliminar novelas" style="background:none;border:none;padding:0;cursor:pointer;">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#ff3cac">
+        <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zm3.46-9.12l1.06 7.06a1 1 0 0 0 2 0l1.06-7.06A1 1 0 0 0 12 8a1 1 0 0 0-1.04 1.88zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"/>
+      </svg>
+    </button>
+    <a href="https://discord.gg/Epm3u2Vegq" target="_blank" title="Discord">
+      <svg viewBox="0 0 24 24"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.885 3.1a.074.074 0 0 0-.079.037c-.34.607-.719 1.396-.984 2.013a18.524 18.524 0 0 0-5.614 0 12.51 12.51 0 0 0-.997-2.013.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.683 4.369a.07.07 0 0 0-.032.027C.533 9.09-.32 13.579.099 18.021a.08.08 0 0 0 .031.056c2.104 1.547 4.13 2.488 6.102 3.104a.077.077 0 0 0 .084-.027c.47-.646.889-1.329 1.248-2.049a.076.076 0 0 0-.041-.104c-.662-.25-1.293-.547-1.902-.884a.077.077 0 0 1-.008-.128c.128-.096.256-.192.378-.291a.074.074 0 0 1 .077-.01c3.993 1.826 8.285 1.826 12.251 0a.073.073 0 0 1 .078.009c.122.099.25.195.378.291a.077.077 0 0 1-.007.128c-.609.337-1.24.634-1.902.884a.076.076 0 0 0-.04.105c.36.72.779 1.403 1.248 2.049a.076.076 0 0 0 .084.027c1.972-.616 3.998-1.557 6.102-3.104a.077.077 0 0 0 .031-.056c.5-5.177-.838-9.637-3.285-13.625a.061.061 0 0 0-.031-.027zM8.02 15.331c-1.183 0-2.156-1.085-2.156-2.419 0-1.333.955-2.418 2.156-2.418 1.21 0 2.174 1.094 2.156 2.418 0 1.334-.955 2.419-2.156 2.419zm7.974 0c-1.183 0-2.156-1.085-2.156-2.419 0-1.333.955-2.418 2.156-2.418 1.21 0 2.174 1.094 2.156 2.418 0 1.334-.946 2.419-2.156 2.419z"/></svg>
+    </a>
+    <a href="#" id="sidebar-favorites" class="sidebar-fav" title="Favoritos">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--accent)">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/>
+      </svg>
+  </nav>
+  <div class="main-content">
+    <header>
+      <div class="logo">
+        <img src="imagenes/logo.png" alt="Logo">
+        MundoEroVisual
+      </div>
+      <div style="display: flex; align-items: center; gap: 18px;">
+        <div class="search-bar">
+          <svg width="20" height="20" fill="var(--accent2)" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35"/><circle cx="11" cy="11" r="7" stroke="var(--accent2)" stroke-width="2" fill="none"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar...">
+        </div>
+        <button id="abrir-categorias-btn" class="categories-header-btn">
+       <svg width="18" height="18" style="vertical-align:middle;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <rect x="3" y="7" width="18" height="2" rx="1"/>
+     <rect x="3" y="15" width="18" height="2" rx="1"/>
+    </svg>
+        Categorías
+         </button>
+        <button class="login-btn">Iniciar sesión</button>
+        <button class="register-btn">Regístrate</button>
+        <div id="user-info" style="display:none; align-items:center; gap:8px;">
+          <svg width="28" height="28" fill="var(--accent)" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 16-4 16 0" /></svg>
+          <span id="username-display" style="font-weight:700;"></span>
+          <button id="logout-btn" style="margin-left:8px; background:var(--accent2); color:#fff; border:none; border-radius:12px; padding:4px 12px; cursor:pointer;">Salir</button>
+        </div>
+      </div>
+    </header>
+    <div class="content-area">
+      <main class="main-section">
+        <div id="genero-header" class="genero-header" style="display:none"></div>
+        <section class="featured-post" id="featuredPostSection">
+          <img src="imagenes/fondo no merci.jpg" alt="Destacado">
+          <div class="featured-overlay">
+            <div class="featured-author">
+              <img src="imagenes/1749645238154-330072359-logo.png" alt="Autor">
+              <span>mundo visual</span>
+              <span class="verified" title="Verificado">✔</span>
+            </div>
+            <div class="featured-title">¡Bienvenido a MundoEroVisual!</div>
+            <div class="featured-meta">"Explora un mundo de pasión y fantasía con nuestras 
+              novelas visuales eróticas. Historias intensas, personajes cautivadores y decisiones que despiertan tus sentidos. ¡Descubre tu próxima aventura!"</div>
+          </div>
+        </section>
+        <section class="posts-grid" id="postsGrid">
+          <!-- Las cartas se generan dinámicamente -->
+        </section>
+        <div id="vermas-container" style="text-align:center;display:none;margin-top:20px;">
+          <button id="btnVerMas" style="background:linear-gradient(90deg,#ff3cac,#a259ff);color:#fff;border:none;border-radius:20px;padding:10px 28px;font-weight:bold;cursor:pointer;">Ver más</button>
+        </div>
+      </main>
+  <!-- Fondo modal general -->
+<div id="modal-bg" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000a;z-index:1000;"></div>
+<!-- Modal de advertencia para adultos -->
+<div id="adult-warning" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(18,18,40,0.98);display:flex;flex-direction:column;justify-content:center;align-items:center;">
+  <div style="background:#23233a;padding:32px 26px;border-radius:15px;box-shadow:0 0 9px #000a;text-align:center;max-width:90vw;">
+    <h2 style="color:#ff3cac;">⚠️ Advertencia de contenido</h2>
+    <p style="color:#fff;font-size:1.1em;">
+      Esta página contiene contenido solo para adultos (+18). ¿Eres mayor de edad y aceptas ver este contenido?
+    </p>
+    <div style="margin-top:18px;">
+      <button id="btn-adult-si" style="background:#ff3cac;color:#fff;padding:9px 28px;font-size:1.1em;border:none;border-radius:7px;cursor:pointer;margin-right:14px;">Sí, soy mayor de edad</button>
+      <button id="btn-adult-no" style="background:#444;color:#fff;padding:9px 18px;font-size:1.1em;border:none;border-radius:7px;cursor:pointer;">No</button>
+    </div>
+  </div>
+</div>
+<!-- Modal registro -->
+<div id="register-modal" class="modal-form" style="display:none;">
+  <span class="close-modal" onclick="document.getElementById('register-modal').style.display='none';document.getElementById('modal-bg').style.display='none';">&times;</span>
+  <h2>Registro</h2>
+  <form id="registerForm">
+    <input id="register-username" type="text" placeholder="Usuario" required>
+    <input id="register-password" type="password" placeholder="Contraseña" required>
+    <button type="submit">Registrarse</button>
+    <div id="register-msg" class="modal-msg"></div>
+  </form>
+</div>
+
+<!-- Modal login -->
+<div id="login-modal" class="modal-form" style="display:none;">
+  <span class="close-modal" onclick="document.getElementById('login-modal').style.display='none';document.getElementById('modal-bg').style.display='none';">&times;</span>
+  <h2>Iniciar sesión</h2>
+  <form id="loginForm">
+    <input id="login-username" type="text" placeholder="Usuario" required>
+    <input id="login-password" type="password" placeholder="Contraseña" required>
+    <button type="submit">Entrar</button>
+    <div id="login-msg" class="modal-msg"></div>
+  </form>
+</div>
+
+<!-- Fondo modal admin -->
+<div id="modal-bg-admin" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000a;z-index:1000;"></div>
+<!-- Modal admin -->
+<div id="admin-login-modal" class="modal-form" style="display:none;">
+  <span class="close-modal" onclick="document.getElementById('admin-login-modal').style.display='none';document.getElementById('modal-bg-admin').style.display='none';">&times;</span>
+  <h2>Admin</h2>
+  <form id="adminLoginForm">
+    <input id="admin-user" type="text" placeholder="Usuario admin" required>
+    <input id="admin-pass" type="password" placeholder="Contraseña" required>
+    <button type="submit">Entrar</button>
+    <div id="admin-login-msg" class="modal-msg"></div>
+  </form>
+</div>
+
+<!-- Fondo modal añadir novela -->
+<div id="modal-bg-novela" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000a;z-index:1000;"></div>
+<!-- Modal añadir novela -->
+<div id="add-novela-modal" class="modal-form" style="display:none;">
+  <span class="close-modal" onclick="document.getElementById('add-novela-modal').style.display='none';document.getElementById('modal-bg-novela').style.display='none';">&times;</span>
+  <h2>Añadir novela</h2>
+  <form id="formAddNovela" enctype="multipart/form-data">
+    <input id="novela-titulo" type="text" placeholder="Título" required>
+    <input id="novela-desc" type="text" placeholder="Descripción" required>
+    <input id="novela-generos" type="text" placeholder="Géneros (elige de la lista de la derecha, separados por coma)" required>
+    <input id="novela-portada" type="file" accept="image/*" required>
+    <input id="novela-spoilers" type="file" accept="image/*" multiple>
+    <input id="novela-android" type="text" placeholder="Enlace Android" required>
+    <button type="submit">Subir novela</button>
+    <div id="add-novela-msg" class="modal-msg"></div>
+  </form>
+</div>
+<!-- Modal eliminar múltiples novelas -->
+<div id="eliminar-multiples-modal" class="modal-form" style="display:none;">
+  <span class="close-modal" onclick="cerrarEliminarMultiples();">&times;</span>
+  <h2>Eliminar novelas</h2>
+  <form id="formEliminarMultiples">
+    <div id="lista-novelas-eliminar" style="max-height:300px;overflow:auto;margin-bottom:16px;"></div>
+    <button type="submit" style="background:#ff3cac;">Eliminar seleccionadas</button>
+    <div id="eliminar-multiples-msg" class="modal-msg"></div>
+  </form>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var modal = document.getElementById('adult-warning');
+  // Mostrar aviso si no aceptó antes
+  if (localStorage.getItem('mayorDeEdad') !== 'si') {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  } else {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('btn-adult-si').onclick = function() {
+    localStorage.setItem('mayorDeEdad', 'si');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  document.getElementById('btn-adult-no').onclick = function() {
+    localStorage.setItem('mayorDeEdad', 'no');
+    window.location.href = "https://www.google.com/";
+  };
+});
+</script>
+  <script>
+// --- REGISTRO E INICIO DE SESIÓN DE USUARIO ---
+const addNovelaModal = document.getElementById('add-novela-modal');
+const modalBgNovela = document.getElementById('modal-bg-novela');
+const formAddNovela = document.getElementById('formAddNovela');
+const addNovelaMsg = document.getElementById('add-novela-msg');
+const registerBtn = document.querySelector('.register-btn');
+const loginBtn = document.querySelector('.login-btn');
+const registerModal = document.getElementById('register-modal');
+const loginModal = document.getElementById('login-modal');
+const modalBg = document.getElementById('modal-bg');
+const registerForm = document.getElementById('registerForm');
+const loginForm = document.getElementById('loginForm');
+const registerMsg = document.getElementById('register-msg');
+const loginMsg = document.getElementById('login-msg');
+const userInfo = document.getElementById('user-info');
+const usernameDisplay = document.getElementById('username-display');
+const logoutBtn = document.getElementById('logout-btn');
+registerBtn.onclick = function() {
+  registerModal.style.display = 'flex';
+  modalBg.style.display = 'block';
+  registerMsg.textContent = '';
+  registerForm.reset();
+};
+loginBtn.onclick = function() {
+  loginModal.style.display = 'flex';
+  modalBg.style.display = 'block';
+  loginMsg.textContent = '';
+  loginForm.reset();
+};
+modalBg.onclick = closeModal;
+function closeModal() {
+  registerModal.style.display = 'none';
+  loginModal.style.display = 'none';
+  modalBg.style.display = 'none';
+}
+function mostrarContadorVisitas() {
+  fetch('/api/visitas')
+    .then(res => res.json())
+    .then((data) => {
+      if (data.visitas !== undefined) {
+        document.getElementById('contador-visitas').textContent =
+          'Visitas totales: ' + data.visitas;
+      }
+    });
+}
+// --- MODAL ADMIN LOGIN Y GESTIÓN DE ADMIN ---
+const addNovelaBtn = document.getElementById('add-novela-btn');
+const adminLoginModal = document.getElementById('admin-login-modal');
+const modalBgAdmin = document.getElementById('modal-bg-admin');
+const adminLoginForm = document.getElementById('adminLoginForm');
+const adminLoginMsg = document.getElementById('admin-login-msg');
+addNovelaBtn.onclick = function() {
+  adminLoginModal.style.display = 'flex';
+  modalBgAdmin.style.display = 'block';
+  adminLoginMsg.textContent = '';
+  adminLoginForm.reset();
+};
+modalBgAdmin.onclick = closeAdminLoginModal;
+function closeAdminLoginModal() {
+  adminLoginModal.style.display = 'none';
+  modalBgAdmin.style.display = 'none';
+}
+let adminUserTemp = '';
+let adminPassTemp = '';
+adminLoginForm.onsubmit = function(e) {
+  e.preventDefault();
+  const user = document.getElementById('admin-user').value.trim();
+  const pass = document.getElementById('admin-pass').value;
+  fetch('/api/admin-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user, pass })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      adminUserTemp = user;
+      adminPassTemp = pass;
+      closeAdminLoginModal();
+      openAddNovelaModal();
+    } else {
+      adminLoginMsg.textContent = "Usuario o contraseña incorrectos.";
+    }
+  });
+};
+
+logoutBtn.onclick = function() {
+  localStorage.removeItem('currentUser');
+  updateUserInfo();
+};
+
+// --- EVENTO DE REGISTRO ---
+registerForm.onsubmit = function(e) {
+  e.preventDefault();
+  const user = document.getElementById('register-username').value.trim();
+  const pass = document.getElementById('register-password').value;
+  if (!user || !pass) return registerMsg.textContent = "Completa todos los campos.";
+  if (localStorage.getItem('user_' + user)) return registerMsg.textContent = "Usuario ya existe.";
+  localStorage.setItem('user_' + user, pass);
+  registerMsg.textContent = "¡Registrado! Ahora inicia sesión.";
+};
+// --- EVENTO DE LOGIN ---
+loginForm.onsubmit = function(e) {
+  e.preventDefault();
+  const user = document.getElementById('login-username').value.trim();
+  const pass = document.getElementById('login-password').value;
+  if (!user || !pass) return loginMsg.textContent = "Completa todos los campos.";
+  if (localStorage.getItem('user_' + user) !== pass) return loginMsg.textContent = "Usuario o contraseña incorrectos.";
+  localStorage.setItem('currentUser', user);
+  loginMsg.textContent = "¡Bienvenido!";
+  setTimeout(() => { closeModal(); updateUserInfo(); }, 800);
+};
+function normalizarGenero(g) {
+  return g.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+// --- ABRIR/CERRAR MODAL SUBIDA NOVELA ---
+function openAddNovelaModal() {
+  addNovelaModal.style.display = 'flex';
+  modalBgNovela.style.display = 'block';
+  addNovelaMsg.textContent = '';
+  formAddNovela.reset();
+}
+modalBgNovela.onclick = closeAddNovelaModal;
+function closeAddNovelaModal() {
+  addNovelaModal.style.display = 'none';
+  modalBgNovela.style.display = 'none';
+}
+  const spoilersInput = document.getElementById('novela-spoilers');
+const GENEROS_VALIDOS = [
+  // Pon aquí todos los géneros válidos, ejemplo:
+  "2D", "Anal", "Bdsm", "Ciencia ficción", "Corrupción", "Control mental", "Dominación femenina",
+  "Dominación masculina", "Embarazo", "Esclavo", "Escolar", "Fantasía",
+  "Finalizado", "Furry", "Futa/Trans", "Gay", "Harem", "Humor", "Incesto",
+  "Interracial", "Juego nopor", "Lesbianas", "Lol1", "Milf", "Monstruo", "Ntr",
+  "Parodia", "Protagonista femenino", "Protagonista masculino", "Romance", "RPGM",
+  "Sandbox", "Shota", "Sin categoría", "Superpoderes", "Tetas grandes",
+  "Violación", "Virgen"
+];
+formAddNovela.onsubmit = async function(e) {
+  e.preventDefault();
+  addNovelaMsg.textContent = "";
+
+  const titulo = document.getElementById('novela-titulo').value.trim();
+  const desc = document.getElementById('novela-desc').value.trim();
+  const generos = document.getElementById('novela-generos').value.split(',').map(g=>g.trim()).filter(Boolean);
+  const generosInvalidos = generos.filter(g =>
+  !GENEROS_VALIDOS.some(valido => normalizarGenero(valido) === normalizarGenero(g))
+);  if (generosInvalidos.length) {
+    addNovelaMsg.textContent = "Géneros no válidos: " + generosInvalidos.join(', ');
+    return;
+  }
+  const portada = document.getElementById('novela-portada').files[0];
+  const spoilersFiles = spoilersInput && spoilersInput.files ? [...spoilersInput.files] : [];
+  const android = document.getElementById('novela-android').value.trim();
+  if (!titulo || !desc || !generos.length || !portada || !android) {
+    addNovelaMsg.textContent = "Completa todos los campos.";
+    return;
+  }
+  const formData = new FormData();
+  formData.append('titulo', titulo);
+  formData.append('desc', desc);
+  formData.append('generos', JSON.stringify(generos));
+  formData.append('portada', portada);
+  for (let i = 0; i < spoilersFiles.length; i++) {
+    formData.append('spoilers', spoilersFiles[i]);
+  }
+  formData.append('android', android);
+   formData.append('user', adminUserTemp);
+  formData.append('pass', adminPassTemp);
+  formData.append('id', titulo.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now());
+
+  addNovelaMsg.textContent = "Subiendo...";
+  try {
+    const res = await fetch('/api/novelas', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if (data.success) {
+      addNovelaMsg.textContent = "¡Novela subida!";
+      setTimeout(() => {
+        closeAddNovelaModal();
+        renderNovelas();
+      }, 1200);
+    } else {
+      addNovelaMsg.textContent = data.error || "Error al subir novela.";
+    }
+  } catch(e) {
+    addNovelaMsg.textContent = "Error de conexión al subir novela.";
+  }
+};
+
+// --- ELIMINAR MÚLTIPLES NOVELAS (activar según tu backend) ---
+const btnEliminarMultiples = document.getElementById('btnEliminarMultiples');
+const eliminarMultiplesModal = document.getElementById('eliminar-multiples-modal');
+const listaNovelasEliminar = document.getElementById('lista-novelas-eliminar');
+const formEliminarMultiples = document.getElementById('formEliminarMultiples');
+const eliminarMultiplesMsg = document.getElementById('eliminar-multiples-msg');
+btnEliminarMultiples.onclick = async function() {
+  if (!adminUserTemp || !adminPassTemp) {
+    alert('Debes iniciar sesión como admin para eliminar novelas.');
+    return;
+  }
+  eliminarMultiplesMsg.textContent = '';
+  eliminarMultiplesModal.style.display = 'flex';
+  document.getElementById('modal-bg-novela').style.display = 'block';
+  const res = await fetch('/api/novelas');
+  const novelas = await res.json();
+  listaNovelasEliminar.innerHTML = novelas.map(n => `
+    <label style="display:block;margin-bottom:6px;">
+      <input type="checkbox" name="novelaEliminar" value="${n.id}"> ${n.titulo} (${n.generos.join(', ')})
+    </label>
+  `).join('');
+};
+function cerrarEliminarMultiples() {
+  eliminarMultiplesModal.style.display = 'none';
+  document.getElementById('modal-bg-novela').style.display = 'none';
+}
+ formEliminarMultiples.onsubmit = async function(e) {
+    e.preventDefault();
+    const checks = Array.from(document.querySelectorAll('input[name="novelaEliminar"]:checked'));
+    if (!checks.length) {
+      eliminarMultiplesMsg.textContent = "Selecciona al menos una novela.";
+      return;
+    }
+    if (!confirm('¿Seguro que quieres eliminar las novelas seleccionadas?')) return;
+    let errores = 0;
+    for (const chk of checks) {
+      const res = await fetch('/api/novelas');
+      const novelas = await res.json();
+      const idx = novelas.findIndex(n => n.id === chk.value);
+      if (idx === -1) { errores++; continue; }
+      const resp = await fetch(`/api/novelas/${idx}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user: adminUserTemp, pass: adminPassTemp })
+      });
+      const data = await resp.json();
+      if (!data.success) errores++;
+    }
+    if (errores === 0) {
+      eliminarMultiplesMsg.textContent = "¡Novelas eliminadas!";
+      setTimeout(() => { cerrarEliminarMultiples(); renderNovelas(); }, 1200);
+    } else {
+      eliminarMultiplesMsg.textContent = "Algunas novelas no se pudieron eliminar.";
+      setTimeout(() => { cerrarEliminarMultiples(); renderNovelas(); }, 1800);
+    }
+  };
+  function updateUserInfo() {
+    const user = localStorage.getItem('currentUser');
+    if (user) {
+      userInfo.style.display = 'flex';
+      usernameDisplay.textContent = user;
+      loginBtn.style.display = 'none';
+      registerBtn.style.display = 'none';
+    } else {
+      userInfo.style.display = 'none';
+      loginBtn.style.display = '';
+    registerBtn.style.display = '';
+  }
+}
+window.addEventListener('DOMContentLoaded', updateUserInfo);
+  let novelasGlobal = [];
+  let mostrandoTodas = false;
+
+  function normalizarGenero(g) {
+    return g.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  }
+
+  function getGeneroFromURL() {
+    const url = new URL(window.location.href);
+    return url.searchParams.get('genero');
+  }
+
+async function renderNovelas(soloFavoritos = false, generoFiltro = null) {
+  const postsGrid = document.getElementById('postsGrid');
+  const featuredSection = document.getElementById('featuredPostSection');
+  if (!soloFavoritos && !generoFiltro) {
+    if (featuredSection) featuredSection.style.display = '';
+  } else {
+    if (featuredSection) featuredSection.style.display = 'none';
+  }
+  postsGrid.innerHTML = '<div style="color:#b3b3c6;">Cargando novelas...</div>';
+  try {
+    const res = await fetch('/api/novelas');
+    const contentType = res.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      postsGrid.innerHTML = '<div style="color:#ff3cac;">Error: El servidor no devolvió datos válidos. ¿Está el backend corriendo?</div>';
+      return;
+    }
+    let novelas = await res.json();
+    if (soloFavoritos) {
+      const favs = getFavoritos();
+      novelas = novelas.filter(n => favs.includes(n.id));
+    }
+    if (generoFiltro) {
+      novelas = novelas.filter(n => n.generos.includes(generoFiltro));
+    }
+    if (!novelas.length) {
+      postsGrid.innerHTML = '<div style="color:#b3b3c6;">No hay novelas aún.</div>';
+      document.getElementById('vermas-container').style.display = "none";
+      return;
+    }
+
+    // PAGINACIÓN ("Ver más")
+let mostrar = novelas;
+if (!soloFavoritos && !generoFiltro && !mostrandoTodas && novelas.length > 12) {
+  mostrar = novelas.slice(0, 12);
+  document.getElementById('vermas-container').style.display = "";
+} else {
+  document.getElementById('vermas-container').style.display = "none";
+}
+    // LIMITADOR DE GÉNEROS EN CADA CARTA
+    postsGrid.innerHTML = mostrar.map((novela, idx) => {
+      const maxChips = 2; // Cambia este número por la cantidad de géneros visibles por carta
+      const extra = novela.generos.length - maxChips;
+      const chips = novela.generos.slice(0, maxChips).map(g =>
+        `<button class="genre-chip" onclick="filtrarPorGenero('${g}')">#${g}</button>`
+      ).join(' ');
+      const extraChip = extra > 0 ? `<span class="genre-chip extra">+${extra}</span>` : "";
+      return `
+        <div class="post-card">
+          <img class="post-image" src="${novela.portada}" alt="Portada">
+          <div class="post-info">
+            <div class="post-title">${novela.titulo}</div>
+            <div class="post-genres">
+              ${chips}${extraChip}
+            </div>
+            <div class="post-desc">${novela.desc}</div>
+            <div class="post-actions">
+              <a href="novela.html?id=${novela.id}" class="descargar-btn">Ver más</a>
+              <button class="fav-btn${getFavoritos().includes(novela.id) ? ' active' : ''}" onclick="toggleFavorito('${novela.id}');return false;" title="Favorito">${getFavoritos().includes(novela.id) ? '★' : '☆'}</button>
+              ${adminUserTemp && adminPassTemp ? `<button class="descargar-btn" style="background:#ff3cac;margin-left:8px;" onclick="eliminarNovela(${idx});return false;">Eliminar</button>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    postsGrid.innerHTML = '<div style="color:#ff3cac;">Error al cargar novelas.</div>';
+    document.getElementById('vermas-container').style.display = "none";
+  }
+}
+// <--- La función termina aquí. NO pongas nada más dentro de ella. --->
+// Ahora los handlers, fuera de renderNovelas:
+document.getElementById("btnVerMas").onclick = function() {
+  mostrandoTodas = true;
+  renderNovelas();
+};
+
+function filtrarPorGenero(genero) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('genero', genero);
+  window.history.pushState({}, '', url);
+  mostrandoTodas = false;
+  renderNovelas(false, genero);
+}
+
+document.getElementById("searchInput").addEventListener("input", function(){
+  mostrandoTodas = false;
+  renderNovelas(false, getGeneroFromURL(), this.value.trim());
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof updateUserInfo === "function") updateUserInfo();
+  const genero = getGeneroFromURL();
+  renderNovelas(false, genero);
+});
+
+  function getFavoritos() {
+    const user = localStorage.getItem('currentUser');
+    if (!user) return [];
+    return JSON.parse(localStorage.getItem('favoritos_' + user) || '[]');
+  }
+  function setFavoritos(favs) {
+    const user = localStorage.getItem('currentUser');
+    if (!user) return;
+    localStorage.setItem('favoritos_' + user, JSON.stringify(favs));
+  }
+  function toggleFavorito(id) {
+    let favs = getFavoritos();
+    if (favs.includes(id)) {
+      favs = favs.filter(f => f !== id);
+    } else {
+      favs.push(id);
+    }
+    setFavoritos(favs);
+    renderNovelas();
+  }
+  document.getElementById('sidebar-favorites').onclick = function(e) {
+    e.preventDefault();
+    renderNovelas(true);
+  };
+  
+// Cuando filtras por género:
+function filtrarPorGenero(genero) {
+  sessionStorage.removeItem('soloFavoritos');
+  const url = new URL(window.location.href);
+  url.searchParams.set('genero', genero);
+  window.history.pushState({}, '', url);
+  mostrandoTodas = false;
+  renderNovelas(false, genero);
+  actualizarRightbar();
+}
+
+// Cuando muestras favoritos:
+document.getElementById('sidebar-favorites').onclick = function(e) {
+  e.preventDefault();
+  sessionStorage.setItem('soloFavoritos', '1');
+  renderNovelas(true);
+  actualizarRightbar();
+};
+
+// Cuando vuelves al inicio:
+function volverAInicio() {
+  sessionStorage.removeItem('soloFavoritos');
+  window.history.pushState({}, '', '/index.html');
+  renderNovelas();
+  actualizarRightbar();
+}
+
+// Si tienes un input de búsqueda:
+document.getElementById("searchInput").addEventListener("input", function(){
+  mostrandoTodas = false;
+  renderNovelas(false, getGeneroFromURL(), this.value.trim());
+  actualizarRightbar();
+});
+const GENEROS_ORDENADOS = [
+  "2D","Anal","Bdsm","Ciencia ficción","Control mental","Corrupción",
+  "Dominación femenina","Dominación masculina","Embarazo","Esclavo","Escolar","Fantasía",
+  "Finalizado","Furry","Futa/Trans","Gay","Harem","Humor","Incesto","Interracial",
+  "Juego nopor","Lesbianas","Lol1","Milf","Monstruo","Ntr","Parodia",
+  "Protagonista femenino","Protagonista masculino","Romance","RPGM","Sandbox","Shota",
+  "Sin categoría","Superpoderes","Tetas grandes","Violación","Virgen"
+].sort((a,b)=>a.localeCompare(b));
+
+function abrirPanelCategorias() {
+  document.getElementById('panel-categorias-bg').style.display = 'block';
+  document.getElementById('panel-categorias').classList.add('open');
+}
+function cerrarPanelCategorias() {
+  document.getElementById('panel-categorias-bg').style.display = 'none';
+  document.getElementById('panel-categorias').classList.remove('open');
+}
+function llenarPanelCategorias() {
+  const lista = document.getElementById('panel-categorias-lista');
+  lista.innerHTML = GENEROS_ORDENADOS.map(cat =>
+    `<button class="category-chip2" onclick="filtrarPorGenero('${cat}');cerrarPanelCategorias();return false;">${cat}</button>`
+  ).join('');
+}
+document.addEventListener('DOMContentLoaded', function(){
+  llenarPanelCategorias();
+  document.getElementById('abrir-categorias-btn').onclick = abrirPanelCategorias;
+  document.getElementById('cerrar-categorias-btn').onclick = cerrarPanelCategorias;
+  document.getElementById('panel-categorias-bg').onclick = cerrarPanelCategorias;
+});
+document.addEventListener('DOMContentLoaded', function() {
+  mostrarContadorVisitas();
+});
+fetch('/api/sumar-visita');
+// --- CONTADOR DE VISITAS ROBUSTO ---
+async function mostrarContadorVisitas() {
+  try {
+    // Sumar visita solo si no se ha sumado en esta sesión
+    if (!sessionStorage.getItem('visitaSumada')) {
+      await fetch('/api/sumar-visita');
+      sessionStorage.setItem('visitaSumada', '1');
+    }
+    const res = await fetch('/api/visitas');
+    if (!res.ok) throw new Error('No se pudo obtener visitas');
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) throw new Error('Respuesta no es JSON');
+    const data = await res.json();
+    let visitas = parseInt(data.visitas, 10);
+    let contador = document.getElementById('contador-visitas');
+    if (!contador) {
+      const sidebar = document.querySelector('.sidebar');
+      if (!sidebar) return; // No sidebar, no contador
+      contador = document.createElement('div');
+      contador.id = 'contador-visitas';
+      contador.style.marginTop = 'auto';
+      contador.style.marginBottom = '10px';
+      contador.style.color = '#ff3cac';
+      contador.style.fontWeight = 'bold';
+      contador.style.fontSize = '1.1em';
+      contador.style.textAlign = 'center';
+      sidebar.appendChild(contador);
+    }
+    if (visitas > 0) {
+      contador.textContent = `👁️ ${visitas} visitas`;
+      contador.style.display = 'block';
+    } else {
+      contador.textContent = '';
+      contador.style.display = 'none';
+    }
+  } catch (e) {
+    let contador = document.getElementById('contador-visitas');
+    if (contador) {
+      contador.textContent = '';
+      contador.style.display = 'none';
+    }
+    console.warn('Error mostrando visitas:', e);
+  }
+}
+</script>
+<div id="panel-categorias-bg"></div>
+<aside id="panel-categorias">
+  <div class="panel-categorias-header">
+    <h2>Categorías</h2>
+    <button class="panel-categorias-close" title="Cerrar panel" id="cerrar-categorias-btn">&times;</button>
+  </div>
+  <div id="panel-categorias-lista">
+    <!-- Se llena por JS -->
+  </div>
+</aside>
+</body>
+</html>
