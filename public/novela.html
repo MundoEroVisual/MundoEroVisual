@@ -3,32 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <title>Detalle de Novela</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <style>
-    body { background:#181828; color:#fff; font-family:sans-serif; margin:0; padding:0; }
-    .container { max-width:600px; margin:40px auto; background:#23233a; border-radius:18px; padding:32px; }
-    .portada { width:100%; max-height:300px; object-fit:cover; border-radius:12px; }
-    .titulo { font-size:2em; font-weight:bold; margin:18px 0 8px 0; color:#a259ff; }
-    .generos { margin-bottom:12px; }
-    .genre-chip { display:inline-block; background:#12121a; color:#ff3cac; border:1px solid #ff3cac; border-radius:10px; padding:4px 16px; margin-right:6px; font-weight:600; }
-    .desc { margin-bottom:18px; color:#b3b3c6; }
-    .spoilers { margin:18px 0; }
-    .spoiler-btn { background:#a259ff; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-weight:bold; cursor:pointer; margin-bottom:8px; }
-    .spoiler-imgs { display:none; margin-top:8px; }
-.spoiler-imgs img {
-  max-width: 180px;
-  max-height: 120px;
-  margin: 4px;
-  border-radius: 8px;
-  display: inline-block;
-  object-fit: cover;
-  box-shadow: 0 2px 8px #0004;
-}
-.descargas .descargar-btn {
-  margin: 0;
-  min-width: 110px;
-  text-align: center;
-}
-</style>
+    :root {
+      --bg: #000;
+      --accent: #ff0000;
+      --accent2: #ff0000;
+      --text: #fff;
+      --card: #111;
+      --border: #330000;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: var(--card);
+      border-radius: 18px;
+      padding: 32px;
+      min-height: 520px;
+    }
+    .portada {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .titulo {
+      font-size: 2em;
+      font-weight: bold;
+      margin: 18px 0 8px 0;
+      color: var(--accent);
+      z-index: 2;
+      position: relative;
+    }
+    .generos {
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .genre-chip {
+      display: inline-block;
+      background: #000;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 3px 10px;
+      margin-right: 0;
+      font-weight: 600;
+      font-size: 1em;
+      min-width: 32px;
+      min-height: 28px;
+      z-index: 1;
+      position: relative;
+      transition: background 0.18s, color 0.18s, border 0.18s;
+    }
+    .genre-chip.active {
+      background: var(--accent2);
+      color: #fff;
+      border-color: #fff;
+    }
+    .desc {
+      margin-bottom: 18px;
+      color: #ffb3b3;
+    }
+    .spoilers {
+      margin: 18px 0;
+    }
+    .spoiler-btn, .descargar-btn, button {
+      background: #000;
+      color: #fff;
+      border: 2px solid var(--accent2);
+      border-radius: 24px;
+      min-width: 54px;
+      min-height: 54px;
+      font-size: 1.15em;
+      font-weight: bold;
+      box-shadow: 0 2px 8px #ff000033;
+      transition: background 0.18s, color 0.18s, border 0.18s, box-shadow 0.18s;
+      margin: 4px 0;
+      padding: 12px 20px;
+    }
+    .spoiler-btn:hover, .descargar-btn:hover, button:hover {
+      background: var(--accent2);
+      color: #fff;
+      border-color: #fff;
+      box-shadow: 0 4px 18px #ff000055;
+    }
+    .spoiler-imgs {
+      display: none;
+      margin-top: 8px;
+    }
+    .spoiler-imgs img {
+      max-width: 180px;
+      max-height: 120px;
+      margin: 4px;
+      border-radius: 8px;
+      display: inline-block;
+      object-fit: cover;
+      box-shadow: 0 2px 8px #0004;
+    }
+    .descargas .descargar-btn {
+      margin: 0;
+      min-width: 110px;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      .container { max-width: 98vw; padding: 18px 2vw; }
+      .portada { max-height: 220px; }
+    }
+    @media (max-width: 700px) {
+      .container {
+        max-width: 99vw;
+        padding: 10px 2vw;
+        min-height: 340px;
+      }
+      .portada {
+        max-height: 160px;
+      }
+      .titulo {
+        font-size: 1.2em;
+      }
+      .genre-chip {
+        font-size: 0.8em;
+        padding: 2px 7px;
+        min-width: 24px;
+        min-height: 20px;
+      }
+      .descargar-btn, .spoiler-btn, button {
+        font-size: 1em;
+        min-width: 40px;
+        min-height: 40px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container" id="novelaDetalle"></div>
