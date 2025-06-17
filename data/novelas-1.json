@@ -276,5 +276,19 @@
       "/imagenes/1749832441070-284655034-4945500_screenshot0006.avif"
     ],
     "android": "https://cuty.io/ge28wfF"
+  },
+  {
+    "id": "hola-1750172328648",
+    "titulo": "hola",
+    "desc": "dsfsssf",
+    "generos": [
+      "romance"
+    ],
+    "portada": "https://www.hotzone18.com/wp-content/uploads/4974867_Cover.webp",
+    "spoilers": [
+      "https://img.hotzone18.com/4974835_ss-1.jpg",
+      "https://img.hotzone18.com/4974836_ss-2.jpg"
+    ],
+    "android": "http://localhost:3000/index.html"
   }
 ]
