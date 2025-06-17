@@ -23,5 +23,10 @@
     "usuario": "hola",
     "password": "$2b$10$8OZ9B2YosSU0BYZFRRrbUuuzh9g5Ebn.YggB.wtjbOPo61dDuQ9xS",
     "admin": false
+  },
+  {
+    "usuario": "q",
+    "password": "$2b$10$zw9mMVtfIS8qDE1mPJPsGuiF2LRi.SxAqabRIQDed6LoE7m6o9lM.",
+    "admin": false
   }
 ]
