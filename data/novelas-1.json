@@ -250,29 +250,15 @@
       "Protagonista masculino",
       "Tetas grandes"
     ],
-    "portada": "/imagenes/1749832440924-416608661-4945479_7lVh4.webp",
+    "portada": "https://www.hotzone18.com/wp-content/uploads/4945479_7lVh4.webp",
     "spoilers": [
-      "/imagenes/1749832440935-958319570-4945485_screenshot0021.avif",
-      "/imagenes/1749832440989-300916889-4945486_screenshot0020.avif",
-      "/imagenes/1749832441043-315271963-4945487_screenshot0019.avif",
-      "/imagenes/1749832441049-632182686-4945488_screenshot0018.avif",
-      "/imagenes/1749832441056-588057924-4945489_screenshot0017.avif",
-      "/imagenes/1749832441070-284655034-4945500_screenshot0006.avif"
+      "https://img.hotzone18.com/4945485_screenshot0021.png",
+      "https://img.hotzone18.com/4945486_screenshot0020.png",
+      "https://img.hotzone18.com/4945500_screenshot0006.png",
+      "https://img.hotzone18.com/4945487_screenshot0019.png",
+      "https://img.hotzone18.com/4945488_screenshot0018.png",
+      "https://img.hotzone18.com/4945489_screenshot0017.png"
     ],
     "android": "https://cuty.io/ge28wfF"
-  },
-  {
-    "id": "hola-1750172328648",
-    "titulo": "hola",
-    "desc": "dsfsssf",
-    "generos": [
-      "romance"
-    ],
-    "portada": "https://www.hotzone18.com/wp-content/uploads/4974867_Cover.webp",
-    "spoilers": [
-      "https://img.hotzone18.com/4974835_ss-1.jpg",
-      "https://img.hotzone18.com/4974836_ss-2.jpg"
-    ],
-    "android": "http://localhost:3000/index.html"
   }
 ]
