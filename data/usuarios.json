@@ -18,5 +18,10 @@
     "usuario": "h",
     "password": "$2b$10$T1X7CtM4oEsFGHNeNwKeiufxqibBkg.OXNO0WsJWSqp4WQmY8glJi",
     "admin": false
+  },
+  {
+    "usuario": "hola",
+    "password": "$2b$10$8OZ9B2YosSU0BYZFRRrbUuuzh9g5Ebn.YggB.wtjbOPo61dDuQ9xS",
+    "admin": false
   }
 ]
