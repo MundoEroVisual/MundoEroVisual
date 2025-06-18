@@ -11,12 +11,12 @@
     ],
     "portada": "https://www.hotzone18.com/wp-content/uploads/ss-5-4.webp",
     "spoilers": [
- "https://img.hotzone18.com/4899912_ss-1.jpg",
-  "https://img.hotzone18.com/4899913_ss-2.jpg",
-  "https://img.hotzone18.com/4899914_ss-3.jpg",
-  "https://img.hotzone18.com/4899915_ss-4.jpg",
-  "https://img.hotzone18.com/4899916_ss-5.jpg",
-  "https://img.hotzone18.com/4899917_ss-6.jpg"
+      "https://img.hotzone18.com/4899912_ss-1.jpg",
+      "https://img.hotzone18.com/4899913_ss-2.jpg",
+      "https://img.hotzone18.com/4899914_ss-3.jpg",
+      "https://img.hotzone18.com/4899915_ss-4.jpg",
+      "https://img.hotzone18.com/4899916_ss-5.jpg",
+      "https://img.hotzone18.com/4899917_ss-6.jpg"
     ],
     "android": "https://cuty.io/XG8C29"
   },
@@ -34,13 +34,12 @@
     ],
     "portada": "https://www.hotzone18.com/wp-content/uploads/arfinalbanner1.webp",
     "spoilers": [
-  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXerH0VqLNZO2yukX5vA6ujg7uyvrqrIfxdhtat5_d-84yIgjYBJrzFcLQ19YdgAlQbItZWMWBZR-Xkq-VDHJ1pPGh1fIHJXn2XTKHjXtptUcPckJyoo4ENVO_OeZMO8o4qPjuW9Ysu_VjTDjuYBUpwLvw2UYMqN8fHpQa95hDOnmYvwoYwxCqV6dVUvyi/s1600/3.png",
-  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi3n7_WIILPwznBzI5Xsbw-4_4mCB5OQL0gyMA4ArbLNj4-nuwtPW1F629QfZjhmnOcK3vf8XXqbvVyLju7BC-_cAkPymjwzrT1TLtZqH6Xn137Y60jYtIRdrIaOx4HtGRH0XrOxSB88AkslHUMDTHxvXO-k6KK9d07hafHQ8jqUmcFlrJ7eX41CoXUgCUB/s1600/5%20%281%29.png",
-  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOunox0SDfJLzNrFJ6suQtrgXX6bciO3oHPMb5-LiNgahppR6bLE7mThUZ6tGnnV5b_PHb-AvMgmRpRDiASIWh9s8xwE4Cp4TqrL5D0YsVewiNk6F-MeMxwLjQzYuk5awI5NMCnydZVBfMiqEg5vbgq6IxtmdesIfJIUS3n0n_u9D-nOCHK-Vpi32e0VO8/s1600/avs54.png",
-  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh8C0ApZW7_HyF15xrvujvquJyllNaX8AIBtTmvlxFtqbVxcJOld1Bg0tTo_PKP0tW0vlFFNOWXFZrw4diro7SE_iNq5Ur549QSZRJ39K6ZWwRPYbTqAT-il1CIcAOJSBi8t1E_mm3RrN2uQHA7krkvBIyr5qz4BcoCFGhAv93ol2dpHSlnF2VHSjYJOJTt/s1600/c3s3r39.png",
-  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjrdXl8W7LZyYUwcKoB0CP_r8v_DT5gfE17TJM-9jaEUHaSMjWp-0DaiHhLKaotJIydr6hn3YrkrC9PA6n9f4YWxydOS_5i39c7zB5Ef86akd-wfXZv29rqFHBbg2abz-70JPFVoihJfrouvAS1zi-zP7yZUjWHXzTxPSG1CeNZ03N0hpvy6Rl2mWUGnVm1/s1600/c3s10r6.png",
-  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiadJAXJhVBb3S8hdosqF2FlBrBtyYi3A9mgqtbDQoMsl111zxX8sSpn4R4F01U4BbLkjNUpcVtiCmLEukTE5x5Utv88ONk54Uw07lLkQC3oBUGCmQondopmC5hsdh-zobDV-w63MARpqzOt0OJKCcOuL12kt1rLcTWIKRJVVGkkux40gpJjplA8d-dKfRi/s1600/c3s7r56b.png"
-
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXerH0VqLNZO2yukX5vA6ujg7uyvrqrIfxdhtat5_d-84yIgjYBJrzFcLQ19YdgAlQbItZWMWBZR-Xkq-VDHJ1pPGh1fIHJXn2XTKHjXtptUcPckJyoo4ENVO_OeZMO8o4qPjuW9Ysu_VjTDjuYBUpwLvw2UYMqN8fHpQa95hDOnmYvwoYwxCqV6dVUvyi/s1600/3.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi3n7_WIILPwznBzI5Xsbw-4_4mCB5OQL0gyMA4ArbLNj4-nuwtPW1F629QfZjhmnOcK3vf8XXqbvVyLju7BC-_cAkPymjwzrT1TLtZqH6Xn137Y60jYtIRdrIaOx4HtGRH0XrOxSB88AkslHUMDTHxvXO-k6KK9d07hafHQ8jqUmcFlrJ7eX41CoXUgCUB/s1600/5%20%281%29.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOunox0SDfJLzNrFJ6suQtrgXX6bciO3oHPMb5-LiNgahppR6bLE7mThUZ6tGnnV5b_PHb-AvMgmRpRDiASIWh9s8xwE4Cp4TqrL5D0YsVewiNk6F-MeMxwLjQzYuk5awI5NMCnydZVBfMiqEg5vbgq6IxtmdesIfJIUS3n0n_u9D-nOCHK-Vpi32e0VO8/s1600/avs54.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh8C0ApZW7_HyF15xrvujvquJyllNaX8AIBtTmvlxFtqbVxcJOld1Bg0tTo_PKP0tW0vlFFNOWXFZrw4diro7SE_iNq5Ur549QSZRJ39K6ZWwRPYbTqAT-il1CIcAOJSBi8t1E_mm3RrN2uQHA7krkvBIyr5qz4BcoCFGhAv93ol2dpHSlnF2VHSjYJOJTt/s1600/c3s3r39.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjrdXl8W7LZyYUwcKoB0CP_r8v_DT5gfE17TJM-9jaEUHaSMjWp-0DaiHhLKaotJIydr6hn3YrkrC9PA6n9f4YWxydOS_5i39c7zB5Ef86akd-wfXZv29rqFHBbg2abz-70JPFVoihJfrouvAS1zi-zP7yZUjWHXzTxPSG1CeNZ03N0hpvy6Rl2mWUGnVm1/s1600/c3s10r6.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiadJAXJhVBb3S8hdosqF2FlBrBtyYi3A9mgqtbDQoMsl111zxX8sSpn4R4F01U4BbLkjNUpcVtiCmLEukTE5x5Utv88ONk54Uw07lLkQC3oBUGCmQondopmC5hsdh-zobDV-w63MARpqzOt0OJKCcOuL12kt1rLcTWIKRJVVGkkux40gpJjplA8d-dKfRi/s1600/c3s7r56b.png"
     ],
     "android": "https://cuty.io/bUEGVA"
   },
@@ -184,7 +183,7 @@
       "Milf",
       "Protagonista masculino",
       "Romance"
-    ],  
+    ],
     "portada": "https://www.hotzone18.com/wp-content/uploads/1739555099422.webp",
     "spoilers": [
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7stbtzQt8xt17IpGnC2SkA3_D679OTNsf_Mju3qTGKJ4mGHgsRktElt5RWxRlj093GAATfCisGEQ8yHfXbYnXkq7_fAhZ7ADMkZpOtwKWDBPYQjh1PLBNFu6xVf0rdV1MPFn-Ficd20c5Pu7MXpIZ8pr7rPqRX4TpC_MtqmRwgYFX3wr8pzl24xmGYsYu/s1600/1739555880590.png",
@@ -260,5 +259,29 @@
       "https://img.hotzone18.com/4945489_screenshot0017.png"
     ],
     "android": "https://cuty.io/ge28wfF"
+  },
+  {
+    "id": "light-and-dark-p1-v0-3-1-1750252857696",
+    "titulo": "Light and Dark [P1 v0.3.1]",
+    "desc": "Hay momentos en la vida que a veces son diferentes de lo que deberían ser. Constantemente suceden cosas que te llevan por un determinado camino, pero siempre que caminas recto a menudo llegas a un lugar que gira a la izquierda o a la derecha. ¿De qué depende tu decisión?",
+    "generos": [
+      "Anal",
+      "Embarazo",
+      "Harem",
+      "Incesto",
+      "Lol1",
+      "Protagonista femenino",
+      "Protagonista masculino"
+    ],
+    "portada": "https://www.hotzone18.com/wp-content/uploads/3698683_Main1.webp",
+    "spoilers": [
+      "https://img.hotzone18.com/3698683_Main1.png",
+      "https://img.hotzone18.com/3698775_take1_06.png",
+      "https://img.hotzone18.com/3698776_take1_110.png",
+      "https://img.hotzone18.com/3698777_take2_19.png",
+      "https://img.hotzone18.com/3698779_take2_118.png",
+      "https://img.hotzone18.com/3698780_take3_18.png"
+    ],
+    "android": "https://cuty.io/qeeA3Nf2ZJC"
   }
 ]
