@@ -8,10 +8,5 @@
     "usuario": "alberson",
     "password": "$2b$10$7Mjz8pTjZitQpi4grSOvpO5CKh1FgEcm.yEHWKZLMlwc4uiHmstny",
     "admin": false
-  },
-  {
-    "usuario": "hola",
-    "password": "$2b$10$o6X0o4bTTR3ZLJxavRxJGeJbFTyOs6umeme5HyLiI3ett54YhpygW",
-    "admin": false
   }
 ]

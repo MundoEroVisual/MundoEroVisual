@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Administrativo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .layout-admin {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 220px;
+      background: #181828;
+      border-right: 1px solid #222;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 0 0 0;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      transition: background 0.3s;
+    }
+    .sidebar h2 {
+      color: #ff3cac;
+      font-size: 1.3em;
+      margin: 0 0 32px 32px;
+      letter-spacing: 1px;
+    }
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-left: 32px;
+    }
+    .sidebar-nav button {
+      background: none;
+      color: #fff;
+      border: none;
+      text-align: left;
+      font-size: 1.08em;
+      padding: 10px 0 10px 8px;
+      border-radius: 6px 0 0 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .sidebar-nav button.active, .sidebar-nav button:hover {
+      background: linear-gradient(90deg,#ff3cac33,#784ba033);
+      color: #ff3cac;
+    }
+    .main-content {
+      flex: 1;
+      margin-left: 220px;
+      padding: 40px 24px 24px 24px;
+      max-width: 1100px;
+      margin-right: auto;
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .admin-header h1 {
+      color: #ff3cac;
+      margin: 0;
+      font-size: 2em;
+    }
+    .admin-header .mode-toggle {
+      background: #222;
+      color: #ff3cac;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-left: 18px;
+      transition: background 0.2s;
+    }
+    .admin-header .mode-toggle:hover {
+      background: #ff3cac;
+      color: #fff;
+    }
+    .section {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 32px;
+    }
+    label { display: block; margin: 12px 0 4px; }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #222;
+      color: #fff;
+      margin-bottom: 12px;
+      font-size: 1em;
+    }
+    button, .btn {
+      background: linear-gradient(90deg,#ff3cac,#784ba0);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 24px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      background: #222;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      text-align: left;
+    }
+    th { background: #181828; color: #ff3cac; }
+    tr:last-child td { border-bottom: none; }
+    .actions button { margin-right: 8px; }
+    .genre-chip { display: inline-block; background: #333; color: #ff3cac; border-radius: 4px; padding: 2px 8px; margin-right: 4px; font-size: 0.95em; }
+    .config-row { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
+    .config-row label { min-width: 140px; margin: 0; }
+    .config-row input { flex: 1; margin: 0; }
+    @media (max-width: 900px) {
+      .sidebar { width: 60px; padding: 24px 0 0 0; }
+      .sidebar h2 { display: none; }
+      .sidebar-nav button { font-size: 0.95em; padding-left: 0; }
+      .main-content { margin-left: 60px; padding: 24px 4vw 24px 4vw; }
+    }
+    @media (max-width: 700px) {
+      .main-content { padding: 10px 2vw; }
+      .config-row { flex-direction: column; align-items: flex-start; }
+    }
+    /* NUEVO: Estilos para las tarjetas de novelas */
+    .novela-card {
+      background: #222;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px #0005;
+      overflow: hidden;
+    }
+    .novela-header {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 12px 18px;
+    }
+    .novela-header img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 18px;
+    }
+    .novela-detalle {
+      display: none;
+      padding: 18px 24px 18px 90px;
+      background: #181828;
+    }
+    /* NUEVO: Estilos para el botón desplegable de géneros */
+    #generos-dropdown {
+      display: none;
+      position: absolute;
+      z-index: 10;
+      background: #222;
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px #000a;
+    }
+  </style>
+</head>
+<body>
+<div class="layout-admin">
+  <nav class="sidebar">
+    <h2>Eroverse</h2>
+    <div class="sidebar-nav">
+      <button id="nav-config" onclick="showSection('config')">Configuración</button>
+      <button id="nav-novelas" class="active" onclick="showSection('novelas')">Novelas</button>
+      <button id="nav-generos" onclick="showSection('generos')">Géneros</button>
+      <button id="abrir-panel-subida" class="btn" style="margin-top:32px;"> Subir novela</button>
+    </div>
+  </nav>
+  <div class="main-content">
+    <div class="admin-header">
+      <h1>Panel Administrativo</h1>
+      <button class="mode-toggle" id="toggle-mode">🌙 Modo oscuro</button>
+    </div>
+    <div id="section-novelas">
+      <div class="section" id="lista-novelas-section">
+        <h2>🗃️ Lista de novelas</h2>
+        <input type="text" id="buscar-novela" placeholder="🔍 Buscar por título..." style="margin-bottom:12px;">
+        <button id="generos-dropdown-btn" style="margin-bottom:12px;">Filtrar por género ▼</button>
+        <div id="generos-dropdown" style="display:none;position:absolute;z-index:10;background:#222;padding:12px 18px;border-radius:8px;box-shadow:0 2px 12px #000a;"></div>
+        <button id="exportar-json">📤 Exportar como JSON</button>
+        <div id="contador-visitas" style="margin:18px 0 0 0;color:#ff3cac;font-weight:bold;font-size:1.1em;"></div>
+        <div id="novelas-lista"></div>
+        <button id="subir-novela-btn" class="btn" style="margin-bottom:16px;background:#00e676;display:none;">➕ Subir nueva novela</button>
+      </div>
+    </div>
+    <div id="section-generos" style="display:none;">
+      <div class="section">
+        <h2>🏷️ Gestión de géneros</h2>
+        <form id="form-nuevo-genero" style="display:flex;gap:8px;margin-bottom:16px;">
+          <input type="text" id="input-nuevo-genero" placeholder="Nuevo género..." maxlength="32" style="flex:1;">
+          <button type="submit" class="btn">Añadir</button>
+        </form>
+        <ul id="lista-generos" style="list-style:none;padding:0;margin:0 0 16px 0;"></ul>
+      </div>
+    </div>
+    <div id="section-config" style="display:none;">
+      <div class="section" id="config-section">
+        <h2>⚙️ Configuración general</h2>
+        <form id="form-config">
+          <div class="config-row"><label>Nombre del sitio</label><input type="text" id="config-nombre"></div>
+          <div class="config-row"><label>Descripción corta</label><input type="text" id="config-desc"></div>
+          <div class="config-row"><label>Enlace de logo</label><input type="url" id="config-logo"></div>
+          <div class="config-row"><label>Fondo del sitio</label><input type="text" id="config-fondo"></div>
+          <button type="submit">Guardar configuración</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// --- NAVEGACIÓN ENTRE SECCIONES ---
+function showSection(section) {
+  document.getElementById('section-novelas').style.display = section==='novelas' ? 'block' : 'none';
+  document.getElementById('section-generos').style.display = section==='generos' ? 'block' : 'none';
+  document.getElementById('section-config').style.display = section==='config' ? 'block' : 'none';
+  document.getElementById('nav-novelas').classList.toggle('active', section==='novelas');
+  document.getElementById('nav-generos').classList.toggle('active', section==='generos');
+  document.getElementById('nav-config').classList.toggle('active', section==='config');
+}
+// --- MODO OSCURO/CLARO ---
+const modeToggle = document.getElementById('toggle-mode');
+let darkMode = true;
+modeToggle.onclick = function() {
+  darkMode = !darkMode;
+  if (darkMode) {
+    document.body.style.background = '#111';
+    document.body.style.color = '#fff';
+    modeToggle.textContent = '🌙 Modo oscuro';
+  } else {
+    document.body.style.background = '#f4f4f4';
+    document.body.style.color = '#222';
+    modeToggle.textContent = '☀️ Modo claro';
+  }
+};
+
+// --- CONFIGURACIÓN ---
+const GITHUB_RAW = 'https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/';
+const API_BASE = 'https://eroverse.glitch.me'; // Sin barra final
+const API_TOKEN = '';
+let novelas = [];
+let generos = [
+  "2D","Anal","Bdsm","Ciencia ficción","Control mental","Corrupción",
+  "Dominación femenina","Dominación masculina","Embarazo","Esclavo","Escolar","Fantasía",
+  "Finalizado","Furry","Futa/Trans","Gay","Harem","Humor","Incesto","Interracial",
+  "Juego nopor","Lesbianas","Lol1","Milf","Monstruo","Ntr","Parodia",
+  "Protagonista femenino","Protagonista masculino","Romance","RPGM","Sandbox","Shota",
+  "Sin categoría","Superpoderes","Tetas grandes","Violación","Virgen"
+];
+let config = {nombre: "Eroverse", desc: "Web de novelas visuales", logo: "", fondo: "#111"};
+
+// --- CARGA INICIAL ---
+async function fetchFromGitHub(filename) {
+  try {
+    const res = await fetch(GITHUB_RAW + filename);
+    if (!res.ok) throw new Error('No se pudo cargar ' + filename);
+    return await res.json();
+  } catch (e) { return null; }
+}
+async function cargarDatos() {
+  novelas = await fetchFromGitHub('novelas-1.json') || [];
+  // Si tienes géneros en otro archivo, cámbialo aquí
+  // generos = await fetchFromGitHub('generos.json') || generos;
+  renderNovelasLista();
+  renderGeneros();
+}
+cargarDatos();
+
+let novelasMostradas = 5;
+function renderNovelasLista(filtro = "", generoFiltro = null) {
+  const cont = document.getElementById('novelas-lista');
+  let novelasOrdenadas = Array.isArray(novelas) ? [...novelas].reverse() : [];
+  let filtradas = novelasOrdenadas.filter(n => n && n.titulo && n.titulo.toLowerCase().includes(filtro.toLowerCase()));
+  if (generoFiltro) filtradas = filtradas.filter(n => (n.generos||[]).includes(generoFiltro));
+  const mostrar = filtradas.slice(0, novelasMostradas);
+  cont.innerHTML = mostrar.map((n, idx) => `
+    <div class="novela-card" style="background:#222;border-radius:12px;margin-bottom:18px;box-shadow:0 2px 8px #0005;overflow:hidden;">
+      <div class="novela-header" style="display:flex;align-items:center;cursor:pointer;padding:12px 18px;">
+        <img src="${n.portada||''}" alt="img" style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-right:18px;">
+        <div style="flex:1;">
+          <div style="font-size:1.2em;font-weight:bold;color:#ff3cac;">${n.titulo||''}</div>
+          <div>${(n.generos||[]).map(g=>`<span class='genre-chip'>${g}</span>`).join('')}</div>
+        </div>
+        <button class="btn" onclick="editarNovela(${novelas.indexOf(n)})" style="margin-left:10px;">Editar</button>
+        <button class="btn" onclick="borrarNovela(${novelas.indexOf(n)})" style="background:#ff3cac;margin-left:10px;">Borrar</button>
+      </div>
+      <div class="novela-detalle" id="novela-detalle-${novelas.indexOf(n)}" style="display:block;padding:18px 24px 18px 90px;background:#181828;">
+        <div><b>Descripción:</b> ${n.desc||''}</div>
+        <div><b>Estado:</b> ${n.estado||''}</div>
+        <div><b>Imágenes:</b> <img src="${n.portada||''}" alt="img" style="width:48px;height:48px;object-fit:cover;border-radius:6px;">${n.spoiler?` <img src='${n.spoiler}' alt='spoiler' style='width:48px;height:48px;object-fit:cover;border-radius:6px;'>`:''}
+        ${(Array.isArray(n.spoilers) && n.spoilers.length) ? n.spoilers.map(url=>`<img src='${url}' alt='spoiler' style='width:48px;height:48px;object-fit:cover;border-radius:6px;margin-left:4px;'>`).join('') : ''}</div>
+        <div><b>Enlace:</b> <a href="${n.enlace||'#'}" target="_blank" style="color:#00e676;">Descargar</a></div>
+      </div>
+    </div>
+  `).join('');
+  if (filtradas.length > novelasMostradas) {
+    cont.innerHTML += `<div style='text-align:center;margin:18px 0;'><button class='btn' id='ver-mas-novelas' style='background:#333;color:#ff3cac;'>Ver más</button></div>`;
+    setTimeout(()=>{
+      const btn = document.getElementById('ver-mas-novelas');
+      if(btn) btn.onclick = function(){ novelasMostradas += 5; renderNovelasLista(document.getElementById('buscar-novela').value, window.generoFiltroActivo || null); };
+    }, 0);
+  }
+}
+// --- BUSCADOR POR TÍTULO ---
+document.getElementById('buscar-novela').addEventListener('input', function() {
+  renderNovelasLista(this.value, window.generoFiltroActivo || null);
+});
+
+window.editarNovela = async function(idx) {
+  const n = novelas[idx];
+  if (!n) return;
+  // Buscar datos frescos desde GitHub por título (SOLO GitHub)
+  let novelaActualizada = null;
+  try {
+    const novelasGitHub = await fetchFromGitHub('novelas-1.json');
+    if (novelasGitHub && Array.isArray(novelasGitHub)) {
+      novelaActualizada = novelasGitHub.find(nv => nv.titulo === n.titulo);
+    }
+  } catch (e) { novelaActualizada = null; }
+  if (!novelaActualizada) {
+    alert('No se encontraron los datos de la novela en GitHub.');
+    return;
+  }
+  const datos = novelaActualizada;
+  // Asegurar que los campos existen
+  const safe = (v) => v ? v : '';
+  const generosNovela = Array.isArray(datos.generos) ? datos.generos : [];
+  // Detectar enlaces adicionales
+  const enlacesExtras = Object.entries(datos)
+    .filter(([k,v]) => ['android',].includes(k) && typeof v === 'string')
+    .map(([k,v]) => ({key:k, val:v}));
+  const enlacesExtrasHtml = enlacesExtras.map(e => `
+    <label>Enlace ${e.key.charAt(0).toUpperCase()+e.key.slice(1)}<input type="url" name="enlace_${e.key}" value="${safe(e.val)}"></label>
+  `).join('');
+  // Mostrar y editar spoilers múltiples como chips y previsualización de imágenes
+  const spoilersArr = Array.isArray(datos.spoilers) ? datos.spoilers : [];
+  const spoilersChipsHtml = `
+    <div id="chips-spoilers" style="margin-bottom:8px;">
+      ${spoilersArr.map(s=>`<span class='genre-chip' data-spoiler='${s}'>${s} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b></span>`).join('')}
+    </div>
+    <input type="url" id="input-spoiler-nuevo" placeholder="Añadir enlace de spoiler y presiona Enter" style="width:100%;margin-bottom:8px;">
+    <div id="spoilers-preview" style="margin-bottom:8px;">
+      ${spoilersArr.map(s=>`<img src='${s}' alt='spoiler' style='width:60px;height:60px;object-fit:cover;border-radius:6px;margin:2px;'>`).join('')}
+    </div>
+  `;
+  const formHtml = `
+    <div id="modal-editar-novela" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000a;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:auto;">
+      <form id="form-editar-novela" style="background:#181828;padding:32px 24px;border-radius:16px;min-width:320px;max-width:90vw;max-height:90vh;overflow:auto;box-shadow:0 4px 24px #000a;">
+        <h2 style='color:#ff3cac;margin-top:0;'>Editar novela</h2>
+        <label>Título<input type="text" name="titulo" value="${safe(datos.titulo).replace(/"/g,'&quot;')}" required></label>
+        <label>Descripción<textarea name="desc" required>${safe(datos.desc)}</textarea></label>
+        ${enlacesExtrasHtml}
+        <label>Enlace de imagen principal<input type="url" name="portada" value="${safe(datos.portada)}" required></label>
+        <label>Spoilers (enlaces múltiples)
+          ${spoilersChipsHtml}
+        </label>
+        <label>Géneros
+          <div id="chips-generos" style="margin-bottom:8px;">${generosNovela.map(g=>`<span class='genre-chip' data-gen='${g}'>${g} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`).join('')}</div>
+          <input type="text" id="input-genero-nuevo" placeholder="Añadir género y presiona Enter" style="width:100%;margin-bottom:8px;">
+          <select id="select-genero" style="width:100%;margin-bottom:8px;">
+            <option value="">Seleccionar género rápido</option>
+            ${generos.map(g=>`<option value='${g}'>${g}</option>`).join('')}
+          </select>
+        </label>
+        <label>Estado<select name="estado"><option${datos.estado==="Completa"?' selected':''}>Completa</option><option${datos.estado==="En desarrollo"?' selected':''}>En desarrollo</option><option${datos.estado==="Demo"?' selected':''}>Demo</option></select></label>
+        <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;">
+          <button type="submit" class="btn">Guardar cambios</button>
+          <button type="button" class="btn" style="background:#ff3cac;" onclick="borrarNovela(${idx});cerrarModalEditarNovela();">Borrar</button>
+          <button type="button" class="btn" onclick="cerrarModalEditarNovela()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', formHtml);
+  document.getElementById('modal-editar-novela').scrollTop = 0;
+
+  // Lógica para añadir géneros personalizados y rápidos
+  const chipsDiv = document.getElementById('chips-generos');
+  const inputGenero = document.getElementById('input-genero-nuevo');
+  const selectGenero = document.getElementById('select-genero');
+  inputGenero.onkeydown = function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      e.preventDefault();
+      const val = this.value.trim();
+      if (![...chipsDiv.children].some(chip=>chip.dataset.gen===val)) {
+        const chip = document.createElement('span');
+        chip.className = 'genre-chip';
+        chip.dataset.gen = val;
+        chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`;
+        chipsDiv.appendChild(chip);
+      }
+      this.value = '';
+    }
+  };
+  selectGenero.onchange = function() {
+    const val = this.value;
+    if (val && ![...chipsDiv.children].some(chip=>chip.dataset.gen===val)) {
+      const chip = document.createElement('span');
+      chip.className = 'genre-chip';
+      chip.dataset.gen = val;
+      chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`;
+      chipsDiv.appendChild(chip);
+    }
+    this.value = '';
+  };
+
+  // Lógica para añadir y quitar spoilers y actualizar previsualización
+  const chipsSpoilers = document.getElementById('chips-spoilers');
+  const inputSpoiler = document.getElementById('input-spoiler-nuevo');
+  const spoilersPreview = document.getElementById('spoilers-preview');
+  function updateSpoilersPreview() {
+    spoilersPreview.innerHTML = [...chipsSpoilers.children].map(chip=>`<img src='${chip.dataset.spoiler}' alt='spoiler' style='width:60px;height:60px;object-fit:cover;border-radius:6px;margin:2px;'>`).join('');
+  }
+  inputSpoiler.onkeydown = function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      e.preventDefault();
+      const val = this.value.trim();
+      if (![...chipsSpoilers.children].some(chip=>chip.dataset.spoiler===val)) {
+        const chip = document.createElement('span');
+        chip.className = 'genre-chip';
+        chip.dataset.spoiler = val;
+        chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove();updateSpoilersPreview()'>×</b>`;
+        chipsSpoilers.appendChild(chip);
+        updateSpoilersPreview();
+      }
+      this.value = '';
+    }
+  };
+  chipsSpoilers.querySelectorAll('b').forEach(b=>{
+    b.onclick = function(){ this.parentNode.remove(); updateSpoilersPreview(); };
+  });
+
+  document.getElementById('form-editar-novela').onsubmit = async function(e) {
+    e.preventDefault();
+    const fd = new FormData(this);
+    const generosFinal = [...chipsDiv.children].map(chip=>chip.dataset.gen);
+    const spoilersFinal = [...chipsSpoilers.children].map(chip=>chip.dataset.spoiler);
+    // Recoger enlaces adicionales
+    const enlacesAdicionales = {};
+    ['android'].forEach(k => {
+      if (fd.get('enlace_'+k)) enlacesAdicionales[k] = fd.get('enlace_'+k);
+    });
+    const novelaEditada = {
+      titulo: fd.get('titulo'),
+      desc: fd.get('desc'),
+      enlace: fd.get('enlace'),
+      portada: fd.get('portada'),
+      spoiler: fd.get('spoiler'),
+      spoilers: spoilersFinal,
+      generos: generosFinal,
+      estado: fd.get('estado'),
+      portadaDestacada: this.portadaDestacada.checked,
+      ...enlacesAdicionales
+    };
+    try {
+      const res = await fetch(`${API_BASE}/api/novelas/${encodeURIComponent(n.titulo)}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(novelaEditada)
+      });
+      if (!res.ok) throw new Error('Error al editar novela');
+      cargarDatos();
+      cerrarModalEditarNovela();
+    } catch (err) {
+      alert('Error al editar novela: ' + err.message);
+    }
+  };
+};
+window.cerrarModalEditarNovela = function() {
+  const modal = document.getElementById('modal-editar-novela');
+  if (modal) modal.remove();
+};
+window.borrarNovela = async function(idx) {
+  const n = novelas[idx];
+  if (!n) return;
+  if (!confirm('¿Seguro que quieres borrar esta novela?')) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/novelas/${encodeURIComponent(n.titulo)}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) throw new Error('Error al borrar novela');
+    cargarDatos();
+    cerrarModalEditarNovela();
+  } catch (err) {
+    alert('Error al borrar novela: ' + err.message);
+  }
+};
+
+// --- BOTÓN DESPLEGABLE DE GÉNEROS ---
+const generosBtn = document.getElementById('generos-dropdown-btn');
+const generosDropdown = document.getElementById('generos-dropdown');
+generosBtn.onclick = function(e) {
+  e.preventDefault();
+  generosDropdown.innerHTML = generos.map(g=>`<button class='genre-chip' style='margin:4px 8px 4px 0;' onclick='filtrarPorGenero("${g}");return false;'>${g}</button>`).join('');
+  generosDropdown.style.display = generosDropdown.style.display==='none'||generosDropdown.style.display===''?'block':'none';
+};
+window.filtrarPorGenero = function(g) {
+  window.generoFiltroActivo = g;
+  renderNovelasLista(document.getElementById('buscar-novela').value, g);
+  generosDropdown.style.display = 'none';
+};
+// --- CONTADOR DE VISITAS ---
+async function mostrarContadorVisitas() {
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/contador.json');
+    if (!res.ok) throw new Error('No se pudo obtener visitas');
+    const data = await res.json();
+    let visitas = parseInt(data.visitas, 10);
+    let contador = document.getElementById('contador-visitas');
+    if (visitas > 0) {
+      contador.textContent = `👁️ ${visitas} visitas`;
+      contador.style.display = 'block';
+    } else {
+      contador.textContent = '';
+      contador.style.display = 'none';
+    }
+  } catch (e) {
+    let contador = document.getElementById('contador-visitas');
+    // Manejo de error opcional: puedes mostrar un mensaje o dejarlo vacío
+    if (contador) {
+      contador.textContent = '';
+      contador.style.display = 'none';
+    }
+  }
+}
+mostrarContadorVisitas();
+
+// --- RENDERIZADO DE GÉNEROS ---
+function renderGeneros() {
+  const ul = document.getElementById('lista-generos');
+  ul.innerHTML = generos.map((g,idx) => `<li style="margin:8px 0;display:flex;align-items:center;gap:8px;">
+    <span>${g}</span>
+    <button class='btn' style='background:#ff3cac;padding:2px 10px;font-size:0.95em;' onclick='eliminarGenero(${idx})'>Eliminar</button>
+  </li>`).join('');
+}
+
+window.eliminarGenero = function(idx) {
+  if (!confirm('¿Eliminar el género "' + generos[idx] + '"?')) return;
+  generos.splice(idx,1);
+  renderGeneros();
+};
+
+document.getElementById('form-nuevo-genero').onsubmit = function(e) {
+  e.preventDefault();
+  const val = document.getElementById('input-nuevo-genero').value.trim();
+  if (!val) return alert('El género no puede estar vacío.');
+  if (generos.includes(val)) return alert('Ese género ya existe.');
+  generos.push(val);
+  document.getElementById('input-nuevo-genero').value = '';
+  renderGeneros();
+};
+
+// --- EXPORTAR A JSON ---
+document.getElementById('exportar-json').onclick = function() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(novelas, null, 2));
+  const downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute("href",     dataStr     );
+  downloadAnchorNode.setAttribute("download", "novelas_exportadas.json");
+  document.body.appendChild(downloadAnchorNode); // required for firefox
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
+};
+
+// --- GUARDAR CONFIGURACIÓN ---
+document.getElementById('form-config').onsubmit = async function(e) {
+  e.preventDefault();
+  let nuevaConfig = {
+    nombre: document.getElementById('config-nombre').value,
+    desc: document.getElementById('config-desc').value,
+    logo: document.getElementById('config-logo').value,
+    fondo: document.getElementById('config-fondo').value
+  };
+  // Aquí podrías hacer un POST a tu API para guardar la configuración
+  console.log('Nueva configuración:', nuevaConfig);
+  alert('Configuración guardada (ver consola para detalles)');
+};
+
+// --- PANEL DE SUBIDA DE NOVELA GLOBAL ---
+window.subirNovela = function() {
+  // Modal vacío igual al de editar
+  const generosNovela = [];
+  const spoilersArr = [];
+  const enlacesExtras = ['android'];
+  const enlacesExtrasHtml = enlacesExtras.map(k => `
+    <label>Enlace ${k.charAt(0).toUpperCase()+k.slice(1)}<input type="url" name="enlace_${k}" value=""></label>
+  `).join('');
+  const spoilersChipsHtml = `
+    <div id="chips-spoilers" style="margin-bottom:8px;"></div>
+    <input type="url" id="input-spoiler-nuevo" placeholder="Añadir enlace de spoiler y presiona Enter" style="width:100%;margin-bottom:8px;">
+    <div id="spoilers-preview" style="margin-bottom:8px;"></div>
+  `;
+  const formHtml = `
+    <div id="modal-subir-novela" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000a;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:auto;">
+      <form id="form-subir-novela" style="background:#181828;padding:32px 24px;border-radius:16px;min-width:320px;max-width:90vw;max-height:90vh;overflow:auto;box-shadow:0 4px 24px #000a;">
+        <h2 style='color:#00e676;margin-top:0;'>Subir nueva novela</h2>
+        <label>Título<input type="text" name="titulo" required></label>
+        <label>Descripción<textarea name="desc" required></textarea></label>
+        ${enlacesExtrasHtml}
+        <label>Enlace de imagen principal<input type="url" name="portada" required></label>
+        <label>Spoilers (enlaces múltiples)
+          ${spoilersChipsHtml}
+        </label>
+        <label>Géneros
+          <div id="chips-generos" style="margin-bottom:8px;"></div>
+          <input type="text" id="input-genero-nuevo" placeholder="Añadir género y presiona Enter" style="width:100%;margin-bottom:8px;">
+          <select id="select-genero" style="width:100%;margin-bottom:8px;">
+            <option value="">Seleccionar género rápido</option>
+            ${generos.map(g=>`<option value='${g}'>${g}</option>`).join('')}
+          </select>
+        </label>
+        <label>Estado<select name="estado"><option>Completa</option><option>En desarrollo</option><option>Demo</option></select></label>
+        <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;">
+          <button type="submit" class="btn" style="background:#00e676;">Subir novela</button>
+          <button type="button" class="btn" onclick="cerrarModalSubirNovela()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', formHtml);
+  document.getElementById('modal-subir-novela').scrollTop = 0;
+
+  // Lógica para géneros (chips)
+  const chipsDiv = document.getElementById('chips-generos');
+  const inputGenero = document.getElementById('input-genero-nuevo');
+  const selectGenero = document.getElementById('select-genero');
+  inputGenero.onkeydown = function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      e.preventDefault();
+      const val = this.value.trim();
+      if (![...chipsDiv.children].some(chip=>chip.dataset.gen===val)) {
+        const chip = document.createElement('span');
+        chip.className = 'genre-chip';
+        chip.dataset.gen = val;
+        chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`;
+        chipsDiv.appendChild(chip);
+      }
+      this.value = '';
+    }
+  };
+  selectGenero.onchange = function() {
+    const val = this.value;
+    if (val && ![...chipsDiv.children].some(chip=>chip.dataset.gen===val)) {
+      const chip = document.createElement('span');
+      chip.className = 'genre-chip';
+      chip.dataset.gen = val;
+      chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`;
+      chipsDiv.appendChild(chip);
+    }
+    this.value = '';
+  };
+
+  // Lógica para spoilers (chips y preview)
+  const chipsSpoilers = document.getElementById('chips-spoilers');
+  const inputSpoiler = document.getElementById('input-spoiler-nuevo');
+  const spoilersPreview = document.getElementById('spoilers-preview');
+  function updateSpoilersPreview() {
+    spoilersPreview.innerHTML = [...chipsSpoilers.children].map(chip=>`<img src='${chip.dataset.spoiler}' alt='spoiler' style='width:60px;height:60px;object-fit:cover;border-radius:6px;margin:2px;'>`).join('');
+  }
+  inputSpoiler.onkeydown = function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      e.preventDefault();
+      const val = this.value.trim();
+      if (![...chipsSpoilers.children].some(chip=>chip.dataset.spoiler===val)) {
+        const chip = document.createElement('span');
+        chip.className = 'genre-chip';
+        chip.dataset.spoiler = val;
+        chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove();updateSpoilersPreview()'>×</b>`;
+        chipsSpoilers.appendChild(chip);
+        updateSpoilersPreview();
+      }
+      this.value = '';
+    }
+  };
+
+  document.getElementById('form-subir-novela').onsubmit = async function(e) {
+    e.preventDefault();
+    const fd = new FormData(this);
+    const generosFinal = [...chipsDiv.children].map(chip=>chip.dataset.gen);
+    const spoilersFinal = [...chipsSpoilers.children].map(chip=>chip.dataset.spoiler);
+    // Recoger enlaces adicionales
+    const enlacesAdicionales = {};
+    enlacesExtras.forEach(k => {
+      if (fd.get('enlace_'+k)) enlacesAdicionales[k] = fd.get('enlace_'+k);
+    });
+    const novelaNueva = {
+      titulo: fd.get('titulo'),
+      desc: fd.get('desc'),
+      portada: fd.get('portada'),
+      spoilers: spoilersFinal,
+      generos: generosFinal,
+      estado: fd.get('estado'),
+      ...enlacesAdicionales
+    };
+    try {
+      const res = await fetch(`${API_BASE}/api/novelas`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(novelaNueva)
+      });
+      let errorText = '';
+      if (!res.ok) {
+        errorText = await res.text();
+        console.error('Body enviado:', novelaNueva);
+        throw new Error(`Status: ${res.status} - ${errorText}`);
+      }
+      cargarDatos();
+      cerrarModalSubirNovela();
+    } catch (err) {
+      alert('Error al subir novela: ' + err.message);
+    }
+  };
+}
+window.cerrarModalSubirNovela = function() {
+  const modal = document.getElementById('modal-subir-novela');
+  if (modal) modal.remove();
+};
+
+document.getElementById('abrir-panel-subida').onclick = function() {
+  window.subirNovela();
+};
+</script>
+</body>
+</html>
