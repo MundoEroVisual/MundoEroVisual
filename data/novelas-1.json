@@ -818,5 +818,16 @@
     "android": "http://localhost:3000/index.html",
     "enlace_android": "http://localhost:3000/index.html",
     "estado": "En desarrollo"
+  },
+  {
+    "id": "gol-1750883012056",
+    "titulo": "GOL",
+    "desc": "DAJDAJWDKAW",
+    "generos": [
+      "Dominación masculina"
+    ],
+    "portada": "https://img.hotzone18.com/4989223_Screenshot3.png",
+    "spoilers": [],
+    "android": "https://cuty.io/ukjj4NwJ"
   }
 ]
