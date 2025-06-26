@@ -804,11 +804,7 @@
     "titulo": "Cartel Simulator [v0.6]",
     "desc": "Métete en la piel de un joven en una Latinoamérica ficticia de los años ochenta.\nAcepta tu destino mientras asumes el control del cártel de tu familia, navegando por un mundo plagado de drogas, violencia y derramamiento de sangre.\nTu misión es reconstruir el empañado nombre de tu familia y mantener el legado, enfrentándote a retos y oportunidades por el camino.",
     "generos": [
-      "Corrupción",
-      "Dominación masculina",
-      "Milf",
-      "Protagonista masculino",
-      "Romance"
+      "Corrupción"
     ],
     "portada": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2536490/header.jpg?t=1735726086",
     "spoilers": [
@@ -832,12 +828,7 @@
     "titulo": "D’Legacy [v0.11.5.1]",
     "desc": "Este juego cuenta la historia de un hombre (Tú / Personaje principal) que acaba de graduarse tras estudiar en Miami. Sin embargo, te ves obligado a regresar a Tokio, tu ciudad natal, debido al reciente fallecimiento de tu padre. Lo único que has heredado es una pensión en ruinas y una importante cantidad de deudas. ¿Podrás sobrevivir en esta vida tokiota, cumplir tus sueños, llegar a lo más alto en tu carrera, encontrar el amor y tener muchas parejas sexuales?",
     "generos": [
-      "2D",
-      "Corrupción",
-      "Harem",
-      "Incesto",
-      "Protagonista masculino",
-      "Sandbox"
+      "2D"
     ],
     "portada": "https://www.hotzone18.com/wp-content/uploads/f95_new_cover_20240519.webp",
     "spoilers": [
@@ -848,6 +839,8 @@
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigHuVhYNHAvf46Aq2qiSp1UI0z6IfIM95BQim6M5rXQm7sMXjow6Mvx3es7w8cSVu92erqtExJJWnZnEfquh5PMg2b3rp-P99nWMVDsaHBEwWiKtJJm0LYK8TrFblFMk2MgpsmdJbnT8mQEjqzHQX_LmgdHKAoJjp9WVRIq41cPZ8fvsy1kt4G7NyhhOk/s1600/3.png",
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiI0gNpUqZQezDdMZpV7LEXOHuertNWzXEnuoQ-KMp8MsEaH-uhS_eVelrHDyLLbCpIcGHxbY_4KoFokC5TRgUZN5zc49rUGMehkDTyoI7KiRcocQaW7mDU2XzwgvYco8tcoSx9sFk69qnEiIA2O_e6apMwKJCI0dyKmloVXQDdK2xk6If1L09FBUrYYUA/s1600/7.png"
     ],
-    "android": "https://cuty.io/ZctWB"
+    "android": "https://cuty.io/ZctWB",
+    "enlace_android": "https://cuty.io/ZctWB",
+    "estado": "En desarrollo"
   }
 ]
