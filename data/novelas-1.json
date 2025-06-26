@@ -804,7 +804,8 @@
     "titulo": "Cartel Simulator [v0.6]",
     "desc": "Métete en la piel de un joven en una Latinoamérica ficticia de los años ochenta.\nAcepta tu destino mientras asumes el control del cártel de tu familia, navegando por un mundo plagado de drogas, violencia y derramamiento de sangre.\nTu misión es reconstruir el empañado nombre de tu familia y mantener el legado, enfrentándote a retos y oportunidades por el camino.",
     "generos": [
-      "Corrupción"
+      "Corrupción",
+      "Romance"
     ],
     "portada": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2536490/header.jpg?t=1735726086",
     "spoilers": [
@@ -828,8 +829,7 @@
     "titulo": "D’Legacy [v0.11.5.1]",
     "desc": "Este juego cuenta la historia de un hombre (Tú / Personaje principal) que acaba de graduarse tras estudiar en Miami. Sin embargo, te ves obligado a regresar a Tokio, tu ciudad natal, debido al reciente fallecimiento de tu padre. Lo único que has heredado es una pensión en ruinas y una importante cantidad de deudas. ¿Podrás sobrevivir en esta vida tokiota, cumplir tus sueños, llegar a lo más alto en tu carrera, encontrar el amor y tener muchas parejas sexuales?",
     "generos": [
-      "2D",
-      "harem"
+      "2D"
     ],
     "portada": "https://www.hotzone18.com/wp-content/uploads/f95_new_cover_20240519.webp",
     "spoilers": [
