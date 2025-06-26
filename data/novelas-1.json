@@ -974,14 +974,14 @@
   {
     "id": "happy-summer-v0-7-0-1750965409101",
     "titulo": "Happy Summer [v0.7.0]",
-    "desc": "PESO:770MB                                                            Este juego trata sobre un hombre de 37 años que vive en una casa grande con Rosie (hija) y Lucy (hermana). Rosie es una hermosa rubia de 19 años. Intenta escribir historias y tal vez algún día pueda escribir un libro. Su madre la dejó hace 4 años y ahora hay que cuidarla como nunca antes. Además, pronto Lucy vendrá a tu casa y te divertirás mucho con ella y con otros personajes de la ciudad. \nLa alta calidad de los gráficos, la jugabilidad y la historia no te dejarán indiferente.",
+    "desc": "Este juego trata sobre un hombre de 37 años que vive en una casa grande con Rosie (hija) y Lucy (hermana). Rosie es una hermosa rubia de 19 años. Intenta escribir historias y tal vez algún día pueda escribir un libro. Su madre la dejó hace 4 años y ahora hay que cuidarla como nunca antes. Además, pronto Lucy vendrá a tu casa y te divertirás mucho con ella y con otros personajes de la ciudad. \nLa alta calidad de los gráficos, la jugabilidad y la historia no te dejarán indiferente.",
     "generos": [
-      "Incesto",
       "Protagonista masculino",
       "Romance",
       "Sandbox",
       "Virgen",
-      "Juego nopor"
+      "Juego nopor",
+      "Incesto"
     ],
     "portada": "https://www.hotzone18.com/wp-content/uploads/logo_patreon.webp",
     "spoilers": [
@@ -992,15 +992,19 @@
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMUQTOW2z5Ju96DDBcnXHetHMkxN-_GSoAZynPinz2RklDx6wMaGV3VSdBF9t6n0kOEN_DiRBkDLIYJxFzhpFh2KNRH8ox_hQACjfmR4A6OevUni8AtiKmot1J2ViOyEk286JWJ5bcaSZ34qEcXOIzHtfzAalhbn7YFPmNEdvWeKCnr_d816Q569No/s1600/7s3nem54z3-jpg-jpg-jpg-jpg-jpg-jpg-jpg-jpg-jpg-jpg.jpg"
     ],
     "android": "https://www.mediafire.com/file/xlhvhsd36yhprb3/happysummer.hotzone18.com-release.apk/file",
-    "estado": "En desarrollo"
+    "estado": "En desarrollo",
+    "peso_valor": "770",
+    "peso_unidad": "MB",
+    "enlace_android": "https://www.mediafire.com/file/xlhvhsd36yhprb3/happysummer.hotzone18.com-release.apk/file",
+    "peso": "770 MB"
   },
   {
     "id": "monster-city-a-monster-college-story-v0-2-0-1750966022574",
     "titulo": "Monster City: A Monster College Story [v0.2.0]",
-    "desc": " Adéntrate en el mundo de Adán, explora las calles llenas de monstruos de Silverwood y los pasillos de la Universidad de Silverleaf, y experimenta el caos, el encanto y los secretos que acechan en cada esquina.      ",
+    "desc": "PESO: 1GB                                                      Adéntrate en el mundo de Adán, explora las calles llenas de monstruos de Silverwood y los pasillos de la Universidad de Silverleaf, y experimenta el caos, el encanto y los secretos que acechan en cada esquina.      ",
     "generos": [
-      "Harem",
       "Escolar",
+      "Harem",
       "Humor",
       "Milf",
       "Monstruo",
@@ -1016,11 +1020,7 @@
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhb2aSDJ2oO_Ld39IeHibUXLcCihTkcxYB40FSCJw3yC52_H8phQzMjO4Ds3OExabCzJ74rUNZ_-4Xx7PaqNpntkkwYs8_GBBSpGjh4JNXve8Hhj5oWeD03mNObHGL6-K2KpJYU13FyRmwR14UpNnT7eiESeefVx0qjCCXml8w0cVwrW4zTgzC9SbJjEF0/s1600/screenshot0004.png"
     ],
     "android": "https://www.mediafire.com/file_premium/0qq8uqkhyuhox8k/monstercity.hotzone18.com-release.apk/file",
-    "estado": "En desarrollo",
-    "peso_valor": "1",
-    "peso_unidad": "GB",
-    "enlace_android": "https://www.mediafire.com/file_premium/0qq8uqkhyuhox8k/monstercity.hotzone18.com-release.apk/file",
-    "peso": "1 GB"
+    "estado": "En desarrollo"
   },
   {
     "id": "redemption-1750968310231",
