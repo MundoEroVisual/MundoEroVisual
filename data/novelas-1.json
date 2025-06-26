@@ -842,5 +842,16 @@
     "android": "https://cuty.io/ZctWB",
     "enlace_android": "https://cuty.io/ZctWB",
     "estado": "En desarrollo"
+  },
+  {
+    "id": "hola-1750906258309",
+    "titulo": "hola",
+    "desc": "adaw",
+    "generos": [
+      "Escolar"
+    ],
+    "portada": "https://cdn.socigames.com/wp-content/uploads/2023/12/1-63-1536x864.jpg",
+    "spoilers": [],
+    "android": "https://cuty.io/YynMuR"
   }
 ]
