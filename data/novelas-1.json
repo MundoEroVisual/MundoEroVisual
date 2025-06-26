@@ -865,11 +865,7 @@
     "titulo": "One Pump Chump [Act 1 v0.1.0]",
     "desc": "sfsd",
     "generos": [
-      "Esclavo",
-      "harem",
-      "Escolar",
-      "Corrupción",
-      "Control mental"
+      "Esclavo"
     ],
     "portada": "https://www.hotzone18.com/wp-content/uploads/ss-5-4.webp",
     "spoilers": [
@@ -877,6 +873,6 @@
     ],
     "android": "https://cuty.io/1zyopNct",
     "enlace_android": "https://cuty.io/1zyopNct",
-    "estado": "Demo"
+    "estado": "En desarrollo"
   }
 ]
