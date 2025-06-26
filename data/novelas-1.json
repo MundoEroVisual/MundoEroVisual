@@ -923,13 +923,13 @@
   {
     "id": "android-life-v0-4-5-1750964699584",
     "titulo": "Android LIFE [v0.4.5] ",
-    "desc": "peso: 1.9gb                                                                                                                           Justo antes de que te atropelle un camión, una extraña luz te transporta a un futuro desconocido. Una extraña chica te ha salvado la vida, pero esta segunda oportunidad no sale gratis… En el futuro, todos los hombres han muerto a causa de una misteriosa enfermedad, y con la esperanza de llenar el vacío dejado por los hombres, las mujeres crearon un sustituto, los androides. Estas máquinas son capaces de realizar todo tipo de trabajos, pero su principal objetivo es sustituir a los hombres en tareas algo menos convencionales. Tu trabajo ahora es trabajar como androide alquilado, haciendo cualquier cosa que las mujeres te pidan por dinero.",
+    "desc": "Justo antes de que te atropelle un camión, una extraña luz te transporta a un futuro desconocido. Una extraña chica te ha salvado la vida, pero esta segunda oportunidad no sale gratis… En el futuro, todos los hombres han muerto a causa de una misteriosa enfermedad, y con la esperanza de llenar el vacío dejado por los hombres, las mujeres crearon un sustituto, los androides. Estas máquinas son capaces de realizar todo tipo de trabajos, pero su principal objetivo es sustituir a los hombres en tareas algo menos convencionales. Tu trabajo ahora es trabajar como androide alquilado, haciendo cualquier cosa que las mujeres te pidan por dinero.",
     "generos": [
-      "2D",
       "Ciencia ficción",
       "Dominación femenina",
       "Escolar",
-      "Humor"
+      "Humor",
+      "2D"
     ],
     "portada": "https://www.hotzone18.com/wp-content/uploads/2023/10/promo_v0.4.1.webp",
     "spoilers": [
@@ -943,7 +943,11 @@
       "https://media.discordapp.net/attachments/1294429545591607398/1384684840703623189/bl7C0g.jpg?ex=685e8880&is=685d3700&hm=cbd147da1bb42d9b5055fca0c3e5ec67e107c8060f8f42c8d20307f065eee02b&=&format=webp&width=694&height=390"
     ],
     "android": "https://www.mediafire.com/file_premium/i471x7repw4wz46/androidlife.hotzone18.com-release.apk/file",
-    "estado": "En desarrollo"
+    "estado": "En desarrollo",
+    "peso_valor": "1.9",
+    "peso_unidad": "GB",
+    "enlace_android": "https://www.mediafire.com/file_premium/i471x7repw4wz46/androidlife.hotzone18.com-release.apk/file",
+    "peso": "1.9 GB"
   },
   {
     "id": "harem-corruption-1750965084680",
