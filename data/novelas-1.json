@@ -1077,7 +1077,11 @@
     "titulo": "prueba 5",
     "desc": "hola",
     "generos": [
-      "harem"
+      "harem",
+       "harem",
+      "Escolar",
+      "Finalizado",
+      "Fantasía"
     ],
     "portada": "https://img.hotzone18.com/4989223_Screenshot3.png",
     "spoilers": [
