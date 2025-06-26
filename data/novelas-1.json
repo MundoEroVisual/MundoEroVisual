@@ -997,10 +997,10 @@
   {
     "id": "monster-city-a-monster-college-story-v0-2-0-1750966022574",
     "titulo": "Monster City: A Monster College Story [v0.2.0]",
-    "desc": "PESO: 1GB                                                      Adéntrate en el mundo de Adán, explora las calles llenas de monstruos de Silverwood y los pasillos de la Universidad de Silverleaf, y experimenta el caos, el encanto y los secretos que acechan en cada esquina.      ",
+    "desc": " Adéntrate en el mundo de Adán, explora las calles llenas de monstruos de Silverwood y los pasillos de la Universidad de Silverleaf, y experimenta el caos, el encanto y los secretos que acechan en cada esquina.      ",
     "generos": [
-      "Escolar",
       "Harem",
+      "Escolar",
       "Humor",
       "Milf",
       "Monstruo",
@@ -1016,7 +1016,11 @@
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhb2aSDJ2oO_Ld39IeHibUXLcCihTkcxYB40FSCJw3yC52_H8phQzMjO4Ds3OExabCzJ74rUNZ_-4Xx7PaqNpntkkwYs8_GBBSpGjh4JNXve8Hhj5oWeD03mNObHGL6-K2KpJYU13FyRmwR14UpNnT7eiESeefVx0qjCCXml8w0cVwrW4zTgzC9SbJjEF0/s1600/screenshot0004.png"
     ],
     "android": "https://www.mediafire.com/file_premium/0qq8uqkhyuhox8k/monstercity.hotzone18.com-release.apk/file",
-    "estado": "En desarrollo"
+    "estado": "En desarrollo",
+    "peso_valor": "1",
+    "peso_unidad": "GB",
+    "enlace_android": "https://www.mediafire.com/file_premium/0qq8uqkhyuhox8k/monstercity.hotzone18.com-release.apk/file",
+    "peso": "1 GB"
   },
   {
     "id": "redemption-1750968310231",
