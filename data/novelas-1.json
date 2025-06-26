@@ -1077,17 +1077,14 @@
     "titulo": "prueba 5",
     "desc": "hola",
     "generos": [
-      "harem",
-       "Escolar",
-      "Finalizado",
-      "Fantasía"
+      "harem"
     ],
     "portada": "https://img.hotzone18.com/4989223_Screenshot3.png",
     "spoilers": [
       "https://www.hotzone18.com/wp-content/uploads/198708_cover_913ee925-a9d0-4078-aaa7-2d1f88b4ae87_480x288.webp"
     ],
     "android": "https://cuty.io/ZctWB",
-    "estado": "Completa",
+    "estado": "En desarrollo",
     "peso": "100 MB",
     "peso_valor": "100",
     "peso_unidad": "MB",
