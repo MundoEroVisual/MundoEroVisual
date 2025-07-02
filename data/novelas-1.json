@@ -1409,5 +1409,29 @@
     "android": "https://cuty.io/4k1sgkuUW",
     "estado": "En desarrollo",
     "peso": "700 MB"
+  },
+  {
+    "id": "become-the-league-v0-2-espa-ol-android-1751499870061",
+    "titulo": "Become the League v0.2 Español Android",
+    "desc": "Eres Jensen, el recién nombrado mánager de una famosa agrupación de ídolos pop. Tras una serie de incidentes que sacudieron al grupo, recae sobre ti la responsabilidad de guiarlas en su carrera... o en otros caminos.",
+    "generos": [
+      "Corrupción",
+      "Parodia",
+      "Protagonista masculino",
+      "Romance",
+      "Juego nopor"
+    ],
+    "portada": "https://www.hotzone18.com/wp-content/uploads/3193309_title_1080p.webp",
+    "spoilers": [
+      "https://img.hotzone18.com/3965671_mcenteraa.png",
+      "https://img.hotzone18.com/3193295_two_closeup.png",
+      "https://img.hotzone18.com/3965688_jensen_intervenesh.png",
+      "https://img.hotzone18.com/3193296_elevatorvi_friskyfive.png",
+      "https://img.hotzone18.com/3193299_elevatorvi_friskyeight.png",
+      "https://img.hotzone18.com/3193304_mc_jokesofficial.png"
+    ],
+    "android": "https://cuty.io/YR4y",
+    "estado": "En desarrollo",
+    "peso": "160 MB"
   }
 ]
