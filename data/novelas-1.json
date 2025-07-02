@@ -1332,5 +1332,31 @@
     "android": "https://cuty.io/jBdJJw5",
     "estado": "Completa",
     "peso": "1.88 GB"
+  },
+  {
+    "id": "lucy-got-problems-v1-01-espa-ol-1751417215717",
+    "titulo": "Lucy Got Problems V1.01 Español",
+    "desc": "Lucy Got Problems sigue las desventuras de una súcubo espía cabeza hueca en un peligroso bosque de elfos. Encuentra el camino y llévate bien con los habitantes del bosque usando la personalidad bien desarrollada de Lucy y sus excepcionales cualidades internas.",
+    "generos": [
+      "2D",
+      "Fantasía",
+      "Finalizado",
+      "Humor",
+      "Protagonista femenino",
+      "Juego nopor"
+    ],
+    "portada": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/879510/0e4d869a38e02bfad9e46830ec3be9df803607d2/header.jpg?t=1744544573",
+    "spoilers": [
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/879510/ss_acb807c15f8a044ade6ff979143f34043e435165.600x338.jpg?t=1744544573",
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/879510/ss_daa933e399c0f2687666b2ea4fdaef19bbcb32df.600x338.jpg?t=1744544573",
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/879510/ss_fa8515f9059b799ea4b3fe50af23c8068e783d1b.600x338.jpg?t=1744544573",
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/879510/ss_259070607c4d3ecc4782f03df9c83fedb0c02697.1920x1080.jpg?t=1744544573",
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/879510/ss_0f00e7cfcc4e4073c38178253f9669a068639c1f.600x338.jpg?t=1744544573",
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/879510/ss_df9ddb2aa6b0fc5cac706c3af9229f4aa4734d34.600x338.jpg?t=1744544573",
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/879510/ss_58ad0de698505e2ced1e8ef1dbfd6dd127dda2a2.600x338.jpg?t=1744544573"
+    ],
+    "android": "https://cuty.io/NBMmRfK",
+    "estado": "Completa",
+    "peso": "650 MB"
   }
 ]
