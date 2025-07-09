@@ -1,0 +1,18 @@
+[
+  {
+    "usuario": "admin",
+    "password": "$2b$10$DVfPV3dX1jO2V/cxCj/RtOK1IfJLQmhOg5uGJnby9hyFq0DTGpadO",
+    "admin": true,
+    "premium": true,
+    "premium_expira": "2099-12-31T23:59:59.000Z"
+    },
+  {
+    "usuario": "alex",
+    "password": "$2b$10$wy5q157UXabvKnDrmnkUzOBnp0EH4H4xi1znv.P0nK/XQ2ViIkBl.",
+    "admin": false,
+    "avatar": "https://yt3.ggpht.com/N4k2pjvTzZUovv1I7Amoo-caLofdcNb3qgjMfiW25VaGA1v-0BeBjhR2p-YiHlsK8V4FEs17lw=s108-c-k-c0x00ffffff-no-rj",
+    "apodo": "alex",
+    "premium": false,
+    "premium_expira": null
+  }
+]
