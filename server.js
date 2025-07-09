@@ -1,12 +1,9 @@
-<<<<<<< HEAD
 
 
 // ================== IMPORTS Y APP INIT AL PRINCIPIO ==================
 // ================== IMPORTS Y APP INIT AL PRINCIPIO ==================
 const dotenv = require('dotenv');
 dotenv.config();
-=======
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -14,7 +11,6 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
-<<<<<<< HEAD
 const fetch = require('node-fetch');
 const archiver = require('archiver');
 const bodyParser = require('body-parser');
@@ -151,10 +147,6 @@ app.post('/api/paypal-ipn', async (req, res) => {
   }
   res.status(200).send('IPN recibido');
 });
-=======
-const dotenv = require('dotenv');
-const fetch = require('node-fetch');
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
 
 // Leer archivo JSON directamente desde GitHub
 async function getJsonFromGitHub(githubPath) {
@@ -198,7 +190,6 @@ async function updateFileOnGitHub(githubPath, newContent) {
   return await res.json();
 }
 
-<<<<<<< HEAD
 // Ruta para login de admin (ahora con cookie segura)
 // Nuevo login de admin: usa usuarios.json y bcrypt igual que el login normal
 app.post('/api/admin-login', async (req, res) => {
@@ -222,58 +213,6 @@ app.post('/api/admin-login', async (req, res) => {
     maxAge: 24 * 60 * 60 * 1000
   });
   res.json({ success: true });
-=======
-dotenv.config();
-
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = '12232931';
-
-// --- Configuración para GitHub API ---
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_OWNER = process.env.GITHUB_OWNER;
-const GITHUB_REPO = process.env.GITHUB_REPO;
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
-
-// Middlewares estándar
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.use(cookieParser());
-
-// Configuración de Multer para guardar imágenes en /public/imagenes
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, 'public', 'imagenes'));
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + '-' + file.originalname);
-  }
-});
-const upload = multer({ storage: storage });
-
-// Sesiones simples en memoria (para demo, usar Redis en producción)
-const adminSessions = {};
-
-// Ruta para login de admin (ahora con cookie segura)
-app.post('/api/admin-login', (req, res) => {
-  const { user, pass } = req.body;
-  if (user === ADMIN_USER && pass === ADMIN_PASS) {
-    // Generar token de sesión seguro
-    const token = crypto.randomBytes(32).toString('hex');
-    adminSessions[token] = { user, created: Date.now() };
-    res.cookie('admin_token', token, {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: false, // Cambia a true si usas HTTPS
-      maxAge: 24 * 60 * 60 * 1000
-    });
-    res.json({ success: true });
-  } else {
-    res.json({ success: false });
-  }
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
 });
 
 // Middleware seguro para autenticar admin
@@ -317,10 +256,6 @@ app.head('/api/novelas', (req, res) => {
 });
 
 // Función para hacer commit y push automático a GitHub
-<<<<<<< HEAD
-=======
-const { exec } = require('child_process');
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
 function autoCommitAndPush(filePath, mensaje = 'Actualización automática de novelas') {
   exec(`git add "${filePath}" && git commit -m "${mensaje}" && git push`, { cwd: __dirname }, (error, stdout, stderr) => {
     if (error) {
@@ -336,7 +271,6 @@ app.post('/api/novelas', async (req, res) => {
   try {
     let novelas = await getJsonFromGitHub('data/novelas-1.json');
     if (!Array.isArray(novelas)) novelas = [];
-<<<<<<< HEAD
     // Validar y limpiar campos
     let { id, titulo, desc, generos, portada, spoilers, android, pc, estado, peso, enlace_premium, android_vip } = req.body;
     // No aceptar campos como 'enlace_android'
@@ -347,9 +281,6 @@ app.post('/api/novelas', async (req, res) => {
     if (!estado || typeof estado !== 'string' || !estado.trim()) {
       return res.status(400).json({ error: 'El campo "estado" es obligatorio' });
     }
-=======
-    const { id, titulo, desc, generos, portada, spoilers, android, pc } = req.body;
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
     if (!id || !titulo || !portada) {
       return res.status(400).json({ error: 'Datos de novela incompletos' });
     }
@@ -361,15 +292,11 @@ app.post('/api/novelas', async (req, res) => {
       portada,
       spoilers: Array.isArray(spoilers) ? spoilers : (typeof spoilers === 'string' ? spoilers.split(',').map(s => s.trim()).filter(Boolean) : []),
       android,
-<<<<<<< HEAD
       android_vip,
       pc,
       estado,
       peso,
       enlace_premium // <-- Añadido el campo enlace_premium
-=======
-      pc
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
     };
     novelas.push(novela);
     const result = await updateFileOnGitHub('data/novelas-1.json', novelas);
@@ -385,35 +312,13 @@ app.post('/api/novelas', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 // --- USUARIOS Y CONTADOR: LOCAL ---
 const USUARIOS_PATH = path.join(__dirname, 'data', 'usuario.json');
-=======
-// Ruta para eliminar una novela por índice (sin admin)
-app.delete('/api/novelas/:index', (req, res) => {
-  const novelasPath = path.join(__dirname, 'data', 'novelas.json');
-  let novelas = [];
-  if (fs.existsSync(novelasPath)) {
-    novelas = JSON.parse(fs.readFileSync(novelasPath, 'utf8'));
-  }
-  const idx = parseInt(req.params.index, 10);
-  if (isNaN(idx) || idx < 0 || idx >= novelas.length) {
-    return res.status(400).json({ error: 'Índice inválido' });
-  }
-  novelas.splice(idx, 1);
-  fs.writeFileSync(novelasPath, JSON.stringify(novelas, null, 2));
-  res.json({ success: true, novelas });
-});
-
-// --- USUARIOS Y CONTADOR: LOCAL ---
-const USUARIOS_PATH = path.join(__dirname, 'data', 'usuarios.json');
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
 const CONTADOR_PATH = path.join(__dirname, 'data', 'contador.json');
 
 // Rutas para registro y login de usuario normal
 
 // Registro de usuario
-<<<<<<< HEAD
 // Registro de usuario (ahora con avatar y apodo opcionales)
 app.post('/api/register', async (req, res) => {
   const { usuario, password, avatar, apodo } = req.body;
@@ -426,12 +331,6 @@ app.post('/api/register', async (req, res) => {
       fs.mkdirSync(dataDir, { recursive: true });
       console.log('Carpeta creada:', dataDir);
     }
-=======
-app.post('/api/register', async (req, res) => {
-  const { usuario, password } = req.body;
-  if (!usuario || !password) return res.status(400).json({ error: 'Faltan datos' });
-  try {
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
     let usuarios = [];
     if (fs.existsSync(USUARIOS_PATH)) {
       usuarios = JSON.parse(fs.readFileSync(USUARIOS_PATH, 'utf8'));
@@ -440,7 +339,6 @@ app.post('/api/register', async (req, res) => {
       return res.status(400).json({ error: 'Usuario ya existe' });
     }
     const hash = await bcrypt.hash(password, 10);
-<<<<<<< HEAD
     usuarios.push({
       usuario,
       password: hash,
@@ -452,10 +350,6 @@ app.post('/api/register', async (req, res) => {
     });
     fs.writeFileSync(USUARIOS_PATH, JSON.stringify(usuarios, null, 2));
     console.log('Usuarios guardados correctamente. Total:', usuarios.length);
-=======
-    usuarios.push({ usuario, password: hash, admin: false });
-    fs.writeFileSync(USUARIOS_PATH, JSON.stringify(usuarios, null, 2));
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
     res.json({ success: true });
   } catch (e) {
     console.error('Error register:', e);
@@ -476,7 +370,6 @@ app.post('/api/login', async (req, res) => {
     if (!user) return res.status(400).json({ error: 'Usuario o contraseña incorrectos' });
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) return res.status(400).json({ error: 'Usuario o contraseña incorrectos' });
-<<<<<<< HEAD
     // Forzar avatar y apodo por defecto si no existen
     let avatar = user.avatar;
     if (!avatar || avatar.trim() === '') {
@@ -487,15 +380,11 @@ app.post('/api/login', async (req, res) => {
       apodo = user.usuario.charAt(0).toUpperCase() + user.usuario.slice(1);
     }
     res.json({ success: true, usuario: user.usuario, admin: !!user.admin, avatar, apodo });
-=======
-    res.json({ success: true, usuario: user.usuario, admin: !!user.admin });
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
   } catch (e) {
     console.error('Error login:', e);
     res.status(500).json({ error: e.message });
   }
 });
-<<<<<<< HEAD
 // Endpoint para actualizar avatar y apodo del usuario
 app.post('/api/usuario/update', async (req, res) => {
   const { usuario, avatar, apodo } = req.body;
@@ -520,12 +409,6 @@ app.post('/api/usuario/update', async (req, res) => {
 // Ruta para saber si ya hay admin creado
 app.get('/api/hay-admin', (req, res) => {
   const USUARIOS_PATH = path.join(__dirname, 'data', 'usuario.json');
-=======
-
-// Ruta para saber si ya hay admin creado
-app.get('/api/hay-admin', (req, res) => {
-  const USUARIOS_PATH = path.join(__dirname, 'data', 'usuarios.json');
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
   let usuarios = [];
   if (fs.existsSync(USUARIOS_PATH)) {
     usuarios = JSON.parse(fs.readFileSync(USUARIOS_PATH, 'utf8'));
@@ -538,11 +421,7 @@ app.get('/api/hay-admin', (req, res) => {
 app.post('/api/registrar-admin', async (req, res) => {
   const { usuario, password } = req.body;
   if (!usuario || !password) return res.status(400).json({ error: 'Faltan datos' });
-<<<<<<< HEAD
   const USUARIOS_PATH = path.join(__dirname, 'data', 'usuario.json');
-=======
-  const USUARIOS_PATH = path.join(__dirname, 'data', 'usuarios.json');
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
   let usuarios = [];
   if (fs.existsSync(USUARIOS_PATH)) {
     usuarios = JSON.parse(fs.readFileSync(USUARIOS_PATH, 'utf8'));
@@ -564,17 +443,13 @@ app.get('/ping', (req, res) => {
   res.json({ ok: true });
 });
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
 // Servir novela.html directamente para rutas /novela.html (debe ir antes del catch-all)
 app.get('/novela.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'novela.html'));
 });
 
-<<<<<<< HEAD
 // Servir novelasvipdetalle.html solo para usuarios premium y con membresía activa
 app.get('/novelasvipdetalle.html', (req, res) => {
   try {
@@ -605,8 +480,6 @@ app.get(['/eroversevip', '/eroversevip/'], (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'eroversevip.html'));
 });
 
-=======
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
 // <<<<<<<< SIEMPRE AL FINAL >>>>>>>>
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -674,7 +547,6 @@ app.put('/api/novelas/:slug', checkAdmin, async (req, res) => {
     if (idx === -1) {
       return res.status(404).json({ error: 'Novela no encontrada' });
     }
-<<<<<<< HEAD
     // Actualizar solo los campos permitidos
     const campos = ['titulo','desc','generos','portada','spoilers','android','android_vip','pc','estado','peso','enlace_premium'];
     for (const campo of campos) {
@@ -685,22 +557,6 @@ app.put('/api/novelas/:slug', checkAdmin, async (req, res) => {
     const result = await updateFileOnGitHub('data/novelas-1.json', novelas);
     if (result && result.commit) {
       res.json({ success: true, novela: novelas[idx] });
-=======
-    // Actualizar todos los campos recibidos
-    const nuevaNovela = { ...novelas[idx], ...req.body };
-    // Si se envía generos como string, parsear
-    if (typeof nuevaNovela.generos === 'string') {
-      try { nuevaNovela.generos = JSON.parse(nuevaNovela.generos); } catch {}
-    }
-    // Si se envía spoilers como string, parsear
-    if (typeof nuevaNovela.spoilers === 'string') {
-      nuevaNovela.spoilers = nuevaNovela.spoilers.split(',').map(s => s.trim()).filter(Boolean);
-    }
-    novelas[idx] = nuevaNovela;
-    const result = await updateFileOnGitHub('data/novelas-1.json', novelas);
-    if (result && result.commit) {
-      res.json({ success: true, novela: nuevaNovela });
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
     } else {
       res.status(500).json({ error: 'No se pudo actualizar en GitHub', github: result });
     }
@@ -732,7 +588,6 @@ app.delete('/api/novelas/:slug', checkAdmin, async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-<<<<<<< HEAD
 
 app.post('/api/descargar-imagenes', express.json(), async (req, res) => {
   try {
@@ -783,5 +638,3 @@ app.post('/api/descargar-imagenes', express.json(), async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-=======
->>>>>>> 9653951fa63fcf97460d92dfb69bc561f71a1352
