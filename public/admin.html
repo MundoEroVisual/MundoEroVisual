@@ -8,7 +8,7 @@
   <style>
     :root {
       --bg: #000;
-      --bg-dark: #000;
+      --bg-dark: #000;  
       --accent: #ffd700;
       --accent2: #ffd700;
       --text: #fff;
@@ -210,10 +210,10 @@
 </head>
 <body>
 <!-- Modal de login admin (aparece automáticamente si no eres admin) -->
-<div id="modal-login-admin" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000b;z-index:99999;align-items:center;justify-content:center;">
+<div id="modal-login-admin" style="display:flex;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000b;z-index:99999;align-items:center;justify-content:center;">
   <form id="form-login-admin" style="background:#000;padding:32px 28px 24px 28px;border-radius:14px;box-shadow:0 4px 32px #ffd70055;min-width:320px;max-width:90vw;display:flex;flex-direction:column;gap:18px;align-items:center;border:2px solid #ffd700;">
     <h2 style="color:#ffd700;margin-bottom:8px;">Acceso administrador</h2>
-    <input id="admin-user" type="text" placeholder="Usuario" autocomplete="username" style="width:100%;padding:10px 12px;border-radius:6px;border:1.5px solid #ffd700;font-size:1.1em;background:#111;color:#fff;" required>
+    <input id="admin-user" type="text" placeholder="Usuario" autocomplete="username" style="width:100%;padding:10px 12px;border-radius:6px;border:1.5px solid #ffd700;font-size:1.1em;background:#111;color:#fff;" required value="admin" readonly>
     <input id="admin-pass" type="password" placeholder="Contraseña" autocomplete="current-password" style="width:100%;padding:10px 12px;border-radius:6px;border:1.5px solid #ffd700;font-size:1.1em;background:#111;color:#fff;" required>
     <button type="submit" class="btn" style="background:linear-gradient(90deg,#ffd700,#ffd700);color:#000;font-weight:bold;font-size:1.1em;padding:10px 0;width:100%;border-radius:6px;">Entrar</button>
     <div id="login-admin-error" style="color:#ff3c3c;font-size:1em;display:none;"></div>
@@ -307,7 +307,7 @@ modeToggle.onclick = function() {
 
 // --- CONFIGURACIÓN ---
 const GITHUB_RAW = 'https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/';
-const API_BASE = 'https://eroverse.glitch.me'; // Sin barra final
+const API_BASE = 'https://eroverse.onrender.com'; // Sin barra final
 const API_TOKEN = '';
 let novelas = [];
 let generos = [
@@ -1070,7 +1070,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (formLoginAdmin) {
     formLoginAdmin.onsubmit = async function(e) {
       e.preventDefault();
-      const user = document.getElementById('admin-user').value.trim();
+      const user = 'admin';
       const pass = document.getElementById('admin-pass').value;
       let data = null;
       let res = null;
@@ -1097,7 +1097,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hideLoginAdminModal();
         cargarDatos();
       } else {
-        document.getElementById('login-admin-error').textContent = 'Usuario o contraseña incorrectos';
+        document.getElementById('login-admin-error').textContent = 'Contraseña incorrecta';
         document.getElementById('login-admin-error').style.display = 'block';
       }
     };
