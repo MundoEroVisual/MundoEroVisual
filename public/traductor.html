@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Traductor de Novelas Visuales (Ren'Py)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --bg-dark: #000;
+      --accent: #ffd700;
+      --accent2: #ffd700;
+      --text: #ffd700;
+      --text-muted: #bbb;
+      --card: #111;
+      --border: #ffd700;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: var(--card);
+      border-radius: 18px;
+      padding: 32px;
+      min-height: 520px;
+      border: 3px solid var(--border);
+      box-shadow: 0 0 24px #ffd70088;
+    }
+    h1 {
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    label {
+      color: #fff;
+      font-weight: bold;
+      margin-top: 18px;
+      display: block;
+    }
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-dark);
+      color: var(--text);
+      font-size: 1.1em;
+      padding: 12px;
+      margin-bottom: 16px;
+      resize: vertical;
+    }
+    select, button {
+      background: linear-gradient(90deg,var(--accent2),var(--accent));
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 8px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px #ffd70055;
+      transition: background 0.18s, color 0.18s;
+    }
+    select:focus, button:focus {
+      outline: 2px solid var(--accent);
+    }
+    .output {
+      background: #181818;
+      color: #fff;
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 18px;
+      border: 1.5px solid var(--border);
+      min-height: 80px;
+      font-size: 1.08em;
+      white-space: pre-wrap;
+    }
+    .footer {
+      text-align: center;
+      color: #bbb;
+      margin-top: 32px;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Traductor de Novelas Visuales (Ren'Py)</h1>
+    <form id="form-traducir">
+      <label for="input-renpy">Pega aquí el texto de tu archivo .rpy o selecciona un archivo:</label>
+      <textarea id="input-renpy" placeholder="Pega aquí el texto de tu script Ren'Py..." required></textarea>
+      <input type="file" id="file-rpy" accept=".rpy,.txt" style="margin:10px 0 18px 0;display:block;">
+      <button type="submit">Traducir al español</button>
+      <button type="button" id="descargar-btn" style="float:right;">Descargar .rpy traducido</button>
+    </form>
+    <div class="output" id="output-traducido">Traducción aparecerá aquí...</div>
+    <div class="footer">Traduce archivos .rpy de Ren'Py manteniendo la estructura original. Traducción automática usando <a href="https://libretranslate.de/" target="_blank" style="color:#ffd700;">LibreTranslate</a></div>
+  </div>
+  <script>
+    // Leer archivo .rpy y ponerlo en el textarea
+    document.getElementById('file-rpy').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        document.getElementById('input-renpy').value = ev.target.result;
+      };
+      reader.readAsText(file, 'utf-8');
+    });
+
+    // Traducción línea por línea, solo traducir diálogos y textos, no comandos ni etiquetas
+    function esLineaTraducible(linea) {
+      // No traducir líneas vacías, comentarios, labels, define, python, jump, call, menu, etc.
+      const noTraducir = /^(\s*#|\s*$|\s*(label|define|init|python|jump|call|menu|image|show|hide|scene|with|$|return|pass|if |elif |else:|while |for |$|$|@|\s*\w+:|\s*\w+\s*=))/i;
+      // Traducir si es diálogo: "Nombre " "Texto" o solo "Texto"
+      return !noTraducir.test(linea) && /".*"/.test(linea);
+    }
+
+    async function traducirRenpy(texto) {
+      // Usa la API pública de LibreTranslate directamente desde el frontend
+      async function traducirTexto(texto) {
+        try {
+          const body = JSON.stringify({ q: texto, source: 'auto', target: 'es', format: 'text' });
+          const headers = { 'Content-Type': 'application/json' };
+          const res = await fetch('https://libretranslate.com/translate', {
+            method: 'POST',
+            headers,
+            body
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.translatedText && data.translatedText !== texto) {
+              return data.translatedText;
+            }
+          }
+        } catch (e) {
+          // Si falla, devuelve el original
+        }
+        return texto;
+      }
+
+      const lineas = texto.split(/\r?\n/);
+      let resultado = [];
+      for (let linea of lineas) {
+        if (esLineaTraducible(linea)) {
+          // Traducir solo el texto entre comillas
+          const partes = linea.split(/("[^"]*")/g);
+          for (let i = 0; i < partes.length; i++) {
+            if (/^".*"$/.test(partes[i])) {
+              // Quitar comillas
+              const original = partes[i].slice(1, -1);
+              const traduccion = await traducirTexto(original);
+              partes[i] = '"' + traduccion + '"';
+            }
+          }
+          resultado.push(partes.join(''));
+        } else {
+          resultado.push(linea);
+        }
+      }
+      return resultado.join('\n');
+    }
+
+    document.getElementById('form-traducir').onsubmit = async function(e) {
+      e.preventDefault();
+      const texto = document.getElementById('input-renpy').value.trim();
+      if (!texto) return;
+      const output = document.getElementById('output-traducido');
+      output.textContent = 'Traduciendo, por favor espera...';
+      try {
+        const traducido = await traducirRenpy(texto);
+        if (!traducido || traducido === texto) {
+          output.textContent = 'No se pudo traducir. Intenta más tarde o revisa tu conexión.';
+        } else {
+          output.textContent = traducido;
+        }
+        window._rpy_traducido = traducido;
+      } catch (err) {
+        output.textContent = 'Error al traducir. Intenta más tarde.';
+      }
+    };
+
+    document.getElementById('descargar-btn').onclick = function() {
+      const contenido = window._rpy_traducido || document.getElementById('output-traducido').textContent;
+      if (!contenido || contenido === 'Traducción aparecerá aquí...' || contenido.startsWith('Traduciendo')) {
+        alert('Primero realiza una traducción.');
+        return;
+      }
+      const blob = new Blob([contenido], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'traducido.rpy';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Suscripción VIP - Eroverse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <style>
+    :root {
+      --bg: #000;
+      --bg-dark: #000;
+      --accent: #ffd700;
+      --accent2: #fff;
+      --text: #fff;
+      --text-muted: #bbb;
+      --card: #111;
+      --border: #ffd700;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: var(--card);
+      border-radius: 18px;
+      padding: 32px;
+      min-height: 520px;
+      border: 3px solid var(--border);
+      box-shadow: 0 0 24px #ffd70088;
+    }
+    h1 {
+      color: #ffd700;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    ul {
+      color: #fff;
+      font-size: 1.1em;
+      margin-bottom: 18px;
+    }
+    .beneficio { margin-bottom: 10px; }
+    .paypal-box { text-align: center; margin: 32px 0 18px 0; }
+    .vip-link {
+      display: block;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 18px;
+      padding: 14px 32px;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 18px 0;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 2px 12px #fff5;
+      transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+    }
+    .vip-link:hover {
+      background: #000;
+      color: #ffd700;
+      box-shadow: 0 4px 24px #fff8;
+      border: 1px solid #fff;
+    }
+    .msg { color: #fff; margin: 12px 0; min-height: 18px; text-align: center; }
+    @media (max-width: 900px) {
+      .container { max-width: 98vw; padding: 18px 2vw; }
+    }
+    @media (max-width: 700px) {
+      .container {
+        max-width: 99vw;
+        padding: 10px 2vw;
+        min-height: 340px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Suscríbete a Eroverse VIP</h1>
+    <ul>
+      <li class="beneficio">Acceso a <b>enlaces directos</b> de descarga de todas las novelas</li>
+      <li class="beneficio">Sin publicidad</li>
+      <li class="beneficio">Soporte prioritario</li>
+      <li class="beneficio">Actualizaciones anticipadas</li>
+      <li class="beneficio">¡Y mucho más!</li>
+    </ul>
+    <div class="paypal-box">
+      <div id="paypal-container-AT6MNVL8JJFGY-suscripcion"></div>
+    </div>
+    <div class="msg" id="suscripcionMsg"></div>
+  </div>
+  <script src="https://www.paypal.com/sdk/js?client-id=BAApUGRvkjox2Be6s8ZJjb3GPJZuOx8v8m4U3FqUroQ6Cg0jGfsvRnJpvimmBhxprhMrnqiLY7fUyCjddg&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+  <script>
+    paypal.HostedButtons({
+      hostedButtonId: "AT6MNVL8JJFGY",
+    }).render("#paypal-container-AT6MNVL8JJFGY-suscripcion");
+  </script>
+</body>
+</html>

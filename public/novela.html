@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle de Novela</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <style>
+     :root {
+      --bg: #000;
+      --bg-dark: #000;
+      --accent: #ffd700;
+      --accent2: #fff;
+      --text: #fff;
+      --text-muted: #bbb;
+      --card: #111;
+      --border: #ffd700;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: var(--card);
+      border-radius: 18px;
+      padding: 32px;
+      min-height: 520px;
+      border: 3px solid var(--border);
+      box-shadow: 0 0 24px #ffd70088;
+    }
+    .portada {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid #ffd700;
+      box-shadow: 0 0 24px #ffd70088;
+    }
+    .titulo {
+      font-size: 2em;
+      font-weight: bold;
+      margin: 18px 0 8px 0;
+      color: #ffd700;
+      text-shadow: 0 0 8px #ffd70099;
+      z-index: 2;
+      position: relative;
+    }
+    .generos {
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .genre-chip {
+      display: inline-block;
+      background: #ffd700;
+      color: #000;
+      border: 1.5px solid #ffd700;
+      border-radius: 10px;
+      padding: 3px 10px;
+      margin-right: 0;
+      font-weight: 600;
+      font-size: 1em;
+      min-width: 32px;
+      min-height: 28px;
+      z-index: 1;
+      position: relative;
+      transition: background 0.18s, color 0.18s, border 0.18s;
+    }
+    .genre-chip.active {
+      background: #fff;
+      color: #ffd700;
+      border-color: #fff;
+    }
+    .desc {
+      margin-bottom: 18px;
+      color: #fff;
+    }
+    .estado, .peso {
+      margin-bottom: 18px;
+      color: #ffd700;
+      font-size: 1.1em;
+    }
+    .spoilers {
+      margin: 18px 0;
+    }
+    .spoiler-btn, .descargar-btn, button {
+      background: #ffd700;
+      color: #000;
+      border: 2px solid #ffd700;
+      border-radius: 24px;
+      min-width: 54px;
+      min-height: 54px;
+      font-size: 1.15em;
+      font-weight: bold;
+      box-shadow: 0 2px 8px #ffd70033;
+      transition: background 0.18s, color 0.18s, border 0.18s, box-shadow 0.18s;
+      margin: 4px 0;
+      padding: 12px 20px;
+    }
+    .spoiler-btn:hover, .descargar-btn:hover, button:hover {
+      background: #fff;
+      color: #ffd700;
+      border-color: #fff;
+      box-shadow: 0 4px 18px #ffd70055;
+    }
+    .spoiler-imgs {
+      display: none;
+      margin-top: 8px;
+    }
+    .spoiler-imgs img {
+      max-width: 180px;
+      max-height: 120px;
+      margin: 4px;
+      border-radius: 8px;
+      display: inline-block;
+      object-fit: cover;
+      box-shadow: 0 2px 8px #0004;
+      border: 2px solid #ffd700;
+    }
+    .descargas .descargar-btn {
+      margin: 0;
+      min-width: 110px;
+      text-align: center;
+      background: linear-gradient(90deg,#ffd700,#fff700);
+      color: #000;
+      border: 2px solid #ffd700;
+      box-shadow: 0 2px 16px #ffd70055;
+    }
+    @media (max-width: 900px) {
+      .container { max-width: 98vw; padding: 18px 2vw; }
+      .portada { max-height: 220px; }
+    }
+    @media (max-width: 700px) {
+      .container {
+        max-width: 99vw;
+        padding: 10px 2vw;
+        min-height: 340px;
+      }
+      .portada {
+        max-height: 160px;
+      }
+      .titulo {
+        font-size: 1.2em;
+      }
+      .genre-chip {
+        font-size: 0.8em;
+        padding: 2px 7px;
+        min-width: 24px;
+        min-height: 20px;
+      }
+      .descargar-btn, .spoiler-btn, button {
+        font-size: 1em;
+        min-width: 40px;
+        min-height: 40px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="novelaDetalle"></div>
+<script>
+  // Obtener id de la novela de la URL
+  function getParam(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+  }
+  const id = getParam('id');
+  let novela = null;
+
+  // Variables temporales para admin (deben estar sincronizadas con index.html)
+  let adminUserTemp = sessionStorage.getItem('adminUserTemp') || '';
+  let adminPassTemp = sessionStorage.getItem('adminPassTemp') || '';
+
+  // Función para pedir login admin si no está en sessionStorage
+  function pedirLoginAdmin(callback) {
+    const user = prompt('Usuario admin:');
+    const pass = prompt('Contraseña admin:');
+    fetch('/api/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user, pass })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        sessionStorage.setItem('adminUserTemp', user);
+        sessionStorage.setItem('adminPassTemp', pass);
+        adminUserTemp = user;
+        adminPassTemp = pass;
+        callback();
+      } else {
+        alert('Usuario o contraseña incorrectos.');
+      }
+    });
+  }
+
+  // Cargar novela desde el backend
+  fetch('/api/novelas')
+    .then(res => res.json())
+    .then(novelas => {
+      novela = novelas.find(n => n.id === id);
+      if (!novela) {
+        document.getElementById('novelaDetalle').innerHTML = '<h2>Novela no encontrada</h2>';
+      } else {
+        renderNovela();
+      }
+    });
+
+  function renderNovela() {
+    document.getElementById('novelaDetalle').innerHTML = `
+      <img class="portada" src="${novela.portada || ''}" alt="Portada">
+      <div class="titulo">${novela.titulo}</div>
+    <div class="generos">
+    ${novela.generos.map(g=>`<button class="genre-chip" onclick="window.location.href='index.html?genero=${encodeURIComponent(g)}'">#${g}</button>`).join(' ')}
+  </div> 
+   <div class="desc">${novela.desc}</div>
+   <div class="estado"><b>Estado:</b> ${novela.estado ? novela.estado : '<span style=\'color:#b3b3c6;\'>Sin especificar</span>'}</div>
+   <div class="peso"><b>Peso:</b> ${novela.peso ? novela.peso : '<span style=\'color:#b3b3c6;\'>Sin especificar</span>'}</div>
+      <div class="spoilers">
+        <button class="spoiler-btn" onclick="toggleSpoilers()">Mostrar/Ocultar Spoilers</button>
+        <div class="spoiler-imgs" id="spoilerImgs">
+          ${novela.spoilers && novela.spoilers.length ? novela.spoilers.map(img=>`<img src="${img}" alt="Spoiler">`).join('') : '<span style="color:#b3b3c6;">Sin spoilers</span>'}
+        </div>
+      </div>
+     <div class="descargas" id="zonaDescarga" style="display:flex;flex-direction:column;gap:12px;margin-bottom:18px;"></div>
+      <a href="index.html" style="color:#ff3cac;">← Volver al inicio</a>
+    `;
+    renderZonaDescarga();
+  }
+
+  // Renderiza la zona de descarga según el tipo de usuario
+  function renderZonaDescarga() {
+    const zona = document.getElementById('zonaDescarga');
+    if (!zona) return;
+    zona.innerHTML = '';
+    // Comprobar membresía activa
+    let user = localStorage.getItem('currentUser');
+    let isPremium = false;
+    // Consultar membresía activa
+    if (user) {
+      // Sincronía: para evitar retrasos, primero revisa localStorage, luego consulta API
+      isPremium = localStorage.getItem('isPremium') === '1';
+      // Consultar API para membresía real
+      fetch('/api/usuario-membresia?usuario=' + encodeURIComponent(user))
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.membresia_activa) {
+            isPremium = true;
+            localStorage.setItem('isPremium', '1');
+          } else {
+            isPremium = false;
+            localStorage.setItem('isPremium', '0');
+          }
+          renderBotonDescarga();
+        });
+    }
+    renderBotonDescarga();
+
+    function renderBotonDescarga() {
+      zona.innerHTML = '';
+      // Mostrar siempre el botón Android si existe
+      if (novela.android) {
+        zona.innerHTML += `<a class="descargar-btn" style="background:#ffd700;color:#000;border:2px solid #ffd700;box-shadow:0 2px 16px #ffd70055;min-width:180px;display:inline-block;text-align:center;" href="${novela.android}" target="_blank">Descarga Android</a>`;
+      }
+      // Mostrar el botón Android VIP si existe
+      if (novela.android_vip) {
+        if (isPremium) {
+          zona.innerHTML += `<a class="descargar-btn" style="background:#ffd700;color:#000;border:2px solid #ffd700;box-shadow:0 2px 16px #ffd70055;min-width:180px;display:inline-block;text-align:center;" href="${novela.android_vip}" target="_blank">Descarga Android VIP</a>`;
+        } else {
+          zona.innerHTML += `<button class="descargar-btn" style="background:#ffd700;color:#000;border:2px solid #ffd700;box-shadow:0 2px 16px #ffd70055;min-width:180px;display:inline-block;text-align:center;" onclick="mostrarPanelPremium();return false;">Descarga Android VIP</button>`;
+        }
+      }
+      // Panel motivacional para membresía premium (modal oculto)
+      if (!document.getElementById('panelPremiumModal')) {
+        const modal = document.createElement('div');
+        modal.id = 'panelPremiumModal';
+        modal.style = 'display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(2px);align-items:center;justify-content:center;';
+        modal.innerHTML = `
+          <div style="background:#111;border:3px solid #ffd700;border-radius:18px;max-width:380px;margin:auto;padding:32px 24px;box-shadow:0 0 32px #ffd70088;text-align:center;position:relative;">
+            <span onclick="document.getElementById('panelPremiumModal').style.display='none'" style="position:absolute;top:12px;right:18px;font-size:1.6em;cursor:pointer;color:#ffd700;">&times;</span>
+            <img src="https://yt3.googleusercontent.com/bE3q5DSLFVjZcITEIuKuxavE8OcOcYOOVRV0WHiHu6rs7cwIaR4tPCCZikBrVuPc-dpCecnqig=s160-c-k-c0x00ffffff-no-rj" alt="VIP" style="width:80px;height:80px;border-radius:50%;border:3px solid #ffd700;margin-bottom:12px;box-shadow:0 0 18px #ffd70077;">
+            <h2 style="color:#ffd700;margin-bottom:10px;">¡Hazte usuario premium!</h2>
+            <p style="color:#fff;font-size:1.1em;margin-bottom:18px;">Accede a descargas exclusivas, contenido VIP y apoya el desarrollo de más novelas visuales.<br><br><b>¡Únete a la comunidad premium y desbloquea todo el contenido!</b></p>
+            <a href="suscripcion.html" style="display:inline-block;background:#ffd700;color:#000;font-weight:bold;padding:12px 32px;border-radius:24px;font-size:1.15em;text-decoration:none;border:2px solid #ffd700;box-shadow:0 2px 16px #ffd70055;transition:background 0.18s;">Quiero ser premium</a>
+          </div>
+        `;
+        document.body.appendChild(modal);
+      }
+      window.mostrarPanelPremium = function() {
+        document.getElementById('panelPremiumModal').style.display = 'flex';
+      }
+      if (!novela.android && !novela.android_vip) {
+        zona.innerHTML += `<span style="color:#b3b3c6;">No hay enlace de descarga disponible</span>`;
+      }
+      // Botón eliminar solo para admin temporal
+      if (adminUserTemp && adminPassTemp) {
+        zona.innerHTML += `<button class="descargar-btn" style="background:#ff3cac;" onclick="eliminarNovela();return false;">Eliminar</button>`;
+      }
+    }
+  }
+
+  function eliminarNovela() {
+    if (!adminUserTemp || !adminPassTemp) {
+      pedirLoginAdmin(eliminarNovela);
+      return;
+    }
+    if (!confirm('¿Seguro que quieres eliminar esta novela?')) return;
+    fetch(`/api/novelas/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user: adminUserTemp,
+        pass: adminPassTemp
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert('Novela eliminada');
+        window.location.href = 'index.html';
+      }
+    });
+  }
+
+  function toggleSpoilers() {
+    const el = document.getElementById('spoilerImgs');
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
+  }
+  window.toggleSpoilers = toggleSpoilers;
+</script>
+</body>
+</html>

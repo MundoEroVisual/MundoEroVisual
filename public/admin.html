@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Administrativo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --bg-dark: #000;
+      --accent: #ffd700;
+      --accent2: #ffd700;
+      --text: #fff;
+      --text-muted: #bbb;
+      --card: #111;
+      --border: #ffd700;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .layout-admin {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 220px;
+      background: var(--card);
+      border-right: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 32px 0 0 0;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      transition: background 0.3s;
+    }
+    .sidebar h2 {
+      color: var(--accent);
+      font-size: 1.3em;
+      margin: 0 0 32px 32px;
+      letter-spacing: 1px;
+    }
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-left: 32px;
+    }
+    .sidebar-nav button {
+      background: none;
+      color: var(--text);
+      border: none;
+      text-align: left;
+      font-size: 1.08em;
+      padding: 10px 0 10px 8px;
+      border-radius: 6px 0 0 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .sidebar-nav button.active, .sidebar-nav button:hover {
+      background: linear-gradient(90deg,var(--accent)33,var(--accent2)33);
+      color: var(--bg);
+    }
+    .main-content {
+      flex: 1;
+      margin-left: 220px;
+      padding: 40px 24px 24px 24px;
+      max-width: 1100px;
+      margin-right: auto;
+      background: var(--bg);
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .admin-header h1 {
+      color: var(--accent);
+      margin: 0;
+      font-size: 2em;
+    }
+    .admin-header .mode-toggle {
+      background: var(--card);
+      color: var(--accent);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-left: 18px;
+      transition: background 0.2s;
+    }
+    .admin-header .mode-toggle:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .section {
+      margin-bottom: 40px;
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 32px;
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: 0 0 24px #ffd70022;
+    }
+    label { display: block; margin: 12px 0 4px; color: #fff; }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-dark);
+      color: var(--text);
+      margin-bottom: 12px;
+      font-size: 1em;
+    }
+    button, .btn {
+      background: linear-gradient(90deg,var(--accent2),var(--accent));
+      color: #000;
+      border: none;
+      border-radius: 16px;
+      padding: 10px 24px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      font-weight: bold;
+      box-shadow: 0 2px 8px #ffd70055;
+      transition: background 0.18s, color 0.18s;
+    }
+    button:hover, .btn:hover {
+      background: var(--accent);
+      color: #000;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      background: var(--card);
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1.5px solid var(--border);
+      text-align: left;
+    }
+    th { background: var(--card); color: var(--accent2); }
+    tr:last-child td { border-bottom: none; }
+    .actions button { margin-right: 8px; }
+    .genre-chip { display: inline-block; background: var(--bg-dark); color: var(--accent2); border-radius: 10px; padding: 2px 8px; margin-right: 4px; font-size: 0.95em; border: 1.5px solid var(--accent2); }
+    .config-row { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
+    .config-row label { min-width: 140px; margin: 0; color: #fff; }
+    .config-row input { flex: 1; margin: 0; }
+    @media (max-width: 900px) {
+      .sidebar { width: 60px; padding: 24px 0 0 0; }
+      .sidebar h2 { display: none; }
+      .sidebar-nav button { font-size: 0.95em; padding-left: 0; }
+      .main-content { margin-left: 60px; padding: 24px 4vw 24px 4vw; }
+    }
+    @media (max-width: 700px) {
+      .main-content { padding: 10px 2vw; }
+      .config-row { flex-direction: column; align-items: flex-start; }
+    }
+    /* NUEVO: Estilos para las tarjetas de novelas */
+    .novela-card {
+      background: var(--card);
+      border-radius: 12px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px #ffd70022;
+      overflow: hidden;
+      border: 2px solid var(--border);
+    }
+    .novela-header {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 12px 18px;
+    }
+    .novela-header img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 18px;
+      border: 2px solid var(--border);
+      box-shadow: 0 2px 8px #ffd70055;
+    }
+    .novela-detalle {
+      display: none;
+      padding: 18px 24px 18px 90px;
+      background: var(--card);
+      color: #fff;
+    }
+    /* NUEVO: Estilos para el botón desplegable de géneros */
+    #generos-dropdown {
+      display: none;
+      position: absolute;
+      z-index: 10;
+      background: var(--card);
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px #ffd70022;
+      border: 1.5px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+<!-- Modal de login admin (aparece automáticamente si no eres admin) -->
+<div id="modal-login-admin" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000b;z-index:99999;align-items:center;justify-content:center;">
+  <form id="form-login-admin" style="background:#000;padding:32px 28px 24px 28px;border-radius:14px;box-shadow:0 4px 32px #ffd70055;min-width:320px;max-width:90vw;display:flex;flex-direction:column;gap:18px;align-items:center;border:2px solid #ffd700;">
+    <h2 style="color:#ffd700;margin-bottom:8px;">Acceso administrador</h2>
+    <input id="admin-user" type="text" placeholder="Usuario" autocomplete="username" style="width:100%;padding:10px 12px;border-radius:6px;border:1.5px solid #ffd700;font-size:1.1em;background:#111;color:#fff;" required>
+    <input id="admin-pass" type="password" placeholder="Contraseña" autocomplete="current-password" style="width:100%;padding:10px 12px;border-radius:6px;border:1.5px solid #ffd700;font-size:1.1em;background:#111;color:#fff;" required>
+    <button type="submit" class="btn" style="background:linear-gradient(90deg,#ffd700,#ffd700);color:#000;font-weight:bold;font-size:1.1em;padding:10px 0;width:100%;border-radius:6px;">Entrar</button>
+    <div id="login-admin-error" style="color:#ff3c3c;font-size:1em;display:none;"></div>
+  </form>
+</div>
+<div class="layout-admin">
+  <nav class="sidebar">
+    <h2>Eroverse</h2>
+    <div class="sidebar-nav">
+      <button id="nav-config" onclick="showSection('config')">Configuración</button>
+      <button id="nav-novelas" class="active" onclick="showSection('novelas')">Novelas</button>
+      <button id="nav-generos" onclick="showSection('generos')">Géneros</button>
+      <button id="abrir-panel-subida" class="btn" style="margin-top:32px;"> Subir novela</button>
+    </div>
+  </nav>
+  <div class="main-content">
+    <div class="admin-header">
+      <h1>Panel Administrativo</h1>
+      <button class="mode-toggle" id="toggle-mode">🌙 Modo oscuro</button>
+    </div>
+    <!-- Selector de método de guardado -->
+    <div style="margin-bottom:24px;">
+      <label for="metodo-guardado" style="font-weight:bold;color:#ff3cac;">Método de guardado:</label>
+      <select id="metodo-guardado" style="margin-left:12px;padding:6px 12px;border-radius:6px;">
+        <option value="api">Backend Glitch/API</option>
+        <option value="github">Directo en GitHub (token)</option>
+        <option value="descargar">Descargar JSON local</option>
+      </select>
+    </div>
+    <div id="section-novelas">
+      <div class="section" id="lista-novelas-section">
+        <h2>🗃️ Lista de novelas</h2>
+        <input type="text" id="buscar-novela" placeholder="🔍 Buscar por título..." style="margin-bottom:12px;">
+        <button id="generos-dropdown-btn" style="margin-bottom:12px;">Filtrar por género ▼</button>
+        <div id="generos-dropdown" style="display:none;position:absolute;z-index:10;background:#222;padding:12px 18px;border-radius:8px;box-shadow:0 2px 12px #000a;"></div>
+        <button id="exportar-json">📤 Exportar como JSON</button>
+        <div id="contador-visitas" style="margin:18px 0 0 0;color:#ff3cac;font-weight:bold;font-size:1.1em;"></div>
+        <div id="novelas-lista"></div>
+        <button id="subir-novela-btn" class="btn" style="margin-bottom:16px;background:#00e676;display:none;">➕ Subir nueva novela</button>
+      </div>
+    </div>
+    <div id="section-generos" style="display:none;">
+      <div class="section">
+        <h2>🏷️ Gestión de géneros</h2>
+        <form id="form-nuevo-genero" style="display:flex;gap:8px;margin-bottom:16px;">
+          <input type="text" id="input-nuevo-genero" placeholder="Nuevo género..." maxlength="32" style="flex:1;">
+          <button type="submit" class="btn">Añadir</button>
+        </form>
+        <ul id="lista-generos" style="list-style:none;padding:0;margin:0 0 16px 0;"></ul>
+      </div>
+    </div>
+    <div id="section-config" style="display:none;">
+      <div class="section" id="config-section">
+        <h2>⚙️ Configuración general</h2>
+        <form id="form-config">
+          <div class="config-row"><label>Nombre del sitio</label><input type="text" id="config-nombre"></div>
+          <div class="config-row"><label>Descripción corta</label><input type="text" id="config-desc"></div>
+          <div class="config-row"><label>Enlace de logo</label><input type="url" id="config-logo"></div>
+          <div class="config-row"><label>Fondo del sitio</label><input type="text" id="config-fondo"></div>
+          <button type="submit">Guardar configuración</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// --- NAVEGACIÓN ENTRE SECCIONES ---
+function showSection(section) {
+  document.getElementById('section-novelas').style.display = section==='novelas' ? 'block' : 'none';
+  document.getElementById('section-generos').style.display = section==='generos' ? 'block' : 'none';
+  document.getElementById('section-config').style.display = section==='config' ? 'block' : 'none';
+  document.getElementById('nav-novelas').classList.toggle('active', section==='novelas');
+  document.getElementById('nav-generos').classList.toggle('active', section==='generos');
+  document.getElementById('nav-config').classList.toggle('active', section==='config');
+}
+// --- MODO OSCURO/CLARO ---
+const modeToggle = document.getElementById('toggle-mode');
+let darkMode = true;
+modeToggle.onclick = function() {
+  darkMode = !darkMode;
+  if (darkMode) {
+    document.body.style.background = '#111';
+    document.body.style.color = '#fff';
+    modeToggle.textContent = '🌙 Modo oscuro';
+  } else {
+    document.body.style.background = '#f4f4f4';
+    document.body.style.color = '#222';
+    modeToggle.textContent = '☀️ Modo claro';
+  }
+};
+
+// --- CONFIGURACIÓN ---
+const GITHUB_RAW = 'https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/';
+const API_BASE = 'https://eroverse.glitch.me'; // Sin barra final
+const API_TOKEN = '';
+let novelas = [];
+let generos = [
+  "2D","Anal","Bdsm","Ciencia ficción","Control mental","Corrupción",
+  "Dominación femenina","Dominación masculina","Embarazo","Esclavo","Escolar","Fantasía",
+  "Finalizado","Furry","Futa/Trans","Gay","Harem","Humor","Incesto","Interracial",
+  "Juego nopor","Lesbianas","Lol1","Milf","Monstruo","Ntr","Parodia",
+  "Protagonista femenino","Protagonista masculino","Romance","RPGM","Sandbox","Shota",
+  "Sin categoría","Superpoderes","Tetas grandes","Violación","Virgen","vip"
+];
+let config = {nombre: "Eroverse", desc: "Web de novelas visuales", logo: "", fondo: "#111"};
+
+// --- CARGA INICIAL ---
+async function fetchFromGitHub(filename) {
+  try {
+    const res = await fetch(GITHUB_RAW + filename);
+    if (!res.ok) throw new Error('No se pudo cargar ' + filename);
+    return await res.json();
+  } catch (e) { return null; }
+}
+async function cargarDatos() {
+  novelas = await fetchFromGitHub('novelas-1.json') || [];
+  // Si tienes géneros en otro archivo, cámbialo aquí
+  // generos = await fetchFromGitHub('generos.json') || generos;
+  renderNovelasLista();
+  renderGeneros();
+}
+cargarDatos();
+
+let novelasMostradas = 5;
+function renderNovelasLista(filtro = "", generoFiltro = null) {
+  const cont = document.getElementById('novelas-lista');
+  let novelasOrdenadas = Array.isArray(novelas) ? [...novelas].reverse() : [];
+  let filtradas = novelasOrdenadas.filter(n => n && n.titulo && n.titulo.toLowerCase().includes(filtro.toLowerCase()));
+  if (generoFiltro) filtradas = filtradas.filter(n => (n.generos||[]).includes(generoFiltro));
+  const mostrar = filtradas.slice(0, novelasMostradas);
+  cont.innerHTML = mostrar.map((n, idx) => `
+    <div class="novela-card" style="background:#222;border-radius:12px;margin-bottom:18px;box-shadow:0 2px 8px #0005;overflow:hidden;">
+      <div class="novela-header" style="display:flex;align-items:center;cursor:pointer;padding:12px 18px;">
+        <img src="${n.portada||''}" alt="img" style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-right:18px;">
+        <div style="flex:1;">
+          <div style="font-size:1.2em;font-weight:bold;color:#ff3cac;">${n.titulo||''}</div>
+          <div>${(n.generos||[]).map(g=>`<span class='genre-chip'>${g}</span>`).join('')}</div>
+        </div>
+        <button class="btn" onclick="editarNovela(${novelas.indexOf(n)})" style="margin-left:10px;">Editar</button>
+        <button class="btn" onclick="borrarNovela(${novelas.indexOf(n)})" style="background:#ff3cac;margin-left:10px;">Borrar</button>
+      </div>
+      <div class="novela-detalle" id="novela-detalle-${novelas.indexOf(n)}" style="display:block;padding:18px 24px 18px 90px;background:#181828;">
+        <div><b>Descripción:</b> ${n.desc||''}</div>
+        <div><b>Estado:</b> ${n.estado||''}</div>
+        <div><b>Imágenes:</b> <img src="${n.portada||''}" alt="img" style="width:48px;height:48px;object-fit:cover;border-radius:6px;">${n.spoiler?` <img src='${n.spoiler}' alt='spoiler' style='width:48px;height:48px;object-fit:cover;border-radius:6px;'>`:''}
+        ${(Array.isArray(n.spoilers) && n.spoilers.length) ? n.spoilers.map(url=>`<img src='${url}' alt='spoiler' style='width:48px;height:48px;object-fit:cover;border-radius:6px;margin-left:4px;'>`).join('') : ''}</div>
+        <div><b>Enlace:</b> <a href="${n.enlace||'#'}" target="_blank" style="color:#00e676;">Descargar</a></div>
+      </div>
+    </div>
+  `).join('');
+  if (filtradas.length > novelasMostradas) {
+    cont.innerHTML += `<div style='text-align:center;margin:18px 0;'><button class='btn' id='ver-mas-novelas' style='background:#333;color:#ff3cac;'>Ver más</button></div>`;
+    setTimeout(()=>{
+      const btn = document.getElementById('ver-mas-novelas');
+      if(btn) btn.onclick = function(){ novelasMostradas += 5; renderNovelasLista(document.getElementById('buscar-novela').value, window.generoFiltroActivo || null); };
+    }, 0);
+  }
+}
+// --- BUSCADOR POR TÍTULO ---
+document.getElementById('buscar-novela').addEventListener('input', function() {
+  renderNovelasLista(this.value, window.generoFiltroActivo || null);
+});
+
+// Función para generar el slug del título (igual que en subida)
+function slugifyTitulo(titulo) {
+  return titulo.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+window.editarNovela = async function(idx) {
+  const n = novelas[idx];
+  if (!n) return;
+  // Buscar datos frescos desde GitHub por título (SOLO GitHub)
+  let novelaActualizada = null;
+  try {
+    const novelasGitHub = await fetchFromGitHub('novelas-1.json');
+    if (novelasGitHub && Array.isArray(novelasGitHub)) {
+      novelaActualizada = novelasGitHub.find(nv => nv.titulo === n.titulo);
+    }
+  } catch (e) { novelaActualizada = null; }
+  if (!novelaActualizada) {
+    alert('No se encontraron los datos de la novela en GitHub.');
+    return;
+  }
+  const datos = novelaActualizada;
+  // Asegurar que los campos existen
+  const safe = (v) => v ? v : '';
+  // REFORZADO: convertir géneros a array limpio aunque vengan como string
+  let generosNovela = [];
+  if (Array.isArray(datos.generos)) {
+    generosNovela = datos.generos.filter(g => typeof g === 'string' && g.trim().length > 0).map(g => g.trim());
+  } else if (typeof datos.generos === 'string') {
+    try {
+      const arr = JSON.parse(datos.generos);
+      if (Array.isArray(arr)) {
+        generosNovela = arr.filter(g => typeof g === 'string' && g.trim().length > 0).map(g => g.trim());
+      } else {
+        generosNovela = datos.generos.split(',').map(g => g.trim()).filter(Boolean);
+      }
+    } catch {
+      generosNovela = datos.generos.split(',').map(g => g.trim()).filter(Boolean);
+    }
+  } else {
+    generosNovela = [];
+  }
+  // Detectar enlaces adicionales
+  // Siempre mostrar campo Enlace Android
+  const enlaceAndroid = typeof datos.android === 'string' ? datos.android : '';
+  const enlacesExtrasHtml = `<label>Enlace Android<input type="url" name="enlace_android" value="${safe(enlaceAndroid)}" placeholder="Solo para usuarios normales"></label>`;
+  // Mostrar y editar spoilers múltiples como chips y previsualización de imágenes
+  const spoilersArr = Array.isArray(datos.spoilers) ? datos.spoilers : [];
+  const spoilersChipsHtml = `
+    <div id="chips-spoilers" style="margin-bottom:8px;">
+      ${spoilersArr.map(s=>`<span class='genre-chip' data-spoiler='${s}'>${s} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b></span>`).join('')}
+    </div>
+    <input type="url" id="input-spoiler-nuevo" placeholder="Añadir enlace de spoiler y presiona Enter" style="width:100%;margin-bottom:8px;">
+    <div id="spoilers-preview" style="margin-bottom:8px;">
+      ${spoilersArr.map(s=>`<img src='${s}' alt='spoiler' style='width:60px;height:60px;object-fit:cover;border-radius:6px;margin:2px;'>`).join('')}
+    </div>
+  `;
+  // Extraer peso y unidad para edición
+  let pesoValor = '';
+  let pesoUnidad = 'MB';
+  if (typeof datos.peso === 'string') {
+    const match = datos.peso.match(/([\d\.]+)\s*(MB|GB)/i);
+    if (match) {
+      pesoValor = match[1];
+      pesoUnidad = match[2].toUpperCase();
+    }
+  }
+  // Detectar si es VIP
+  const esVIP = (Array.isArray(datos.generos) && datos.generos.includes('VIP')) || datos.vip === true;
+  const formHtml = `
+    <div id="modal-editar-novela" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000a;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:auto;">
+      <form id="form-editar-novela" style="background:#181828;padding:32px 24px;border-radius:16px;min-width:320px;max-width:90vw;max-height:90vh;overflow:auto;box-shadow:0 4px 24px #000a;">
+        <h2 style='color:#ff3cac;margin-top:0;'>Editar novela</h2>
+        <label>Título<input type="text" name="titulo" value="${safe(datos.titulo).replace(/"/g,'&quot;')}" required></label>
+        <label>Descripción<textarea name="desc" required>${safe(datos.desc)}</textarea></label>
+        <label>Peso de la novela
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="number" name="peso_valor" min="0" step="0.01" required style="flex:1;" value="${pesoValor}">
+            <select name="peso_unidad" style="width:80px;">
+              <option value="MB"${pesoUnidad==='MB'?' selected':''}>MB</option>
+              <option value="GB"${pesoUnidad==='GB'?' selected':''}>GB</option>
+            </select>
+          </div>
+        </label>
+        ${enlacesExtrasHtml}
+        <label>Android VIP (enlace directo para VIP)<input type="url" name="android_vip" value="${safe(datos.android_vip)||''}" placeholder="Enlace directo APK VIP"></label>
+        <label>Enlace de imagen principal<input type="url" name="portada" value="${safe(datos.portada)}" required></label>
+        <label>Spoilers (enlaces múltiples)
+          ${spoilersChipsHtml}
+        </label>
+        <label>Géneros
+          <div id="chips-generos" style="margin-bottom:8px;">${generosNovela.map(g=>`<span class='genre-chip' data-gen='${g}'>${g} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`).join('')}</div>
+          <input type="text" id="input-genero-nuevo" placeholder="Añadir género y presiona Enter" style="width:100%;margin-bottom:8px;">
+          <select id="select-genero" style="width:100%;margin-bottom:8px;">
+            <option value="">Seleccionar género rápido</option>
+            ${generos.map(g=>`<option value='${g}'>${g}</option>`).join('')}
+          </select>
+        </label>
+        <label>Estado<select name="estado"><option${datos.estado==="Completa"?' selected':''}>Completa</option><option${datos.estado==="En desarrollo"?' selected':''}>En desarrollo</option><option${datos.estado==="Demo"?' selected':''}>Demo</option></select></label>
+        <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;">
+          <button type="submit" class="btn">Guardar cambios</button>
+          <button type="button" class="btn" style="background:#ff3cac;" onclick="borrarNovela(${idx});cerrarModalEditarNovela();">Borrar</button>
+          <button type="button" class="btn" onclick="cerrarModalEditarNovela()">Cancelar</button>
+          <button type="button" class="btn" style="background:#00bfff;" id="descargar-carpeta-juego-btn">Descargar carpeta del juego</button>
+        </div>
+      </form>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', formHtml);
+  document.getElementById('modal-editar-novela').scrollTop = 0;
+
+  // --- DESCARGA CARPETA DEL JUEGO (ZIP vía backend) ---
+  const btnDescarga = document.getElementById('descargar-carpeta-juego-btn');
+  if(btnDescarga) btnDescarga.onclick = async function() {
+    try {
+      // Construir info.txt con enlace público
+      const enlacePublico = `https://eroverse.glitch.me/novela.html?id=${encodeURIComponent(datos.id)}`;
+      const info = `Nombre: ${datos.titulo || ''}\nEstado: ${datos.estado || ''}\nEnlace: ${enlacePublico}`;
+      // Preparar imágenes a descargar
+      const imagenes = [];
+      if(datos.portada) imagenes.push({ url: datos.portada, nombre: 'portada.jpg' });
+      if(Array.isArray(datos.spoilers)) {
+        for(let i=0;i<datos.spoilers.length;i++) {
+          const url = datos.spoilers[i];
+          if(url) {
+            const ext = url.split('.').pop().split('?')[0].slice(0,4);
+            imagenes.push({ url, nombre: `spoiler${i+1}.${ext||'jpg'}` });
+          }
+        }
+      }
+      // Enviar el nombre de la carpeta (nombre del juego limpio)
+      const nombreCarpeta = (datos.titulo || 'juego').replace(/[^aA-zZ0-9\-_ ]/g, '').trim() || 'juego';
+      // Llamar al backend para obtener el ZIP, ahora enviando también el id
+      const res = await fetch(`${API_BASE}/api/descargar-imagenes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imagenes, info, nombreCarpeta, id: datos.id })
+      });
+      if (!res.ok) throw new Error('Error al generar ZIP');
+      const blob = await res.blob();
+      // Descargar el ZIP
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${nombreCarpeta}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{
+        URL.revokeObjectURL(url);
+        a.remove();
+      }, 1000);
+      mostrarMensaje('Carpeta ZIP descargada correctamente');
+    } catch(e) {
+      alert('Error al descargar carpeta: '+e.message);
+    }
+  };
+
+  // Lógica para añadir géneros personalizados y rápidos
+  const chipsDiv = document.getElementById('chips-generos');
+  const inputGenero = document.getElementById('input-genero-nuevo');
+  const selectGenero = document.getElementById('select-genero');
+  inputGenero.onkeydown = function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      e.preventDefault();
+      const val = this.value.trim();
+      if (![...chipsDiv.children].some(chip=>chip.dataset.gen===val)) {
+        const chip = document.createElement('span');
+        chip.className = 'genre-chip';
+        chip.dataset.gen = val;
+        chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`;
+        chipsDiv.appendChild(chip);
+      }
+      this.value = '';
+    }
+  };
+  selectGenero.onchange = function() {
+    const val = this.value;
+    if (val && ![...chipsDiv.children].some(chip=>chip.dataset.gen===val)) {
+      const chip = document.createElement('span');
+      chip.className = 'genre-chip';
+      chip.dataset.gen = val;
+      chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`;
+      chipsDiv.appendChild(chip);
+    }
+    this.value = '';
+  };
+
+  // Lógica para añadir y quitar spoilers y actualizar previsualización
+  const chipsSpoilers = document.getElementById('chips-spoilers');
+  const inputSpoiler = document.getElementById('input-spoiler-nuevo');
+  const spoilersPreview = document.getElementById('spoilers-preview');
+  function updateSpoilersPreview() {
+    spoilersPreview.innerHTML = [...chipsSpoilers.children].map(chip=>`<img src='${chip.dataset.spoiler}' alt='spoiler' style='width:60px;height:60px;object-fit:cover;border-radius:6px;margin:2px;'>`).join('');
+  }
+  window.updateSpoilersPreview = updateSpoilersPreview;
+  inputSpoiler.onkeydown = function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      e.preventDefault();
+      const val = this.value.trim();
+      if (![...chipsSpoilers.children].some(chip=>chip.dataset.spoiler===val)) {
+        const chip = document.createElement('span');
+        chip.className = 'genre-chip';
+        chip.dataset.spoiler = val;
+        chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove();updateSpoilersPreview()'>×</b>`;
+        chipsSpoilers.appendChild(chip);
+        updateSpoilersPreview();
+      }
+      this.value = '';
+    }
+  };
+  chipsSpoilers.querySelectorAll('b').forEach(b=>{
+    b.onclick = function(){ this.parentNode.remove(); updateSpoilersPreview(); };
+  });
+
+  document.getElementById('form-editar-novela').onsubmit = async function(e) {
+    e.preventDefault();
+    // Recoger todos los géneros de los chips (no del select)
+    const generosFinal = [...chipsDiv.children].map(chip=>chip.dataset.gen).filter(Boolean);
+    // Validación: no permitir guardar sin géneros
+    if (!generosFinal.length) {
+      alert('Debes añadir al menos un género a la novela.');
+      return;
+    }
+    // Recoger todos los spoilers de los chips
+    const spoilersFinal = [...chipsSpoilers.children].map(chip=>chip.dataset.spoiler).filter(Boolean);
+    // Recoger todos los campos del formulario
+    const fd = new FormData(this);
+    const novelaEditada = {};
+    for (const [key, value] of fd.entries()) {
+      // Ignorar campos de géneros y spoilers (se gestionan por chips)
+      if (key === 'enlace_android' || key === 'enlace_premium' || key === 'titulo' || key === 'desc' || key === 'portada' || key === 'estado') {
+        novelaEditada[key] = value;
+      } else if (!key.startsWith('enlace_')) {
+        novelaEditada[key] = value;
+      }
+    }
+    // Peso: combinar valor y unidad
+    const pesoValor = fd.get('peso_valor');
+    const pesoUnidad = fd.get('peso_unidad');
+    if (pesoValor && pesoUnidad) {
+      novelaEditada.peso = pesoValor + ' ' + pesoUnidad;
+    }
+    // ID único (igual que en subida)
+    novelaEditada.id = n.id;
+    novelaEditada.generos = Array.isArray(generosFinal) ? generosFinal : [generosFinal]; // Siempre como array
+    novelaEditada.spoilers = Array.isArray(spoilersFinal) ? spoilersFinal : [spoilersFinal];
+    // Añadir enlaces adicionales (enlace_android, etc.)
+    // Guardar ambos enlaces si existen
+    if (fd.get('enlace_android')) novelaEditada.android = fd.get('enlace_android');
+    if (fd.get('enlace_premium')) novelaEditada.enlace_premium = fd.get('enlace_premium');
+    if (fd.get('android_vip')) novelaEditada.android_vip = fd.get('android_vip');
+    // Asegurar que el estado se recoge correctamente
+    novelaEditada.estado = this.elements['estado'].value;
+    // Limpiar posibles campos vacíos o nulos
+    Object.keys(novelaEditada).forEach(k => {
+      if (novelaEditada[k] === undefined || novelaEditada[k] === null) delete novelaEditada[k];
+    });
+    try {
+      // Usar el id real de la novela en la URL
+      const slug = n.id;
+      const res = await fetch(`${API_BASE}/api/novelas/${encodeURIComponent(slug)}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(novelaEditada)
+      });
+      if (!res.ok) throw new Error('Error al editar novela');
+      mostrarMensaje('Novela editada correctamente');
+      cargarDatos();
+      cerrarModalEditarNovela();
+    } catch (err) {
+      alert('Error al editar novela: ' + err.message);
+    }
+  };
+};
+window.cerrarModalEditarNovela = function() {
+  const modal = document.getElementById('modal-editar-novela');
+  if (modal) modal.remove();
+};
+window.borrarNovela = async function(idx) {
+  const n = novelas[idx];
+  if (!n) return;
+  if (!confirm('¿Seguro que quieres borrar esta novela?')) return;
+  try {
+    const slug = n.id;
+    const res = await fetch(`${API_BASE}/api/novelas/${encodeURIComponent(slug)}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    if (res.status === 401) {
+      document.dispatchEvent(new Event('novela-accion-401'));
+      return;
+    }
+    if (!res.ok) throw new Error('Error al borrar novela');
+    mostrarMensaje('Novela borrada correctamente', '#ff3c3c');
+    cargarDatos();
+    cerrarModalEditarNovela();
+  } catch (err) {
+    alert('Error al borrar novela: ' + err.message);
+  }
+};
+
+// --- BOTÓN DESPLEGABLE DE GÉNEROS ---
+const generosBtn = document.getElementById('generos-dropdown-btn');
+const generosDropdown = document.getElementById('generos-dropdown');
+generosBtn.onclick = function(e) {
+  e.preventDefault();
+  generosDropdown.innerHTML = generos.map(g=>`<button class='genre-chip' style='margin:4px 8px 4px 0;' onclick='filtrarPorGenero("${g}");return false;'>${g}</button>`).join('');
+  generosDropdown.style.display = generosDropdown.style.display==='none'||generosDropdown.style.display===''?'block':'none';
+};
+window.filtrarPorGenero = function(g) {
+  window.generoFiltroActivo = g;
+  renderNovelasLista(document.getElementById('buscar-novela').value, g);
+  generosDropdown.style.display = 'none';
+};
+// --- CONTADOR DE VISITAS ---
+async function mostrarContadorVisitas() {
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/contador.json');
+    if (!res.ok) throw new Error('No se pudo obtener visitas');
+    const data = await res.json();
+    let visitas = parseInt(data.visitas, 10);
+    let contador = document.getElementById('contador-visitas');
+    if (visitas > 0) {
+      contador.textContent = `👁️ ${visitas} visitas`;
+      contador.style.display = 'block';
+    } else {
+      contador.textContent = '';
+      contador.style.display = 'none';
+    }
+  } catch (e) {
+    let contador = document.getElementById('contador-visitas');
+    // Manejo de error opcional: puedes mostrar un mensaje o dejarlo vacío
+    if (contador) {
+      contador.textContent = '';
+      contador.style.display = 'none';
+    }
+  }
+}
+mostrarContadorVisitas();
+
+// --- RENDERIZADO DE GÉNEROS ---
+function renderGeneros() {
+  const ul = document.getElementById('lista-generos');
+  ul.innerHTML = generos.map((g,idx) => `<li style="margin:8px 0;display:flex;align-items:center;gap:8px;">
+    <span>${g}</span>
+    <button class='btn' style='background:#ff3cac;padding:2px 10px;font-size:0.95em;' onclick='eliminarGenero(${idx})'>Eliminar</button>
+  </li>`).join('');
+}
+
+window.eliminarGenero = function(idx) {
+  if (!confirm('¿Eliminar el género "' + generos[idx] + '"?')) return;
+  generos.splice(idx,1);
+  renderGeneros();
+};
+
+document.getElementById('form-nuevo-genero').onsubmit = function(e) {
+  e.preventDefault();
+  const val = document.getElementById('input-nuevo-genero').value.trim();
+  if (!val) return alert('El género no puede estar vacío.');
+  if (generos.includes(val)) return alert('Ese género ya existe.');
+  generos.push(val);
+  document.getElementById('input-nuevo-genero').value = '';
+  renderGeneros();
+};
+
+// --- EXPORTAR A JSON ---
+document.getElementById('exportar-json').onclick = function() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(novelas, null, 2));
+  const downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute("href",     dataStr     );
+  downloadAnchorNode.setAttribute("download", "novelas_exportadas.json");
+  document.body.appendChild(downloadAnchorNode); // required for firefox
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
+};
+
+// --- GUARDAR CONFIGURACIÓN ---
+document.getElementById('form-config').onsubmit = async function(e) {
+  e.preventDefault();
+  let nuevaConfig = {
+    nombre: document.getElementById('config-nombre').value,
+    desc: document.getElementById('config-desc').value,
+    logo: document.getElementById('config-logo').value,
+    fondo: document.getElementById('config-fondo').value
+  };
+  // Aquí podrías hacer un POST a tu API para guardar la configuración
+  console.log('Nueva configuración:', nuevaConfig);
+  alert('Configuración guardada (ver consola para detalles)');
+};
+
+// --- PANEL DE SUBIDA DE NOVELA GLOBAL ---
+window.subirNovela = function() {
+  // Modal vacío igual al de editar
+  const generosNovela = [];
+  const spoilersArr = [];
+  // Siempre mostrar campo Enlace Android
+  const enlacesExtrasHtml = `<label>Enlace Android<input type="url" name="enlace_android" value="" placeholder="Solo para usuarios normales"></label>`;
+  const spoilersChipsHtml = `
+    <div id="chips-spoilers" style="margin-bottom:8px;"></div>
+    <input type="url" id="input-spoiler-nuevo" placeholder="Añadir enlace de spoiler y presiona Enter" style="width:100%;margin-bottom:8px;">
+    <div id="spoilers-preview" style="margin-bottom:8px;"></div>
+  `;
+  let esVIP = false;
+  // Detectar si el género VIP está seleccionado dinámicamente
+  const checkVIP = () => {
+    const chipsDiv = document.getElementById('chips-generos');
+    esVIP = [...chipsDiv.children].some(chip=>chip.dataset.gen==='VIP');
+    const enlaceVipField = document.getElementById('enlace-vip-field');
+    if(enlaceVipField) {
+      enlaceVipField.style.display = esVIP ? 'block' : 'none';
+    }
+  };
+  const formHtml = `
+    <div id="modal-subir-novela" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000a;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:auto;">
+      <form id="form-subir-novela" style="background:#181828;padding:32px 24px;border-radius:16px;min-width:320px;max-width:90vw;max-height:90vh;overflow:auto;box-shadow:0 4px 24px #000a;">
+        <h2 style='color:#00e676;margin-top:0;'>Subir nueva novela</h2>
+        <label for='metodo-guardado-modal' style='font-weight:bold;color:#ff3cac;'>Método de guardado:</label>
+        <select id='metodo-guardado-modal' style='margin-left:12px;padding:6px 12px;border-radius:6px;margin-bottom:18px;'>
+          <option value='api'>Backend Glitch/API</option>
+          <option value='github'>Directo en GitHub (token)</option>
+          <option value='descargar'>Descargar JSON local</option>
+        </select>
+        <label>Título<input type="text" name="titulo" required></label>
+        <label>Descripción<textarea name="desc" required></textarea></label>
+        <label>Peso de la novela
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="number" name="peso_valor" min="0" step="0.01" required style="flex:1;">
+            <select name="peso_unidad" style="width:80px;">
+              <option value="MB">MB</option>
+              <option value="GB">GB</option>
+            </select>
+          </div>
+        </label>
+        ${enlacesExtrasHtml}
+        <label>Android VIP (enlace directo para VIP)<input type="url" name="android_vip" placeholder="Enlace directo APK VIP"></label>
+        <label>Enlace de imagen principal<input type="url" name="portada" required></label>
+        <label>Spoilers (enlaces múltiples)
+          ${spoilersChipsHtml}
+        </label>
+        <label>Géneros
+          <div id="chips-generos" style="margin-bottom:8px;"></div>
+          <input type="text" id="input-genero-nuevo" placeholder="Añadir género y presiona Enter" style="width:100%;margin-bottom:8px;">
+          <select id="select-genero" style="width:100%;margin-bottom:8px;">
+            <option value="">Seleccionar género rápido</option>
+            ${generos.map(g=>`<option value='${g}'>${g}</option>`).join('')}
+          </select>
+        </label>
+        <label>Estado<select name="estado"><option>Completa</option><option>En desarrollo</option><option>Demo</option></select></label>
+        <div id="enlace-vip-field" style="display:none;"></div>
+        <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;">
+          <button type="submit" class="btn" style="background:#00e676;">Subir novela</button>
+          <button type="button" class="btn" onclick="cerrarModalSubirNovela()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', formHtml);
+  document.getElementById('modal-subir-novela').scrollTop = 0;
+
+  // Lógica para géneros (chips)
+  const chipsDiv = document.getElementById('chips-generos');
+  const inputGenero = document.getElementById('input-genero-nuevo');
+  const selectGenero = document.getElementById('select-genero');
+  inputGenero.onkeydown = function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      e.preventDefault();
+      const val = this.value.trim();
+      if (![...chipsDiv.children].some(chip=>chip.dataset.gen===val)) {
+        const chip = document.createElement('span');
+        chip.className = 'genre-chip';
+        chip.dataset.gen = val;
+        chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`;
+        chipsDiv.appendChild(chip);
+      }
+      this.value = '';
+    }
+  };
+  selectGenero.onchange = function() {
+    const val = this.value;
+    if (val && ![...chipsDiv.children].some(chip=>chip.dataset.gen===val)) {
+      const chip = document.createElement('span');
+      chip.className = 'genre-chip';
+      chip.dataset.gen = val;
+      chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove()'>×</b>`;
+      chipsDiv.appendChild(chip);
+    }
+    this.value = '';
+  };
+
+  // Lógica para spoilers (chips y preview)
+  const chipsSpoilers = document.getElementById('chips-spoilers');
+  const inputSpoiler = document.getElementById('input-spoiler-nuevo');
+  const spoilersPreview = document.getElementById('spoilers-preview');
+  function updateSpoilersPreview() {
+    spoilersPreview.innerHTML = [...chipsSpoilers.children].map(chip=>`<img src='${chip.dataset.spoiler}' alt='spoiler' style='width:60px;height:60px;object-fit:cover;border-radius:6px;margin:2px;'>`).join('');
+  }
+  inputSpoiler.onkeydown = function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      e.preventDefault();
+      const val = this.value.trim();
+      if (![...chipsSpoilers.children].some(chip=>chip.dataset.spoiler===val)) {
+        const chip = document.createElement('span');
+        chip.className = 'genre-chip';
+        chip.dataset.spoiler = val;
+        chip.innerHTML = `${val} <b style='cursor:pointer;' onclick='this.parentNode.remove();updateSpoilersPreview()'>×</b>`;
+        chipsSpoilers.appendChild(chip);
+        updateSpoilersPreview();
+      }
+      this.value = '';
+    }
+  };
+
+  // Mostrar campo de enlace VIP si se selecciona el género VIP
+  setTimeout(()=>{
+    const chipsDiv = document.getElementById('chips-generos');
+    const enlaceVipField = document.getElementById('enlace-vip-field');
+    function checkVIPField() {
+      const esVIP = [...chipsDiv.children].some(chip=>chip.dataset.gen==='VIP');
+      enlaceVipField.innerHTML = esVIP ? '<label>Android vip<input type="url" name="enlace_premium" placeholder="Solo para novelas VIP"></label>' : '';
+    }
+    // Usar MutationObserver en vez de eventos obsoletos
+    const observer = new MutationObserver(checkVIPField);
+    observer.observe(chipsDiv, { childList: true });
+    checkVIPField();
+  }, 300);
+
+  document.getElementById('form-subir-novela').onsubmit = async function(e) {
+    e.preventDefault();
+    // Recoger todos los géneros de los chips (no del select)
+    const generosFinal = [...chipsDiv.children].map(chip=>chip.dataset.gen).filter(Boolean);
+    // Validación: no permitir guardar sin géneros
+    if (!generosFinal.length) {
+      alert('Debes añadir al menos un género a la novela.');
+      return;
+    }
+    // Recoger todos los spoilers de los chips
+    const spoilersFinal = [...chipsSpoilers.children].map(chip=>chip.dataset.spoiler).filter(Boolean);
+    // Recoger todos los campos del formulario
+    const fd = new FormData(this);
+    const novelaNueva = {};
+    for (const [key, value] of fd.entries()) {
+      // Ignorar campos de géneros, spoilers y enlaces con prefijo
+      if (key === 'titulo' || key === 'desc' || key === 'portada') {
+        novelaNueva[key] = value;
+      }
+    }
+    // Peso: combinar valor y unidad
+    const pesoValor = fd.get('peso_valor');
+    const pesoUnidad = fd.get('peso_unidad');
+    if (pesoValor && pesoUnidad) {
+      novelaNueva.peso = pesoValor + ' ' + pesoUnidad;
+    }
+    // ID único
+    novelaNueva.id = fd.get('titulo').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now();
+    novelaNueva.generos = Array.isArray(generosFinal) ? generosFinal : [generosFinal]; // Siempre como array
+    novelaNueva.spoilers = Array.isArray(spoilersFinal) ? spoilersFinal : [spoilersFinal];
+    // Añadir enlaces adicionales (solo como campo limpio, sin prefijo)
+    // Guardar ambos enlaces si existen
+    if (fd.get('enlace_android')) novelaNueva.android = fd.get('enlace_android');
+    if (fd.get('enlace_premium')) novelaNueva.enlace_premium = fd.get('enlace_premium');
+    if (fd.get('android_vip')) novelaNueva.android_vip = fd.get('android_vip');
+    // REFORZADO: Recoger el estado correctamente del select (por name o id)
+    const selectEstado = this.querySelector('select[name="estado"]');
+    let estadoValue = selectEstado ? selectEstado.value : '';
+    if (!estadoValue) {
+      alert('Debes seleccionar un estado para la novela.');
+      return;
+    }
+    novelaNueva.estado = estadoValue;
+    // Limpiar posibles campos vacíos o nulos
+    Object.keys(novelaNueva).forEach(k => {
+      if (novelaNueva[k] === undefined || novelaNueva[k] === null) delete novelaNueva[k];
+    });
+    // --- NUEVO: Selección de método de guardado ---
+    const metodo = document.getElementById('metodo-guardado-modal')?.value || 'api';
+    if (metodo === 'api') {
+      // Guardar en backend Glitch/API
+      try {
+        const res = await fetch(`${API_BASE}/api/novelas`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(novelaNueva)
+        });
+        let errorText = '';
+        if (!res.ok) {
+          errorText = await res.text();
+          console.error('Body enviado:', novelaNueva);
+          throw new Error(`Status: ${res.status} - ${errorText}`);
+        }
+        mostrarMensaje('Novela añadida correctamente');
+        cargarDatos();
+        cerrarModalSubirNovela();
+      } catch (err) {
+        alert('Error al subir novela: ' + err.message);
+      }
+    } else if (metodo === 'github') {
+      // Guardar directo en GitHub (requiere token)
+      try {
+        await guardarNovelaEnGitHub(novelaNueva);
+        cargarDatos();
+        cerrarModalSubirNovela();
+      } catch (err) {
+        alert('Error al guardar en GitHub: ' + err.message);
+      }
+    } else if (metodo === 'descargar') {
+      // Descargar JSON local
+      try {
+        // Cargar novelas actuales y añadir la nueva
+        let novelasActuales = novelas ? [...novelas] : [];
+        // Asegurar que el peso se añade correctamente
+        if (!novelaNueva.peso && pesoValor && pesoUnidad) {
+          novelaNueva.peso = pesoValor + ' ' + pesoUnidad;
+        }
+        novelasActuales.push(novelaNueva);
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(novelasActuales, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "novelas-1.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+        cerrarModalSubirNovela();
+      } catch (err) {
+        alert('Error al descargar JSON: ' + err.message);
+      }
+    }
+  };
+}
+// Mostrar el panel de subida al presionar el botón
+const subirBtn = document.getElementById('abrir-panel-subida');
+if (subirBtn) subirBtn.onclick = function() {
+  window.subirNovela();
+};
+// Función para cerrar el modal de subida
+window.cerrarModalSubirNovela = function() {
+  const modal = document.getElementById('modal-subir-novela');
+  if (modal) modal.remove();
+};
+
+// --- MENSAJES DE CONFIRMACIÓN EN ACCIONES CRUD ---
+function mostrarMensaje(msg, color = '#00e676') {
+  let div = document.getElementById('mensaje-accion');
+  if (!div) {
+    div = document.createElement('div');
+    div.id = 'mensaje-accion';
+    div.style.position = 'fixed';
+    div.style.top = '24px';
+    div.style.right = '24px';
+    div.style.zIndex = '999999';
+    div.style.padding = '16px 28px';
+    div.style.borderRadius = '10px';
+    div.style.fontWeight = 'bold';
+    div.style.fontSize = '1.1em';
+    div.style.boxShadow = '0 2px 16px #000a';
+    document.body.appendChild(div);
+  }
+  div.textContent = msg;
+  div.style.background = color;
+  div.style.color = '#fff';
+  div.style.display = 'block';
+  setTimeout(()=>{ div.style.display = 'none'; }, 2500);
+}
+// --- LOGIN ADMIN MODAL ---
+async function checkAdminSession() {
+  // HEAD para saber si es admin
+  try {
+    const res = await fetch(API_BASE + '/api/novelas', { method: 'HEAD', credentials: 'include' });
+    return res.status === 200;
+  } catch { return false; }
+}
+function showLoginAdminModal() {
+  document.getElementById('modal-login-admin').style.display = 'flex';
+  document.getElementById('login-admin-error').style.display = 'none';
+}
+function hideLoginAdminModal() {
+  document.getElementById('modal-login-admin').style.display = 'none';
+}
+// Al cargar la página, SIEMPRE mostrar el login admin y limpiar sesión anterior
+window.addEventListener('DOMContentLoaded', async function() {
+  // Forzar logout para que siempre pida login
+  await fetch(API_BASE + '/api/admin-logout', { method: 'POST', credentials: 'include' });
+  showLoginAdminModal();
+});
+// Lógica de login admin
+document.addEventListener('DOMContentLoaded', function() {
+  const formLoginAdmin = document.getElementById('form-login-admin');
+  if (formLoginAdmin) {
+    formLoginAdmin.onsubmit = async function(e) {
+      e.preventDefault();
+      const user = document.getElementById('admin-user').value.trim();
+      const pass = document.getElementById('admin-pass').value;
+      let data = null;
+      let res = null;
+      try {
+        res = await fetch(API_BASE + '/api/admin-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ user, pass })
+        });
+        if (!res.ok) {
+          document.getElementById('login-admin-error').textContent = 'Servidor no disponible o error de red (' + res.status + ')';
+          document.getElementById('login-admin-error').style.display = 'block';
+          return;
+        }
+        const text = await res.text();
+        data = text ? JSON.parse(text) : {};
+      } catch (err) {
+        document.getElementById('login-admin-error').textContent = 'Error de red o backend: ' + err.message;
+        document.getElementById('login-admin-error').style.display = 'block';
+        return;
+      }
+      if (data && data.success) {
+        hideLoginAdminModal();
+        cargarDatos();
+      } else {
+        document.getElementById('login-admin-error').textContent = 'Usuario o contraseña incorrectos';
+        document.getElementById('login-admin-error').style.display = 'block';
+      }
+    };
+  }
+});
+// Si se recibe un 401 al editar/borrar, mostrar el modal de login
+document.addEventListener('novela-accion-401', function() {
+  showLoginAdminModal();
+});
+// Modifica las funciones de editar/borrar para disparar el evento si hay 401
+const originalBorrarNovela = window.borrarNovela;
+window.borrarNovela = async function(idx) {
+  const n = novelas[idx];
+  if (!n) return;
+  if (!confirm('¿Seguro que quieres borrar esta novela?')) return;
+  try {
+    const slug = n.id;
+    const res = await fetch(`${API_BASE}/api/novelas/${encodeURIComponent(slug)}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    if (res.status === 401) {
+      document.dispatchEvent(new Event('novela-accion-401'));
+      return;
+    }
+    if (!res.ok) throw new Error('Error al borrar novela');
+    mostrarMensaje('Novela borrada correctamente', '#ff3c3c');
+    cargarDatos();
+    cerrarModalEditarNovela();
+  } catch (err) {
+    alert('Error al borrar novela: ' + err.message);
+  }
+};
+</script>
+</body>
+</html>
