@@ -492,7 +492,7 @@ window.editarNovela = async function(idx) {
   if(btnDescarga) btnDescarga.onclick = async function() {
     try {
       // Construir info.txt con enlace público
-      const enlacePublico = `https://eroverse.glitch.me/novela.html?id=${encodeURIComponent(datos.id)}`;
+      const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${encodeURIComponent(datos.id)}`;
       const info = `Nombre: ${datos.titulo || ''}\nEstado: ${datos.estado || ''}\nEnlace: ${enlacePublico}`;
       // Preparar imágenes a descargar
       const imagenes = [];
