@@ -445,9 +445,48 @@ app.get('/ping', (req, res) => {
 
 
 
-// Servir novela.html directamente para rutas /novela.html (debe ir antes del catch-all)
-app.get('/novela.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'novela.html'));
+// Ruta para mostrar metadatos enriquecidos (Open Graph) al compartir la novela
+app.get('/novela.html', async (req, res) => {
+  const novelaId = req.query.id;
+  if (!novelaId) {
+    return res.sendFile(path.join(__dirname, 'public', 'novela.html'));
+  }
+
+  try {
+    const novelas = await getJsonFromGitHub('data/novelas-1.json');
+    const novela = novelas.find(n => n.id === novelaId);
+
+    if (!novela) {
+      return res.sendFile(path.join(__dirname, 'public', 'novela.html'));
+    }
+
+    const html = `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${novela.titulo}</title>
+        <meta property="og:title" content="${novela.titulo}" />
+        <meta property="og:image" content="${novela.spoilers?.[0] || novela.portada}" />
+        <meta property="og:description" content="Estado: ${novela.estado} • Peso: ${novela.peso}" />
+        <meta property="og:url" content="https://eroverse.onrender.com/novela.html?id=${novela.id}" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="${novela.titulo}" />
+        <meta name="twitter:description" content="Estado: ${novela.estado} • Peso: ${novela.peso}" />
+        <meta name="twitter:image" content="${novela.spoilers?.[0] || novela.portada}" />
+        <meta http-equiv="refresh" content="0;url=/public/novela.html?id=${novela.id}" />
+      </head>
+      <body>
+        <p>Redirigiendo a la novela...</p>
+      </body>
+      </html>
+    `;
+    res.send(html);
+  } catch (error) {
+    console.error('[OG Novela Error]', error);
+    res.sendFile(path.join(__dirname, 'public', 'novela.html'));
+  }
 });
 
 // Servir novelasvipdetalle.html solo para usuarios premium y con membresía activa
