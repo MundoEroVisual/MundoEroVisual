@@ -573,6 +573,9 @@ app.get('/api/visitas', async (req, res) => {
   }
 });
 
+// Iniciar el bot de Discord junto al servidor Express
+require('./bot');
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Servidor listo en puerto ' + PORT));
 
@@ -659,8 +662,6 @@ app.post('/api/descargar-imagenes', express.json(), async (req, res) => {
       infoFinal += `\nPeso: ${peso}`;
     }
     archive.append(infoFinal.trim(), { name: `${carpeta}/info.txt` });
-
-    // --- ELIMINADO: generación de guion_youtube.txt ---
 
     // Descargar y agregar imágenes dentro de la carpeta
     for (const img of imagenes) {
