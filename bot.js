@@ -1,3 +1,19 @@
+
+
+require('dotenv').config();
+const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const fetch = require('node-fetch');
+const RSSParser = require('rss-parser');
+console.log("TOKEN del .env es:", process.env.DISCORD_TOKEN);
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ]
+});
+
 // Comandos de mantenimiento para admins
 client.on('messageCreate', async msg => {
   if (msg.author.bot || !msg.guild) return;
@@ -25,19 +41,6 @@ client.on('messageCreate', async msg => {
   if (command === 'ping') {
     msg.reply('Pong!');
   }
-});
-require('dotenv').config();
-const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
-const fetch = require('node-fetch');
-const RSSParser = require('rss-parser');
-console.log("TOKEN del .env es:", process.env.DISCORD_TOKEN);
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
 });
 
 const parser = new RSSParser();
