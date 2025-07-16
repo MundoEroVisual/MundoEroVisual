@@ -1262,32 +1262,6 @@ window.borrarNovela = async function(idx) {
   }
 };
 </script>
-  <!-- Panel VIP flotante -->
-<div id="vipPanel">
-  <h2>Asignar VIP a usuario</h2>
-  <form id="vipForm">
-    <label for="vipUsername">Nombre de usuario:</label><br>
-    <input type="text" id="vipUsername" name="username" required><br><br>
-
-    <label for="vipTipo">Tipo de VIP:</label><br>
-    <select id="vipTipo" name="tipo" onchange="cambiarVisibilidadCantidad()">
-      <option value="dia">Por días</option>
-      <option value="semana">Por semanas</option>
-      <option value="mes">Por meses</option>
-      <option value="permanente">Permanente</option>
-    </select><br><br>
-
-    <div id="vipCantidadDiv">
-      <label for="vipCantidad">Cantidad:</label><br>
-      <input type="number" id="vipCantidad" name="cantidad" min="1"><br><br>
-    </div>
-
-    <button type="submit">Dar VIP</button>
-    <button type="button" id="closeVipPanel">Cerrar</button>
-  </form>
-  <div id="vipResultado"></div>
-</div>
-
 <!-- Script corregido -->
 <script>
   const toggleBtn = document.getElementById('toggleVipPanel');
