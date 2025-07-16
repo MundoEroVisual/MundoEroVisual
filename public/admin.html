@@ -207,13 +207,13 @@
       border: 1.5px solid var(--border);
     }
   
-    /* Panel VIP flotante */
+  /* Panel VIP flotante */
 #vipPanel {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--card);
+  background: #111; /* fondo negro */
   padding: 32px;
   border-radius: 16px;
   box-shadow: 0 0 32px #ffd70044;
@@ -1299,7 +1299,7 @@ window.borrarNovela = async function(idx) {
   document.getElementById('vipForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const username = document.getElementById('vipUsername').value.trim();
+    const username = document.getElementById('vipUsuario').value.trim();
     const tipo = document.getElementById('vipTipo').value;
     const cantidad = tipo !== 'permanente' ? parseInt(document.getElementById('vipCantidad').value) : null;
 
