@@ -1,3 +1,18 @@
+require('dotenv').config();
+const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const fetch = require('node-fetch');
+const RSSParser = require('rss-parser');
+console.log("TOKEN del .env es:", process.env.DISCORD_TOKEN);
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ]
+});
+
+const parser = new RSSParser();
 // Log de actividad en canal específico
 client.on('messageCreate', async msg => {
   if (!process.env.DISCORD_CHANNEL_ACTIVITY_LOG || msg.author.bot) return;
@@ -28,21 +43,6 @@ client.on('messageUpdate', async (oldMsg, newMsg) => {
     }
   } catch {}
 });
-require('dotenv').config();
-const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
-const fetch = require('node-fetch');
-const RSSParser = require('rss-parser');
-console.log("TOKEN del .env es:", process.env.DISCORD_TOKEN);
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
-});
-
-const parser = new RSSParser();
 
 // Variables de entorno
 const {
