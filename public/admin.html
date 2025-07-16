@@ -207,46 +207,106 @@
       border: 1.5px solid var(--border);
     }
   
-    /* Overlay oscuro */
-    #vipOverlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0,0,0,0.5);
-      z-index: 999;
-    }
+    /* Panel VIP flotante */
+#vipPanel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 0 32px #ffd70044;
+  border: 2px solid var(--border);
+  z-index: 10001;
+  width: 90%;
+  max-width: 400px;
+  display: none;
+}
 
-    /* Panel flotante */
-    #vipPanel {
-      display: none;
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      z-index: 1000;
-      width: 320px;
-      max-width: 90%;
-    }
+#vipPanel h2 {
+  margin-top: 0;
+  color: var(--accent);
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 18px;
+}
 
-    /* Botón de abrir */
-    #toggleVipPanel {
-      margin-top: 20px;
-    }
+#vipPanel label {
+  color: var(--text);
+  margin-bottom: 6px;
+  display: block;
+  font-weight: bold;
+}
 
-    /* Botón cerrar dentro panel */
-    #closeVipPanel {
-      margin-top: 15px;
-    }
+#vipPanel input,
+#vipPanel select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-dark);
+  color: var(--text);
+  font-size: 1em;
+}
 
-    /* Inputs y selects */
-    #vipEmail, #vipTipo, #vipCantidad {
-      width: 100%;
-      box-sizing: border-box;
-    }
+#vipPanel button[type="submit"] {
+  width: 100%;
+  margin-top: 8px;
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 2px 10px #ffd70055;
+  transition: background 0.2s ease;
+}
+
+#vipPanel button[type="submit"]:hover {
+  background: var(--accent);
+}
+
+#vipPanel button#closeVipPanel {
+  margin-top: 12px;
+  width: 100%;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+#vipPanel button#closeVipPanel:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+#vipResultado {
+  color: var(--accent);
+  margin-top: 14px;
+  text-align: center;
+  font-weight: bold;
+  min-height: 18px;
+}
+
+/* Overlay oscuro */
+#vipOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000c;
+  z-index: 10000;
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -1202,66 +1262,94 @@ window.borrarNovela = async function(idx) {
   }
 };
 </script>
-  <script>
-    const toggleBtn = document.getElementById('toggleVipPanel');
-    const panel = document.getElementById('vipPanel');
-    const overlay = document.getElementById('vipOverlay');
-    const closeBtn = document.getElementById('closeVipPanel');
+  <!-- Panel VIP flotante -->
+<div id="vipPanel">
+  <h2>Asignar VIP a usuario</h2>
+  <form id="vipForm">
+    <label for="vipUsername">Nombre de usuario:</label><br>
+    <input type="text" id="vipUsername" name="username" required><br><br>
 
-    // Función para mostrar el panel y overlay
-    function abrirPanel() {
-      panel.style.display = 'block';
-      overlay.style.display = 'block';
-    }
+    <label for="vipTipo">Tipo de VIP:</label><br>
+    <select id="vipTipo" name="tipo" onchange="cambiarVisibilidadCantidad()">
+      <option value="dia">Por días</option>
+      <option value="semana">Por semanas</option>
+      <option value="mes">Por meses</option>
+      <option value="permanente">Permanente</option>
+    </select><br><br>
 
-    // Función para ocultar panel y overlay
-    function cerrarPanel() {
-      panel.style.display = 'none';
-      overlay.style.display = 'none';
-      document.getElementById('vipResultado').textContent = '';
-      document.getElementById('vipForm').reset();
-      cambiarVisibilidadCantidad();
-    }
+    <div id="vipCantidadDiv">
+      <label for="vipCantidad">Cantidad:</label><br>
+      <input type="number" id="vipCantidad" name="cantidad" min="1"><br><br>
+    </div>
 
-    toggleBtn.addEventListener('click', abrirPanel);
-    closeBtn.addEventListener('click', cerrarPanel);
-    overlay.addEventListener('click', cerrarPanel);
+    <button type="submit">Dar VIP</button>
+    <button type="button" id="closeVipPanel">Cerrar</button>
+  </form>
+  <div id="vipResultado"></div>
+</div>
 
-    // Mostrar o esconder campo cantidad según tipo seleccionado
-    function cambiarVisibilidadCantidad() {
-      const tipo = document.getElementById('vipTipo').value;
-      const cantidadDiv = document.getElementById('vipCantidadDiv');
-      cantidadDiv.style.display = (tipo !== 'permanente') ? 'block' : 'none';
-    }
+<!-- Script corregido -->
+<script>
+  const toggleBtn = document.getElementById('toggleVipPanel');
+  const panel = document.getElementById('vipPanel');
+  const overlay = document.getElementById('vipOverlay');
+  const closeBtn = document.getElementById('closeVipPanel');
 
+  function abrirPanel() {
+    panel.style.display = 'block';
+    overlay.style.display = 'block';
+  }
+
+  function cerrarPanel() {
+    panel.style.display = 'none';
+    overlay.style.display = 'none';
+    document.getElementById('vipResultado').textContent = '';
+    document.getElementById('vipForm').reset();
     cambiarVisibilidadCantidad();
+  }
 
-    // Enviar formulario para dar VIP
-    document.getElementById('vipForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+  toggleBtn.addEventListener('click', abrirPanel);
+  closeBtn.addEventListener('click', cerrarPanel);
+  overlay.addEventListener('click', cerrarPanel);
 
-      const email = document.getElementById('vipEmail').value.trim();
-      const tipo = document.getElementById('vipTipo').value;
-      const cantidad = tipo !== 'permanente' ? parseInt(document.getElementById('vipCantidad').value) : null;
+  function cambiarVisibilidadCantidad() {
+    const tipo = document.getElementById('vipTipo').value;
+    const cantidadDiv = document.getElementById('vipCantidadDiv');
+    cantidadDiv.style.display = (tipo !== 'permanente') ? 'block' : 'none';
+  }
 
-      if (tipo !== 'permanente' && (!cantidad || cantidad < 1)) {
-        document.getElementById('vipResultado').textContent = 'Por favor ingresa una cantidad válida.';
-        return;
-      }
+  cambiarVisibilidadCantidad();
 
-      try {
-        const respuesta = await fetch('/api/dar-vip', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, tipo, cantidad })
-        });
+  document.getElementById('vipForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-        const resultado = await respuesta.json();
-        document.getElementById('vipResultado').textContent = resultado.message || 'Algo salió mal.';
-      } catch (error) {
-        document.getElementById('vipResultado').textContent = 'Error al conectarse al servidor.';
-      }
-    });
-  </script>
+    const username = document.getElementById('vipUsername').value.trim();
+    const tipo = document.getElementById('vipTipo').value;
+    const cantidad = tipo !== 'permanente' ? parseInt(document.getElementById('vipCantidad').value) : null;
+
+    if (!username) {
+      document.getElementById('vipResultado').textContent = 'Por favor ingresa el nombre del usuario.';
+      return;
+    }
+
+    if (tipo !== 'permanente' && (!cantidad || cantidad < 1)) {
+      document.getElementById('vipResultado').textContent = 'Por favor ingresa una cantidad válida.';
+      return;
+    }
+
+    try {
+      const respuesta = await fetch('/api/dar-vip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, tipo, cantidad })
+      });
+
+      const resultado = await respuesta.json();
+      document.getElementById('vipResultado').textContent = resultado.message || 'Algo salió mal.';
+    } catch (error) {
+      document.getElementById('vipResultado').textContent = 'Error al conectarse al servidor.';
+    }
+  });
+</script>
 </body>
 </html>
