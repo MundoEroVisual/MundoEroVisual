@@ -206,6 +206,148 @@
       box-shadow: 0 2px 12px #ffd70022;
       border: 1.5px solid var(--border);
     }
+  
+    /* Overlay oscuro */
+    #vipOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    /* Panel flotante */
+    #vipPanel {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      width: 320px;
+      max-width: 90%;
+    }
+
+    /* Botón de abrir */
+    #toggleVipPanel {
+      margin-top: 20px;
+    }
+
+    /* Botón cerrar dentro panel */
+    #closeVipPanel {
+      margin-top: 15px;
+    }
+
+    /* Inputs y selects */
+    #vipEmail, #vipTipo, #vipCantidad {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Botón para abrir el panel VIP flotante -->
+  <button id="toggleVipPanel">Otorgar VIP a usuario</button>
+
+  <!-- Overlay oscuro detrás del panel -->
+  <div id="vipOverlay"></div>
+
+  <!-- Panel VIP flotante -->
+  <div id="vipPanel">
+    <h2>Asignar VIP a usuario</h2>
+    <form id="vipForm">
+      <label for="vipEmail">Correo del usuario:</label><br>
+      <input type="email" id="vipEmail" required><br><br>
+
+      <label for="vipTipo">Tipo de VIP:</label><br>
+      <select id="vipTipo" required onchange="cambiarVisibilidadCantidad()">
+        <option value="permanente">Permanente</option>
+        <option value="dias">Por días</option>
+        <option value="semanas">Por semanas</option>
+        <option value="meses">Por meses</option>
+      </select><br><br>
+
+      <div id="vipCantidadDiv" style="display: none;">
+        <label for="vipCantidad">Cantidad:</label><br>
+        <input type="number" id="vipCantidad" min="1"><br><br>
+      </div>
+
+      <button type="submit">Dar VIP</button>
+    </form>
+
+    <p id="vipResultado" style="margin-top: 15px; font-weight: bold;"></p>
+
+    <!-- Botón para cerrar el panel -->
+    <button id="closeVipPanel">Cerrar</button>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('toggleVipPanel');
+    const panel = document.getElementById('vipPanel');
+    const overlay = document.getElementById('vipOverlay');
+    const closeBtn = document.getElementById('closeVipPanel');
+
+    // Función para mostrar el panel y overlay
+    function abrirPanel() {
+      panel.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+
+    // Función para ocultar panel y overlay
+    function cerrarPanel() {
+      panel.style.display = 'none';
+      overlay.style.display = 'none';
+      document.getElementById('vipResultado').textContent = '';
+      document.getElementById('vipForm').reset();
+      cambiarVisibilidadCantidad();
+    }
+
+    toggleBtn.addEventListener('click', abrirPanel);
+    closeBtn.addEventListener('click', cerrarPanel);
+    overlay.addEventListener('click', cerrarPanel);
+
+    // Mostrar o esconder campo cantidad según tipo seleccionado
+    function cambiarVisibilidadCantidad() {
+      const tipo = document.getElementById('vipTipo').value;
+      const cantidadDiv = document.getElementById('vipCantidadDiv');
+      cantidadDiv.style.display = (tipo !== 'permanente') ? 'block' : 'none';
+    }
+
+    cambiarVisibilidadCantidad();
+
+    // Enviar formulario para dar VIP
+    document.getElementById('vipForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('vipEmail').value.trim();
+      const tipo = document.getElementById('vipTipo').value;
+      const cantidad = tipo !== 'permanente' ? parseInt(document.getElementById('vipCantidad').value) : null;
+
+      if (tipo !== 'permanente' && (!cantidad || cantidad < 1)) {
+        document.getElementById('vipResultado').textContent = 'Por favor ingresa una cantidad válida.';
+        return;
+      }
+
+      try {
+        const respuesta = await fetch('/api/dar-vip', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, tipo, cantidad })
+        });
+
+        const resultado = await respuesta.json();
+        document.getElementById('vipResultado').textContent = resultado.message || 'Algo salió mal.';
+      } catch (error) {
+        document.getElementById('vipResultado').textContent = 'Error al conectarse al servidor.';
+      }
+    });
+  </script>
+</body>
   </style>
 </head>
 <body>
@@ -278,33 +420,6 @@
         </form>
       </div>
     </div>
-    <div class="card" style="margin-top: 30px; padding: 20px; border: 1px solid #ccc; border-radius: 12px;">
-  <h3>Asignar Membresía VIP a Usuario</h3>
-  <form id="form-dar-vip">
-    <label>
-      Correo del usuario:
-      <input type="email" name="usuario" required placeholder="correo@ejemplo.com" />
-    </label>
-    <br><br>
-    <label>
-      Tipo de VIP:
-      <select name="tipo" required>
-        <option value="dias">Por Días</option>
-        <option value="semanas">Por Semanas</option>
-        <option value="meses">Por Meses</option>
-        <option value="permanente">Permanente</option>
-      </select>
-    </label>
-    <br><br>
-    <label>
-      Cantidad:
-      <input type="number" name="cantidad" min="1" placeholder="Cantidad (si aplica)" />
-    </label>
-    <br><br>
-    <button type="submit">Asignar VIP</button>
-  </form>
-</div>
-
   </div>
 </div>
 <script>
@@ -1159,72 +1274,6 @@ window.borrarNovela = async function(idx) {
     alert('Error al borrar novela: ' + err.message);
   }
 };
-</script>
-<!-- Panel VIP oculto -->
-<div id="vipPanel" style="display: none; margin-top: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
-  <h2>Asignar VIP a usuario</h2>
-  <form id="vipForm">
-    <label for="vipEmail">Correo del usuario:</label><br>
-    <input type="email" id="vipEmail" required style="width: 100%;"><br><br>
-
-    <label for="vipTipo">Tipo de VIP:</label><br>
-    <select id="vipTipo" required style="width: 100%;" onchange="cambiarVisibilidadCantidad()">
-      <option value="permanente">Permanente</option>
-      <option value="dias">Por días</option>
-      <option value="semanas">Por semanas</option>
-      <option value="meses">Por meses</option>
-    </select><br><br>
-
-    <div id="vipCantidadDiv" style="display: none;">
-      <label for="vipCantidad">Cantidad:</label><br>
-      <input type="number" id="vipCantidad" min="1" style="width: 100%;"><br><br>
-    </div>
-
-    <button type="submit">Dar VIP</button>
-  </form>
-
-  <p id="vipResultado" style="margin-top: 15px; font-weight: bold;"></p>
-</div>
-<script>
-  // Mostrar/ocultar panel VIP al hacer clic en el botón
-  document.getElementById('toggleVipPanel').addEventListener('click', () => {
-    const panel = document.getElementById('vipPanel');
-    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-  });
-
-  // Mostrar o esconder campo cantidad según tipo seleccionado
-  function cambiarVisibilidadCantidad() {
-    const tipo = document.getElementById('vipTipo').value;
-    const cantidadDiv = document.getElementById('vipCantidadDiv');
-    cantidadDiv.style.display = (tipo !== 'permanente') ? 'block' : 'none';
-  }
-
-  // Enviar formulario para dar VIP
-  document.getElementById('vipForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const email = document.getElementById('vipEmail').value.trim();
-    const tipo = document.getElementById('vipTipo').value;
-    const cantidad = tipo !== 'permanente' ? parseInt(document.getElementById('vipCantidad').value) : null;
-
-    if (tipo !== 'permanente' && (!cantidad || cantidad < 1)) {
-      document.getElementById('vipResultado').textContent = 'Por favor ingresa una cantidad válida.';
-      return;
-    }
-
-    try {
-      const respuesta = await fetch('/api/dar-vip', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, tipo, cantidad })
-      });
-
-      const resultado = await respuesta.json();
-      document.getElementById('vipResultado').textContent = resultado.message || 'Algo salió mal.';
-    } catch (error) {
-      document.getElementById('vipResultado').textContent = 'Error al conectarse al servidor.';
-    }
-  });
 </script>
 </body>
 </html>
