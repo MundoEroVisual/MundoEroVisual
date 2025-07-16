@@ -249,20 +249,13 @@
     }
   </style>
 </head>
-
 <body>
-  <!-- Botón para abrir el panel VIP flotante -->
-  <button id="toggleVipPanel">Otorgar VIP a usuario</button>
-
-  <!-- Overlay oscuro detrás del panel -->
-  <div id="vipOverlay"></div>
-
-  <!-- Panel VIP flotante -->
+      <!-- Panel VIP flotante -->
   <div id="vipPanel">
     <h2>Asignar VIP a usuario</h2>
     <form id="vipForm">
-      <label for="vipEmail">Correo del usuario:</label><br>
-      <input type="email" id="vipEmail" required><br><br>
+    <label for="vipUsuario">Usuario:</label><br>
+    <input type="text" id="vipUsuario" required><br><br>
 
       <label for="vipTipo">Tipo de VIP:</label><br>
       <select id="vipTipo" required onchange="cambiarVisibilidadCantidad()">
@@ -285,72 +278,6 @@
     <!-- Botón para cerrar el panel -->
     <button id="closeVipPanel">Cerrar</button>
   </div>
-
-  <script>
-    const toggleBtn = document.getElementById('toggleVipPanel');
-    const panel = document.getElementById('vipPanel');
-    const overlay = document.getElementById('vipOverlay');
-    const closeBtn = document.getElementById('closeVipPanel');
-
-    // Función para mostrar el panel y overlay
-    function abrirPanel() {
-      panel.style.display = 'block';
-      overlay.style.display = 'block';
-    }
-
-    // Función para ocultar panel y overlay
-    function cerrarPanel() {
-      panel.style.display = 'none';
-      overlay.style.display = 'none';
-      document.getElementById('vipResultado').textContent = '';
-      document.getElementById('vipForm').reset();
-      cambiarVisibilidadCantidad();
-    }
-
-    toggleBtn.addEventListener('click', abrirPanel);
-    closeBtn.addEventListener('click', cerrarPanel);
-    overlay.addEventListener('click', cerrarPanel);
-
-    // Mostrar o esconder campo cantidad según tipo seleccionado
-    function cambiarVisibilidadCantidad() {
-      const tipo = document.getElementById('vipTipo').value;
-      const cantidadDiv = document.getElementById('vipCantidadDiv');
-      cantidadDiv.style.display = (tipo !== 'permanente') ? 'block' : 'none';
-    }
-
-    cambiarVisibilidadCantidad();
-
-    // Enviar formulario para dar VIP
-    document.getElementById('vipForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const email = document.getElementById('vipEmail').value.trim();
-      const tipo = document.getElementById('vipTipo').value;
-      const cantidad = tipo !== 'permanente' ? parseInt(document.getElementById('vipCantidad').value) : null;
-
-      if (tipo !== 'permanente' && (!cantidad || cantidad < 1)) {
-        document.getElementById('vipResultado').textContent = 'Por favor ingresa una cantidad válida.';
-        return;
-      }
-
-      try {
-        const respuesta = await fetch('/api/dar-vip', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, tipo, cantidad })
-        });
-
-        const resultado = await respuesta.json();
-        document.getElementById('vipResultado').textContent = resultado.message || 'Algo salió mal.';
-      } catch (error) {
-        document.getElementById('vipResultado').textContent = 'Error al conectarse al servidor.';
-      }
-    });
-  </script>
-</body>
-  </style>
-</head>
-<body>
 <!-- Modal de login admin (aparece automáticamente si no eres admin) -->
 <div id="modal-login-admin" style="display:flex;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000b;z-index:99999;align-items:center;justify-content:center;">
   <form id="form-login-admin" style="background:#000;padding:32px 28px 24px 28px;border-radius:14px;box-shadow:0 4px 32px #ffd70055;min-width:320px;max-width:90vw;display:flex;flex-direction:column;gap:18px;align-items:center;border:2px solid #ffd700;">
@@ -1275,5 +1202,66 @@ window.borrarNovela = async function(idx) {
   }
 };
 </script>
+  <script>
+    const toggleBtn = document.getElementById('toggleVipPanel');
+    const panel = document.getElementById('vipPanel');
+    const overlay = document.getElementById('vipOverlay');
+    const closeBtn = document.getElementById('closeVipPanel');
+
+    // Función para mostrar el panel y overlay
+    function abrirPanel() {
+      panel.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+
+    // Función para ocultar panel y overlay
+    function cerrarPanel() {
+      panel.style.display = 'none';
+      overlay.style.display = 'none';
+      document.getElementById('vipResultado').textContent = '';
+      document.getElementById('vipForm').reset();
+      cambiarVisibilidadCantidad();
+    }
+
+    toggleBtn.addEventListener('click', abrirPanel);
+    closeBtn.addEventListener('click', cerrarPanel);
+    overlay.addEventListener('click', cerrarPanel);
+
+    // Mostrar o esconder campo cantidad según tipo seleccionado
+    function cambiarVisibilidadCantidad() {
+      const tipo = document.getElementById('vipTipo').value;
+      const cantidadDiv = document.getElementById('vipCantidadDiv');
+      cantidadDiv.style.display = (tipo !== 'permanente') ? 'block' : 'none';
+    }
+
+    cambiarVisibilidadCantidad();
+
+    // Enviar formulario para dar VIP
+    document.getElementById('vipForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('vipEmail').value.trim();
+      const tipo = document.getElementById('vipTipo').value;
+      const cantidad = tipo !== 'permanente' ? parseInt(document.getElementById('vipCantidad').value) : null;
+
+      if (tipo !== 'permanente' && (!cantidad || cantidad < 1)) {
+        document.getElementById('vipResultado').textContent = 'Por favor ingresa una cantidad válida.';
+        return;
+      }
+
+      try {
+        const respuesta = await fetch('/api/dar-vip', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, tipo, cantidad })
+        });
+
+        const resultado = await respuesta.json();
+        document.getElementById('vipResultado').textContent = resultado.message || 'Algo salió mal.';
+      } catch (error) {
+        document.getElementById('vipResultado').textContent = 'Error al conectarse al servidor.';
+      }
+    });
+  </script>
 </body>
 </html>
