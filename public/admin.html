@@ -310,34 +310,39 @@
   </style>
 </head>
 <body>
-      <!-- Panel VIP flotante -->
-  <div id="vipPanel">
-    <h2>Asignar VIP a usuario</h2>
-    <form id="vipForm">
+ <!-- Botón para abrir panel VIP -->
+<button id="toggleVipPanel">Asignar VIP</button>
+
+<!-- Overlay para fondo oscuro -->
+<div id="vipOverlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index: 999;"></div>
+
+<!-- Panel VIP flotante -->
+<div id="vipPanel" style="display:none; position:fixed; top:50%; left:50%; transform: translate(-50%, -50%); background:#fff; padding:20px; box-shadow:0 0 10px #000; z-index:1000; max-width: 400px;">
+  <h2>Asignar VIP a usuario</h2>
+  <form id="vipForm">
     <label for="vipUsuario">Usuario:</label><br>
-    <input type="text" id="vipUsuario" required><br><br>
+    <input type="text" id="vipUsuario" name="username" required><br><br>
 
-      <label for="vipTipo">Tipo de VIP:</label><br>
-      <select id="vipTipo" required onchange="cambiarVisibilidadCantidad()">
-        <option value="permanente">Permanente</option>
-        <option value="dias">Por días</option>
-        <option value="semanas">Por semanas</option>
-        <option value="meses">Por meses</option>
-      </select><br><br>
+    <label for="vipTipo">Tipo de VIP:</label><br>
+    <select id="vipTipo" name="tipo" required onchange="cambiarVisibilidadCantidad()">
+      <option value="permanente">Permanente</option>
+      <option value="dias">Por días</option>
+      <option value="semanas">Por semanas</option>
+      <option value="meses">Por meses</option>
+    </select><br><br>
 
-      <div id="vipCantidadDiv" style="display: none;">
-        <label for="vipCantidad">Cantidad:</label><br>
-        <input type="number" id="vipCantidad" min="1"><br><br>
-      </div>
+    <div id="vipCantidadDiv" style="display:none;">
+      <label for="vipCantidad">Cantidad:</label><br>
+      <input type="number" id="vipCantidad" name="cantidad" min="1"><br><br>
+    </div>
 
-      <button type="submit">Dar VIP</button>
-    </form>
+    <button type="submit">Dar VIP</button>
+    <button type="button" id="closeVipPanel">Cerrar</button>
+  </form>
 
-    <p id="vipResultado" style="margin-top: 15px; font-weight: bold;"></p>
+  <p id="vipResultado" style="margin-top:15px; font-weight:bold;"></p>
+</div>
 
-    <!-- Botón para cerrar el panel -->
-    <button id="closeVipPanel">Cerrar</button>
-  </div>
 <!-- Modal de login admin (aparece automáticamente si no eres admin) -->
 <div id="modal-login-admin" style="display:flex;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000b;z-index:99999;align-items:center;justify-content:center;">
   <form id="form-login-admin" style="background:#000;padding:32px 28px 24px 28px;border-radius:14px;box-shadow:0 4px 32px #ffd70055;min-width:320px;max-width:90vw;display:flex;flex-direction:column;gap:18px;align-items:center;border:2px solid #ffd700;">
