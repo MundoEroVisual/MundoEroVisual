@@ -177,9 +177,10 @@ async function checkNovelas() {
       const novelaId = novela._id || novela.id;
       if (!novelasAnunciadas.has(novelaId)) {
         novelasAnunciadas.add(novelaId);
+        const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
         const embed = new EmbedBuilder()
           .setTitle(novela.titulo)
-          .setURL(novela.url)
+          .setURL(urlNovela)
           .setImage(novela.portada)
           .addFields(
             { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
@@ -187,7 +188,7 @@ async function checkNovelas() {
             { name: 'Peso', value: novela.peso || 'N/A', inline: true }
           )
           .setColor(0x00bfff)
-          .setDescription((novela.desc || '') + '\n¡Nueva novela subida!');
+          .setDescription((novela.desc || '') + `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!`);
         await channel.send({ embeds: [embed] });
       }
     }
