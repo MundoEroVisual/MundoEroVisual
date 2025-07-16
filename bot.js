@@ -209,9 +209,10 @@ async function checkNovelas() {
       if (!novelasAnunciadas.has(novelaId)) {
         novelasAnunciadas.add(novelaId);
         const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
+        const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
         const embed = new EmbedBuilder()
           .setTitle(novela.titulo)
-          .setURL(urlNovela)
+          .setURL(enlacePublico)
           .setImage(novela.portada)
           .addFields(
             { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
@@ -219,8 +220,16 @@ async function checkNovelas() {
             { name: 'Peso', value: novela.peso || 'N/A', inline: true }
           )
           .setColor(0x00bfff)
-          .setDescription((novela.desc || '') + `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!`);
-        await channel.send({ embeds: [embed] });
+          .setDescription((novela.desc || '') + `\n¡Nueva novela subida!`);
+        // Botón de descarga público
+        const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
+        const row = new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setLabel('Descargar')
+            .setStyle(5)
+            .setURL(enlacePublico)
+        );
+        await channel.send({ embeds: [embed], components: [row] });
       }
     }
   } catch (err) {
