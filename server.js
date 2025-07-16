@@ -576,6 +576,46 @@ app.get('/api/visitas', async (req, res) => {
 // Iniciar el bot de Discord junto al servidor Express
 require('./bot');
 
+app.use(express.json());
+
+app.post('/api/dar-vip', (req, res) => {
+  const { email, tipo, cantidad } = req.body;
+  const rutaUsuarios = path.join(__dirname, 'usuarios.json');
+
+  try {
+    const usuarios = JSON.parse(fs.readFileSync(rutaUsuarios, 'utf-8'));
+    const usuario = usuarios.find(u => u.email === email);
+
+    if (!usuario) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    if (tipo === 'permanente') {
+      usuario.vip = 'permanente';
+    } else {
+      const ahora = new Date();
+      let duracionMs = 0;
+
+      switch (tipo) {
+        case 'dias': duracionMs = cantidad * 24 * 60 * 60 * 1000; break;
+        case 'semanas': duracionMs = cantidad * 7 * 24 * 60 * 60 * 1000; break;
+        case 'meses': duracionMs = cantidad * 30 * 24 * 60 * 60 * 1000; break;
+        default: return res.status(400).json({ message: 'Tipo inválido' });
+      }
+
+      const expiracion = new Date(ahora.getTime() + duracionMs);
+      usuario.vip = expiracion.toISOString();
+    }
+
+    fs.writeFileSync(rutaUsuarios, JSON.stringify(usuarios, null, 2));
+    res.json({ message: 'VIP asignado correctamente.' });
+
+  } catch (error) {
+    console.error('Error actualizando VIP:', error);
+    res.status(500).json({ message: 'Error en el servidor' });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Servidor listo en puerto ' + PORT));
 
