@@ -3,6 +3,51 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
+// --- Configuración para GitHub API ---
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_OWNER = process.env.GITHUB_OWNER;
+const GITHUB_REPO = process.env.GITHUB_REPO;
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+
+// Función para subir archivo a GitHub (crea si no existe)
+async function updateFileOnGitHub(githubPath, newContent) {
+  let sha = null;
+  try {
+    sha = await getFileSha(githubPath);
+  } catch (e) {
+    sha = null;
+  }
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${githubPath}`;
+  const body = {
+    message: 'Actualización automática desde el bot',
+    content: Buffer.from(JSON.stringify(newContent, null, 2)).toString('base64'),
+    branch: GITHUB_BRANCH
+  };
+  if (sha) body.sha = sha;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+    },
+    body: JSON.stringify(body)
+  });
+  return await res.json();
+}
+
+// Devuelve el SHA del archivo en GitHub, o lanza error si no existe
+async function getFileSha(githubPath) {
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${githubPath}?ref=${GITHUB_BRANCH}`;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+    }
+  });
+  if (res.status === 404) throw new Error('Archivo no existe');
+  const data = await res.json();
+  return data.sha;
+}
 const RSSParser = require('rss-parser');
 console.log("TOKEN del .env es:", process.env.DISCORD_TOKEN);
 const client = new Client({
@@ -16,6 +61,75 @@ const client = new Client({
 
 // Comandos de mantenimiento para admins
 client.on('messageCreate', async msg => {
+  // Comando para mostrar todos los comandos disponibles
+  if (msg.content.trim() === '!comandos') {
+    const comandos = [
+      '`!clear <n>` — Borra los últimos n mensajes del canal.',
+      '`!clearall` — Borra todos los mensajes del canal actual.',
+      '`!reanunciar-novelas` — Vuelve a anunciar todas las novelas.',
+      '`!ping` — Prueba de latencia/respuesta del bot.',
+      '`!ban @usuario <motivo>` — Banea a un usuario.',
+      '`!kick @usuario <motivo>` — Expulsa a un usuario.',
+      '`!anuncio <mensaje>` — Envía un anuncio a todos los canales configurados.'
+    ];
+    return msg.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setTitle('Comandos de administración disponibles')
+          .setDescription(comandos.join('\n'))
+          .setColor(0x00bfff)
+      ]
+    });
+  }
+
+  // Comando !ban
+  if (command === 'ban') {
+    if (args.length < 1) return msg.reply('Debes mencionar a un usuario para banear.');
+    const user = msg.mentions.members.first();
+    const motivo = args.slice(1).join(' ') || 'Sin motivo';
+    if (!user) return msg.reply('Usuario no encontrado.');
+    if (!user.bannable) return msg.reply('No puedo banear a ese usuario.');
+    try {
+      await user.ban({ reason: motivo });
+      msg.channel.send(`🔨 Usuario ${user.user.tag} baneado. Motivo: ${motivo}`);
+    } catch (e) {
+      msg.reply('No se pudo banear al usuario.');
+    }
+  }
+
+  // Comando !kick
+  if (command === 'kick') {
+    if (args.length < 1) return msg.reply('Debes mencionar a un usuario para expulsar.');
+    const user = msg.mentions.members.first();
+    const motivo = args.slice(1).join(' ') || 'Sin motivo';
+    if (!user) return msg.reply('Usuario no encontrado.');
+    if (!user.kickable) return msg.reply('No puedo expulsar a ese usuario.');
+    try {
+      await user.kick(motivo);
+      msg.channel.send(`👢 Usuario ${user.user.tag} expulsado. Motivo: ${motivo}`);
+    } catch (e) {
+      msg.reply('No se pudo expulsar al usuario.');
+    }
+  }
+
+  // Comando !anuncio
+  if (command === 'anuncio') {
+    const mensaje = args.join(' ');
+    if (!mensaje) return msg.reply('Debes escribir el mensaje del anuncio.');
+    // Puedes personalizar los canales a los que se envía el anuncio
+    const canales = [
+      DISCORD_CHANNEL_WELCOME,
+      DISCORD_CHANNEL_MEMES,
+      DISCORD_CHANNEL_JUEGOS_NOPOR
+    ].filter(Boolean);
+    for (const canalId of canales) {
+      try {
+        const canal = await client.channels.fetch(canalId);
+        if (canal) await canal.send(`📢 **ANUNCIO:** ${mensaje}`);
+      } catch {}
+    }
+    msg.reply('Anuncio enviado.');
+  }
   if (msg.author.bot || !msg.guild) return;
   if (!msg.content.startsWith('!')) return;
   const args = msg.content.slice(1).trim().split(/ +/);
@@ -35,6 +149,38 @@ client.on('messageCreate', async msg => {
         .then(m => setTimeout(() => m.delete().catch(()=>{}), 3000));
     } catch (err) {
       msg.reply('No pude borrar los mensajes. ¿Tengo permisos suficientes?');
+    }
+  }
+
+  if (command === 'clearall') {
+    // Borra todos los mensajes del canal (en lotes de 100)
+    let deleted = 0;
+    let lastId;
+    try {
+      while (true) {
+        const messages = await msg.channel.messages.fetch({ limit: 100, ...(lastId && { before: lastId }) });
+        if (messages.size === 0) break;
+        await msg.channel.bulkDelete(messages, true);
+        deleted += messages.size;
+        lastId = messages.last().id;
+        if (messages.size < 100) break;
+      }
+      msg.channel.send(`🧹 Se han borrado todos los mensajes del canal (${deleted}).`).then(m => setTimeout(() => m.delete().catch(()=>{}), 3000));
+    } catch (err) {
+      msg.reply('No pude borrar todos los mensajes. ¿Tengo permisos suficientes?');
+    }
+  }
+
+  if (command === 'reanunciar-novelas') {
+    // Borra el archivo de IDs y vuelve a anunciar todas las novelas
+    try {
+      novelasAnunciadas = new Set();
+      fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, '[]', 'utf-8');
+      // Subir archivo vacío a GitHub
+      await updateFileOnGitHub('data/novelasAnunciadas.json', []);
+      msg.channel.send('🔄 Se reinició la lista de novelas anunciadas. Se volverán a anunciar todas en el próximo ciclo.').then(m => setTimeout(() => m.delete().catch(()=>{}), 5000));
+    } catch (e) {
+      msg.reply('No se pudo reiniciar la lista de novelas anunciadas.');
     }
   }
 
@@ -198,7 +344,7 @@ client.on('messageCreate', async msg => {
 // 4. Novelas API
 let lastNovelaId = null;
 const fs = require('fs');
-const NOVELAS_ANUNCIADAS_PATH = './novelasAnunciadas.json';
+const NOVELAS_ANUNCIADAS_PATH = './data/novelasAnunciadas.json';
 let novelasAnunciadas = new Set();
 // Cargar IDs anunciados al iniciar
 try {
@@ -207,6 +353,26 @@ try {
     if (Array.isArray(data)) {
       novelasAnunciadas = new Set(data);
     }
+  } else {
+    // Si no existe local, intentar descargarlo de GitHub
+    (async () => {
+      try {
+        const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/novelasAnunciadas.json`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            novelasAnunciadas = new Set(data);
+          }
+        } else {
+          // Si tampoco existe en GitHub, crearlo vacío en GitHub
+          await updateFileOnGitHub('data/novelasAnunciadas.json', []);
+          novelasAnunciadas = new Set();
+        }
+      } catch (e) {
+        console.error('Error inicializando novelasAnunciadas.json desde GitHub:', e);
+      }
+    })();
   }
 } catch (e) {
   console.error('Error cargando novelasAnunciadas.json:', e);
@@ -250,9 +416,12 @@ async function checkNovelas() {
     // Guardar los IDs anunciados si hubo alguno nuevo
     if (nuevosAnunciados) {
       try {
-        fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify(Array.from(novelasAnunciadas), null, 2), 'utf-8');
+        const arr = Array.from(novelasAnunciadas);
+        fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify(arr, null, 2), 'utf-8');
+        // Subir a GitHub
+        await updateFileOnGitHub('data/novelasAnunciadas.json', arr);
       } catch (e) {
-        console.error('Error guardando novelasAnunciadas.json:', e);
+        console.error('Error guardando o subiendo novelasAnunciadas.json:', e);
       }
     }
   } catch (err) {
