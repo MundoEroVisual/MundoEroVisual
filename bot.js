@@ -1,5 +1,3 @@
-
-
 require('dotenv').config();
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
@@ -434,9 +432,15 @@ async function checkNovelas() {
         nuevosAnunciados = true;
         const urlNovela = novela.url && typeof novela.url === 'string' && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
         const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
-        // Validar portada: debe ser string, no vacía, no solo espacios y terminar en .jpg/.jpeg/.png/.webp/.gif
+        // Validar portada: solo acepta URLs http(s) directas a imagen, si no, usa spoiler
         let portada = novela.portada;
-        if (!portada || typeof portada !== 'string' || !portada.trim() || !/\.(jpg|jpeg|png|webp|gif)$/i.test(portada.trim())) {
+        if (
+          !portada ||
+          typeof portada !== 'string' ||
+          !portada.trim() ||
+          !/^https?:\/\//i.test(portada.trim()) ||
+          !/\.(jpg|jpeg|png|webp|gif)$/i.test(portada.trim())
+        ) {
           portada = SPOILER_IMG;
         }
         const embed = new EmbedBuilder()
