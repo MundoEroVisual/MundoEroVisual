@@ -591,6 +591,8 @@ require('./bot');
 
 app.use(express.json());
 
+const path = require('path');
+const usuariosPath = path.join(__dirname, 'usuarios.json');
 app.post('/api/dar-vip', async (req, res) => {
   try {
     const { username, tipo, cantidad } = req.body;
