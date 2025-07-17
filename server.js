@@ -578,41 +578,68 @@ require('./bot');
 
 app.use(express.json());
 
-app.post('/api/dar-vip', (req, res) => {
-  const { email, tipo, cantidad } = req.body;
-  const rutaUsuarios = path.join(__dirname, 'usuarios.json');
+const usuariosPath = path.join(__dirname, 'data', 'usuario.json');
 
+app.post('/api/dar-vip', async (req, res) => {
   try {
-    const usuarios = JSON.parse(fs.readFileSync(rutaUsuarios, 'utf-8'));
-    const usuario = usuarios.find(u => u.email === email);
+    const { username, tipo, cantidad } = req.body;
+    console.log('👉 Datos recibidos en /api/dar-vip:', { username, tipo, cantidad });
 
-    if (!usuario) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+    if (!username || !tipo) {
+      return res.status(400).json({ message: 'Faltan datos obligatorios: username y tipo' });
     }
 
-    if (tipo === 'permanente') {
-      usuario.vip = 'permanente';
-    } else {
-      const ahora = new Date();
-      let duracionMs = 0;
-
-      switch (tipo) {
-        case 'dias': duracionMs = cantidad * 24 * 60 * 60 * 1000; break;
-        case 'semanas': duracionMs = cantidad * 7 * 24 * 60 * 60 * 1000; break;
-        case 'meses': duracionMs = cantidad * 30 * 24 * 60 * 60 * 1000; break;
-        default: return res.status(400).json({ message: 'Tipo inválido' });
+    let vipHasta = null;
+    if (tipo !== 'permanente') {
+      const cantidadNum = parseInt(cantidad);
+      if (!cantidad || isNaN(cantidadNum) || cantidadNum < 1) {
+        return res.status(400).json({ message: 'Cantidad inválida para tipo no permanente' });
       }
 
-      const expiracion = new Date(ahora.getTime() + duracionMs);
-      usuario.vip = expiracion.toISOString();
+      const ahora = new Date();
+
+      if (tipo === 'dias') {
+        ahora.setDate(ahora.getDate() + cantidadNum);
+      } else if (tipo === 'semanas') {
+        ahora.setDate(ahora.getDate() + cantidadNum * 7);
+      } else if (tipo === 'meses') {
+        ahora.setMonth(ahora.getMonth() + cantidadNum);
+      } else {
+        return res.status(400).json({ message: 'Tipo de VIP no válido' });
+      }
+
+      vipHasta = ahora.toISOString();
     }
 
-    fs.writeFileSync(rutaUsuarios, JSON.stringify(usuarios, null, 2));
-    res.json({ message: 'VIP asignado correctamente.' });
+    // Validar que el archivo existe
+    if (!fs.existsSync(usuariosPath)) {
+      return res.status(500).json({ message: 'Archivo de usuarios no existe.' });
+    }
 
+    // Leer y parsear usuarios
+    const usuariosRaw = fs.readFileSync(usuariosPath, 'utf-8');
+    let usuarios = JSON.parse(usuariosRaw);
+
+    // Buscar usuario por username o usuario
+    const index = usuarios.findIndex(u => u.usuario === username || u.username === username);
+
+    if (index === -1) {
+      return res.status(404).json({ message: 'Usuario no encontrado.' });
+    }
+
+    // Actualizar VIP
+    usuarios[index].esVip = true;
+    if (vipHasta) usuarios[index].vipHasta = vipHasta;
+
+    // Guardar archivo actualizado
+    fs.writeFileSync(usuariosPath, JSON.stringify(usuarios, null, 2), 'utf-8');
+
+    res.json({
+      message: `✅ VIP asignado correctamente a ${username}${vipHasta ? ' hasta ' + vipHasta.split('T')[0] : ' permanentemente'}`,
+    });
   } catch (error) {
-    console.error('Error actualizando VIP:', error);
-    res.status(500).json({ message: 'Error en el servidor' });
+    console.error('❌ Error en /api/dar-vip:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
