@@ -197,17 +197,32 @@ client.on('messageCreate', async msg => {
 
 // 4. Novelas API
 let lastNovelaId = null;
+const fs = require('fs');
+const NOVELAS_ANUNCIADAS_PATH = './novelasAnunciadas.json';
 let novelasAnunciadas = new Set();
+// Cargar IDs anunciados al iniciar
+try {
+  if (fs.existsSync(NOVELAS_ANUNCIADAS_PATH)) {
+    const data = JSON.parse(fs.readFileSync(NOVELAS_ANUNCIADAS_PATH, 'utf-8'));
+    if (Array.isArray(data)) {
+      novelasAnunciadas = new Set(data);
+    }
+  }
+} catch (e) {
+  console.error('Error cargando novelasAnunciadas.json:', e);
+}
 async function checkNovelas() {
   try {
     const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/refs/heads/main/data/novelas-1.json');
     const data = await res.json();
     if (!Array.isArray(data) || !data.length) return;
     const channel = await client.channels.fetch(DISCORD_CHANNEL_JUEGOS_NOPOR);
+    let nuevosAnunciados = false;
     for (const novela of data) {
       const novelaId = novela._id || novela.id;
       if (!novelasAnunciadas.has(novelaId)) {
         novelasAnunciadas.add(novelaId);
+        nuevosAnunciados = true;
         const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
         const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
         const embed = new EmbedBuilder()
@@ -230,6 +245,14 @@ async function checkNovelas() {
             .setURL(enlacePublico)
         );
         await channel.send({ embeds: [embed], components: [row] });
+      }
+    }
+    // Guardar los IDs anunciados si hubo alguno nuevo
+    if (nuevosAnunciados) {
+      try {
+        fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify(Array.from(novelasAnunciadas), null, 2), 'utf-8');
+      } catch (e) {
+        console.error('Error guardando novelasAnunciadas.json:', e);
       }
     }
   } catch (err) {
