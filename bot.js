@@ -61,6 +61,14 @@ const client = new Client({
 
 // Comandos de mantenimiento para admins
 client.on('messageCreate', async msg => {
+
+  if (msg.author.bot || !msg.guild) return;
+  if (!msg.content.startsWith('!')) return;
+  const args = msg.content.slice(1).trim().split(/ +/);
+  const command = args.shift().toLowerCase();
+  // Solo admins pueden usar estos comandos
+  const isAdmin = msg.member.permissions.has('Administrator');
+
   // Comando para mostrar todos los comandos disponibles
   if (msg.content.trim() === '!comandos') {
     const comandos = [
@@ -82,6 +90,10 @@ client.on('messageCreate', async msg => {
     });
   }
 
+  if (!isAdmin) return;
+
+  if (command === 'clear' || command === 'purge') {
+    const amount = parseInt(args[0], 10);
   // Comando !ban
   if (command === 'ban') {
     if (args.length < 1) return msg.reply('Debes mencionar a un usuario para banear.');
@@ -130,16 +142,6 @@ client.on('messageCreate', async msg => {
     }
     msg.reply('Anuncio enviado.');
   }
-  if (msg.author.bot || !msg.guild) return;
-  if (!msg.content.startsWith('!')) return;
-  const args = msg.content.slice(1).trim().split(/ +/);
-  const command = args.shift().toLowerCase();
-  // Solo admins pueden usar estos comandos
-  const isAdmin = msg.member.permissions.has('Administrator');
-  if (!isAdmin) return;
-
-  if (command === 'clear' || command === 'purge') {
-    const amount = parseInt(args[0], 10);
     if (isNaN(amount) || amount < 1 || amount > 100) {
       return msg.reply('Debes especificar un número entre 1 y 100. Ejemplo: !clear 10');
     }
