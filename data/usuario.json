@@ -5,13 +5,22 @@
     "admin": true,
     "premium": true,
     "premium_expira": "2099-12-31T23:59:59.000Z"
-    },
+  },
   {
     "usuario": "alex",
     "password": "$2b$10$wy5q157UXabvKnDrmnkUzOBnp0EH4H4xi1znv.P0nK/XQ2ViIkBl.",
     "admin": false,
     "avatar": "https://yt3.ggpht.com/N4k2pjvTzZUovv1I7Amoo-caLofdcNb3qgjMfiW25VaGA1v-0BeBjhR2p-YiHlsK8V4FEs17lw=s108-c-k-c0x00ffffff-no-rj",
     "apodo": "alex",
+    "premium": false,
+    "premium_expira": null
+  },
+  {
+    "usuario": "s",
+    "password": "$2b$10$f7aYY1/J3gWL8cIKQBn4/.pGeGOauitb13ti15kS8kx1OaBKxmJaO",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/195238951?s=64&v=4",
+    "apodo": "mmg",
     "premium": false,
     "premium_expira": null
   }
