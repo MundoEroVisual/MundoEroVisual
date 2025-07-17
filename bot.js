@@ -69,18 +69,25 @@ client.on('messageCreate', async msg => {
   // Solo admins pueden usar estos comandos
   const isAdmin = msg.member.permissions.has('Administrator');
 
-  // Comando para mostrar todos los comandos disponibles
+  // Solo admins pueden ver los comandos y sus respuestas (excepto !anuncio)
+  if (!msg.member.permissions.has('Administrator') && !msg.content.startsWith('!anuncio')) return;
+
+  // Comando para mostrar todos los comandos disponibles (solo admins)
   if (msg.content.trim() === '!comandos') {
     const comandos = [
       '`!clear <n>` — Borra los últimos n mensajes del canal.',
       '`!clearall` — Borra todos los mensajes del canal actual.',
-      '`!reanunciar-novelas` — Vuelve a anunciar todas las novelas.',
+      '`!reanunciar-novelas` — Vuelve a anunciar todas las novelas (resetea la lista).',
+      '`!refrescar-novelas` — Fuerza la relectura del JSON y reanuncia novelas que hayan sido borradas de la lista de anunciadas.',
       '`!ping` — Prueba de latencia/respuesta del bot.',
       '`!ban @usuario <motivo>` — Banea a un usuario.',
       '`!kick @usuario <motivo>` — Expulsa a un usuario.',
-      '`!anuncio <mensaje>` — Envía un anuncio a todos los canales configurados.'
+      '`!anuncio <mensaje>` — Envía un anuncio a todos los canales configurados.',
+      '`!userinfo [@usuario]` — Muestra información de un usuario.',
+      '`!serverinfo` — Muestra información del servidor.'
     ];
-    return msg.channel.send({
+    // Solo admins ven la respuesta, se borra tras 10s
+    const adminMsg = await msg.reply({
       embeds: [
         new EmbedBuilder()
           .setTitle('Comandos de administración disponibles')
@@ -88,6 +95,95 @@ client.on('messageCreate', async msg => {
           .setColor(0x00bfff)
       ]
     });
+    setTimeout(() => adminMsg.delete().catch(()=>{}), 10000);
+    return;
+  }
+  // Comando !refrescar-novelas
+  if (command === 'refrescar-novelas') {
+    try {
+      // Cargar la lista actualizada de novelas
+      const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/refs/heads/main/data/novelas-1.json');
+      const data = await res.json();
+      if (!Array.isArray(data) || !data.length) return msg.reply('No se pudo obtener la lista de novelas.');
+      let nuevas = 0;
+      for (const novela of data) {
+        const novelaId = novela._id || novela.id;
+        if (!novelasAnunciadas.has(novelaId)) {
+          novelasAnunciadas.add(novelaId);
+          nuevas++;
+          const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
+          const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
+          const embed = new EmbedBuilder()
+            .setTitle(novela.titulo)
+            .setURL(enlacePublico)
+            .setImage(novela.portada)
+            .addFields(
+              { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+              { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+              { name: 'Peso', value: novela.peso || 'N/A', inline: true }
+            )
+            .setColor(0x00bfff)
+            .setDescription((novela.desc || '') + `\n¡Nueva novela subida!`);
+          const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
+          const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+              .setLabel('Descargar')
+              .setStyle(5)
+              .setURL(enlacePublico)
+          );
+          await msg.channel.send({ embeds: [embed], components: [row] });
+        }
+      }
+      // Guardar la lista actualizada
+      const arr = Array.from(novelasAnunciadas);
+      fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify(arr, null, 2), 'utf-8');
+      await updateFileOnGitHub('data/novelasAnunciadas.json', arr);
+      if (nuevas > 0) {
+        msg.reply(`✅ Se reanunciaron ${nuevas} novelas que no estaban en la lista de anunciadas.`);
+      } else {
+        msg.reply('No había novelas nuevas para reanunciar.');
+      }
+    } catch (e) {
+      msg.reply('Ocurrió un error al refrescar y reanunciar las novelas.');
+    }
+  }
+  // Comando !userinfo (solo admins, respuesta solo para admins)
+  if (command === 'userinfo') {
+    if (!msg.member.permissions.has('Administrator')) return;
+    const user = msg.mentions.users.first() || msg.author;
+    const member = msg.guild.members.cache.get(user.id);
+    const embed = new EmbedBuilder()
+      .setTitle(`Información de ${user.tag}`)
+      .setThumbnail(user.displayAvatarURL())
+      .addFields(
+        { name: 'ID', value: user.id, inline: true },
+        { name: 'Cuenta creada', value: `<t:${Math.floor(user.createdTimestamp/1000)}:F>`, inline: true },
+        { name: 'Se unió', value: member ? `<t:${Math.floor(member.joinedTimestamp/1000)}:F>` : 'N/A', inline: true },
+        { name: 'Roles', value: member ? member.roles.cache.map(r => r.name).join(', ') : 'N/A', inline: false }
+      )
+      .setColor(0x00bfff);
+    const adminMsg = await msg.reply({ embeds: [embed] });
+    setTimeout(() => adminMsg.delete().catch(()=>{}), 10000);
+    return;
+  }
+
+  // Comando !serverinfo (solo admins, respuesta solo para admins)
+  if (command === 'serverinfo') {
+    if (!msg.member.permissions.has('Administrator')) return;
+    const { guild } = msg;
+    const embed = new EmbedBuilder()
+      .setTitle(`Información del servidor: ${guild.name}`)
+      .setThumbnail(guild.iconURL())
+      .addFields(
+        { name: 'ID', value: guild.id, inline: true },
+        { name: 'Miembros', value: `${guild.memberCount}`, inline: true },
+        { name: 'Creado', value: `<t:${Math.floor(guild.createdTimestamp/1000)}:F>`, inline: true },
+        { name: 'Dueño', value: `<@${guild.ownerId}>`, inline: true }
+      )
+      .setColor(0x00bfff);
+    const adminMsg = await msg.reply({ embeds: [embed] });
+    setTimeout(() => adminMsg.delete().catch(()=>{}), 10000);
+    return;
   }
 
   if (!isAdmin) return;
@@ -263,6 +359,8 @@ client.on('guildMemberAdd', async member => {
   } catch (err) {
     console.error('Error enviando mensaje de bienvenida o asignando rol:', err);
   }
+});
+
 // Sistema de niveles por actividad en el chat
 const userXP = new Map();
 const LEVEL_XP = 100;
@@ -289,7 +387,6 @@ client.on('messageCreate', async msg => {
     } catch {}
   }
 });
-});
 
 // 2. YouTube: Detectar nuevos videos
 let lastVideoId = null;
@@ -310,38 +407,42 @@ async function checkYouTube() {
       .setColor(0xff0000)
       .setDescription('¡Nuevo video en el canal de YouTube!');
     const channel = await client.channels.fetch(DISCORD_CHANNEL_NEW_VIDEOS);
-    await channel.send({ embeds: [embed] });
-  } catch (err) {
-    console.error('Error comprobando YouTube:', err);
-  }
-}
-
-// 3. Reenvío de mensajes entre canales de Discord (texto, imágenes y archivos)
-const FORWARD_MAP = [
-  { origen: NITTER_MEMES, destino: DISCORD_CHANNEL_MEMES },
-  { origen: NITTER_HENTAI, destino: DISCORD_CHANNEL_HENTAI },
-  { origen: NITTER_PORNOLAND, destino: DISCORD_CHANNEL_PORNOLAND },
-  { origen: NITTER_FETICHES, destino: DISCORD_CHANNEL_FETICHES },
-  { origen: NITTER_PIES, destino: DISCORD_CHANNEL_PIES }
-];
-
-client.on('messageCreate', async msg => {
-  if (msg.author.bot) return;
-  for (const map of FORWARD_MAP) {
-    if (msg.channel.id === map.origen) {
-      try {
-        const destChannel = await client.channels.fetch(map.destino);
-        // Reenviar texto
-        let content = msg.content || '';
-        // Reenviar archivos adjuntos
-        const files = msg.attachments.map(att => att.url);
-        await destChannel.send({ content, files });
-      } catch (err) {
-        console.error('Error reenviando mensaje:', err);
-      }
-    }
-  }
-});
+        const SPOILER_IMG = 'https://cdn.discordapp.com/attachments/1128360030198571068/1130999999999999999/spoiler.png';
+        for (const novela of data) {
+          const novelaId = novela._id || novela.id;
+          if (!novelasAnunciadas.has(novelaId)) {
+            novelasAnunciadas.add(novelaId);
+            nuevosAnunciados = true;
+            const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
+            const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
+            // Validar portada: debe ser string, no vacía y terminar en .jpg/.jpeg/.png/.webp/.gif
+            let portada = novela.portada;
+            if (!portada || typeof portada !== 'string' || !/\.(jpg|jpeg|png|webp|gif)$/i.test(portada.trim())) {
+              portada = SPOILER_IMG;
+            }
+            const embed = new EmbedBuilder()
+              .setTitle(novela.titulo)
+              .setURL(enlacePublico)
+              .setImage(portada)
+              .addFields(
+                { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+                { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+                { name: 'Peso', value: novela.peso || 'N/A', inline: true }
+              )
+              .setColor(0x00bfff)
+              .setDescription((novela.desc || '') + `\n¡Nueva novela subida!`);
+            // Botón de descarga público
+            const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
+            const row = new ActionRowBuilder().addComponents(
+              new ButtonBuilder()
+                .setLabel('Descargar')
+                .setStyle(5)
+                .setURL(enlacePublico)
+            );
+            await channel.send({ embeds: [embed], components: [row] });
+          }
+        }
+       });
 
 // 4. Novelas API
 let lastNovelaId = null;
@@ -379,57 +480,6 @@ try {
 } catch (e) {
   console.error('Error cargando novelasAnunciadas.json:', e);
 }
-async function checkNovelas() {
-  try {
-    const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/refs/heads/main/data/novelas-1.json');
-    const data = await res.json();
-    if (!Array.isArray(data) || !data.length) return;
-    const channel = await client.channels.fetch(DISCORD_CHANNEL_JUEGOS_NOPOR);
-    let nuevosAnunciados = false;
-    for (const novela of data) {
-      const novelaId = novela._id || novela.id;
-      if (!novelasAnunciadas.has(novelaId)) {
-        novelasAnunciadas.add(novelaId);
-        nuevosAnunciados = true;
-        const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
-        const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
-        const embed = new EmbedBuilder()
-          .setTitle(novela.titulo)
-          .setURL(enlacePublico)
-          .setImage(novela.portada)
-          .addFields(
-            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
-            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
-            { name: 'Peso', value: novela.peso || 'N/A', inline: true }
-          )
-          .setColor(0x00bfff)
-          .setDescription((novela.desc || '') + `\n¡Nueva novela subida!`);
-        // Botón de descarga público
-        const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
-        const row = new ActionRowBuilder().addComponents(
-          new ButtonBuilder()
-            .setLabel('Descargar')
-            .setStyle(5)
-            .setURL(enlacePublico)
-        );
-        await channel.send({ embeds: [embed], components: [row] });
-      }
-    }
-    // Guardar los IDs anunciados si hubo alguno nuevo
-    if (nuevosAnunciados) {
-      try {
-        const arr = Array.from(novelasAnunciadas);
-        fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify(arr, null, 2), 'utf-8');
-        // Subir a GitHub
-        await updateFileOnGitHub('data/novelasAnunciadas.json', arr);
-      } catch (e) {
-        console.error('Error guardando o subiendo novelasAnunciadas.json:', e);
-      }
-    }
-  } catch (err) {
-    console.error('Error comprobando novelas:', err);
-  }
-}
 
 // 8. Intervalos periódicos
 client.once('ready', () => {
@@ -439,3 +489,5 @@ client.once('ready', () => {
 });
 
 client.login(DISCORD_TOKEN);
+// Fin del archivo
+}
