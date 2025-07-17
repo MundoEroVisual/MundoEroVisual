@@ -591,7 +591,6 @@ require('./bot');
 
 app.use(express.json());
 
-const usuariosPath = path.join(__dirname, 'usuarios.json');
 app.post('/api/dar-vip', async (req, res) => {
   try {
     const { username, tipo, cantidad } = req.body;
@@ -622,13 +621,11 @@ app.post('/api/dar-vip', async (req, res) => {
       vipHasta = ahora.toISOString();
     }
 
-    if (!fs.existsSync(usuariosPath)) {
+    if (!fs.existsSync(USUARIOS_PATH)) {
       return res.status(500).json({ message: 'Archivo de usuarios no existe.' });
     }
 
-    const usuariosRaw = fs.readFileSync(usuariosPath, 'utf-8');
-    let usuarios = JSON.parse(usuariosRaw);
-
+    let usuarios = JSON.parse(fs.readFileSync(USUARIOS_PATH, 'utf-8'));
     const index = usuarios.findIndex(u => u.usuario === username || u.username === username);
 
     if (index === -1) {
@@ -639,10 +636,10 @@ app.post('/api/dar-vip', async (req, res) => {
     usuarios[index].premium_expira = vipHasta || null;
 
     // Guardar localmente
-    fs.writeFileSync(usuariosPath, JSON.stringify(usuarios, null, 2), 'utf-8');
+    fs.writeFileSync(USUARIOS_PATH, JSON.stringify(usuarios, null, 2), 'utf-8');
 
-    // Subir a GitHub (nombre correcto del archivo es "usuario")
-    const result = await updateFileOnGitHub('data/usuario', JSON.stringify(usuarios, null, 2));
+    // Subir a GitHub (nombre correcto del archivo es "usuario.json")
+    const result = await updateFileOnGitHub('data/usuario.json', usuarios);
 
     if (result && result.commit) {
       res.json({
