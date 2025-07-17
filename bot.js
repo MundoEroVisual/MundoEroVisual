@@ -424,17 +424,19 @@ async function checkNovelas() {
     if (!Array.isArray(data) || !data.length) return;
     const SPOILER_IMG = 'https://cdn.discordapp.com/attachments/1128360030198571068/1130999999999999999/spoiler.png';
     let nuevosAnunciados = false;
-    const channel = await client.channels.fetch(DISCORD_CHANNEL_WELCOME);
+    // Usa canal específico para novelas, si no existe usa el de bienvenida
+    const channelId = typeof DISCORD_CHANNEL_NOVELAS !== 'undefined' && DISCORD_CHANNEL_NOVELAS ? DISCORD_CHANNEL_NOVELAS : DISCORD_CHANNEL_WELCOME;
+    const channel = await client.channels.fetch(channelId).catch(() => null);
     for (const novela of data) {
       const novelaId = novela._id || novela.id;
       if (!novelasAnunciadas.has(novelaId)) {
         novelasAnunciadas.add(novelaId);
         nuevosAnunciados = true;
-        const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
+        const urlNovela = novela.url && typeof novela.url === 'string' && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
         const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
-        // Validar portada: debe ser string, no vacía y terminar en .jpg/.jpeg/.png/.webp/.gif
+        // Validar portada: debe ser string, no vacía, no solo espacios y terminar en .jpg/.jpeg/.png/.webp/.gif
         let portada = novela.portada;
-        if (!portada || typeof portada !== 'string' || !/\.(jpg|jpeg|png|webp|gif)$/i.test(portada.trim())) {
+        if (!portada || typeof portada !== 'string' || !portada.trim() || !/\.(jpg|jpeg|png|webp|gif)$/i.test(portada.trim())) {
           portada = SPOILER_IMG;
         }
         const embed = new EmbedBuilder()
@@ -485,23 +487,9 @@ let novelasAnunciadas = new Set();
       if (Array.isArray(data)) {
         novelasAnunciadas = new Set(data);
       }
-    } else {
-      // Si no existe local, intentar descargarlo de GitHub
-      const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/novelasAnunciadas.json`;
-      const res = await fetch(url);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          novelasAnunciadas = new Set(data);
-        }
-      } else {
-        // Si tampoco existe en GitHub, crearlo vacío en GitHub
-        await updateFileOnGitHub('data/novelasAnunciadas.json', []);
-        novelasAnunciadas = new Set();
-      }
     }
   } catch (e) {
-    console.error('Error inicializando novelasAnunciadas.json:', e);
+    console.error('Error cargando novelas anunciadas:', e);
   }
 })();
 
