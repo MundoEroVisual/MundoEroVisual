@@ -439,10 +439,9 @@ async function checkYouTube() {
                 .setStyle(5)
                 .setURL(enlacePublico)
             );
-            await channel.send({ embeds: [embed], components: [row] });
-          }
+          await channel.send({ embeds: [embed], components: [row] });
         }
-       });
+      }
 
 // 4. Novelas API
 let lastNovelaId = null;
@@ -450,36 +449,32 @@ const fs = require('fs');
 const NOVELAS_ANUNCIADAS_PATH = './data/novelasAnunciadas.json';
 let novelasAnunciadas = new Set();
 // Cargar IDs anunciados al iniciar
-try {
-  if (fs.existsSync(NOVELAS_ANUNCIADAS_PATH)) {
-    const data = JSON.parse(fs.readFileSync(NOVELAS_ANUNCIADAS_PATH, 'utf-8'));
-    if (Array.isArray(data)) {
-      novelasAnunciadas = new Set(data);
-    }
-  } else {
-    // Si no existe local, intentar descargarlo de GitHub
-    (async () => {
-      try {
-        const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/novelasAnunciadas.json`;
-        const res = await fetch(url);
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data)) {
-            novelasAnunciadas = new Set(data);
-          }
-        } else {
-          // Si tampoco existe en GitHub, crearlo vacío en GitHub
-          await updateFileOnGitHub('data/novelasAnunciadas.json', []);
-          novelasAnunciadas = new Set();
-        }
-      } catch (e) {
-        console.error('Error inicializando novelasAnunciadas.json desde GitHub:', e);
+(async () => {
+  try {
+    if (fs.existsSync(NOVELAS_ANUNCIADAS_PATH)) {
+      const data = JSON.parse(fs.readFileSync(NOVELAS_ANUNCIADAS_PATH, 'utf-8'));
+      if (Array.isArray(data)) {
+        novelasAnunciadas = new Set(data);
       }
-    })();
+    } else {
+      // Si no existe local, intentar descargarlo de GitHub
+      const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/novelasAnunciadas.json`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          novelasAnunciadas = new Set(data);
+        }
+      } else {
+        // Si tampoco existe en GitHub, crearlo vacío en GitHub
+        await updateFileOnGitHub('data/novelasAnunciadas.json', []);
+        novelasAnunciadas = new Set();
+      }
+    }
+  } catch (e) {
+    console.error('Error inicializando novelasAnunciadas.json:', e);
   }
-} catch (e) {
-  console.error('Error cargando novelasAnunciadas.json:', e);
-}
+})();
 
 // 8. Intervalos periódicos
 client.once('ready', () => {
@@ -489,5 +484,3 @@ client.once('ready', () => {
 });
 
 client.login(DISCORD_TOKEN);
-// Fin del archivo
-}
