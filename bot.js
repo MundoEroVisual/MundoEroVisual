@@ -407,41 +407,70 @@ async function checkYouTube() {
       .setColor(0xff0000)
       .setDescription('¡Nuevo video en el canal de YouTube!');
     const channel = await client.channels.fetch(DISCORD_CHANNEL_NEW_VIDEOS);
-        const SPOILER_IMG = 'https://cdn.discordapp.com/attachments/1128360030198571068/1130999999999999999/spoiler.png';
-        for (const novela of data) {
-          const novelaId = novela._id || novela.id;
-          if (!novelasAnunciadas.has(novelaId)) {
-            novelasAnunciadas.add(novelaId);
-            nuevosAnunciados = true;
-            const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
-            const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
-            // Validar portada: debe ser string, no vacía y terminar en .jpg/.jpeg/.png/.webp/.gif
-            let portada = novela.portada;
-            if (!portada || typeof portada !== 'string' || !/\.(jpg|jpeg|png|webp|gif)$/i.test(portada.trim())) {
-              portada = SPOILER_IMG;
-            }
-            const embed = new EmbedBuilder()
-              .setTitle(novela.titulo)
-              .setURL(enlacePublico)
-              .setImage(portada)
-              .addFields(
-                { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
-                { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
-                { name: 'Peso', value: novela.peso || 'N/A', inline: true }
-              )
-              .setColor(0x00bfff)
-              .setDescription((novela.desc || '') + `\n¡Nueva novela subida!`);
-            // Botón de descarga público
-            const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
-            const row = new ActionRowBuilder().addComponents(
-              new ButtonBuilder()
-                .setLabel('Descargar')
-                .setStyle(5)
-                .setURL(enlacePublico)
-            );
+    if (channel) {
+      await channel.send({ embeds: [embed] });
+    }
+  } catch (e) {
+    console.error('Error comprobando YouTube:', e);
+  }
+}
+
+// 4. Novelas API: Detectar y anunciar nuevas novelas
+async function checkNovelas() {
+  try {
+    const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/refs/heads/main/data/novelas-1.json`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!Array.isArray(data) || !data.length) return;
+    const SPOILER_IMG = 'https://cdn.discordapp.com/attachments/1128360030198571068/1130999999999999999/spoiler.png';
+    let nuevosAnunciados = false;
+    const channel = await client.channels.fetch(DISCORD_CHANNEL_WELCOME);
+    for (const novela of data) {
+      const novelaId = novela._id || novela.id;
+      if (!novelasAnunciadas.has(novelaId)) {
+        novelasAnunciadas.add(novelaId);
+        nuevosAnunciados = true;
+        const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
+        const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
+        // Validar portada: debe ser string, no vacía y terminar en .jpg/.jpeg/.png/.webp/.gif
+        let portada = novela.portada;
+        if (!portada || typeof portada !== 'string' || !/\.(jpg|jpeg|png|webp|gif)$/i.test(portada.trim())) {
+          portada = SPOILER_IMG;
+        }
+        const embed = new EmbedBuilder()
+          .setTitle(novela.titulo)
+          .setURL(enlacePublico)
+          .setImage(portada)
+          .addFields(
+            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+            { name: 'Peso', value: novela.peso || 'N/A', inline: true }
+          )
+          .setColor(0x00bfff)
+          .setDescription((novela.desc || '') + `\n¡Nueva novela subida!`);
+        // Botón de descarga público
+        const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
+        const row = new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setLabel('Descargar')
+            .setStyle(5)
+            .setURL(enlacePublico)
+        );
+        if (channel) {
           await channel.send({ embeds: [embed], components: [row] });
         }
       }
+    }
+    // Guardar la lista actualizada
+    if (nuevosAnunciados) {
+      const arr = Array.from(novelasAnunciadas);
+      fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify(arr, null, 2), 'utf-8');
+      await updateFileOnGitHub('data/novelasAnunciadas.json', arr);
+    }
+  } catch (e) {
+    console.error('Error comprobando novelas:', e);
+  }
+}
 
 // 4. Novelas API
 let lastNovelaId = null;
