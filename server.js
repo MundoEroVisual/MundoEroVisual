@@ -628,8 +628,9 @@ app.post('/api/dar-vip', async (req, res) => {
     }
 
     // Actualizar VIP
-    usuarios[index].esVip = true;
-    if (vipHasta) usuarios[index].vipHasta = vipHasta;
+    usuarios[index].premium = true;
+    usuarios[index].premium_expira = vipHasta || null;
+
 
     // Guardar archivo actualizado
     fs.writeFileSync(usuariosPath, JSON.stringify(usuarios, null, 2), 'utf-8');
