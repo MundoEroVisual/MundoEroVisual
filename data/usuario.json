@@ -12,8 +12,8 @@
     "admin": false,
     "avatar": "https://yt3.ggpht.com/N4k2pjvTzZUovv1I7Amoo-caLofdcNb3qgjMfiW25VaGA1v-0BeBjhR2p-YiHlsK8V4FEs17lw=s108-c-k-c0x00ffffff-no-rj",
     "apodo": "alex",
-    "premium": false,
-    "premium_expira": null
+    "premium": true,
+    "premium_expira": "2025-07-18T01:41:55.908Z"
   },
   {
     "usuario": "s",
