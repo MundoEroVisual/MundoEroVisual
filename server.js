@@ -318,7 +318,6 @@ const CONTADOR_PATH = path.join(__dirname, 'data', 'contador.json');
 
 // Rutas para registro y login de usuario normal
 
-// Registro de usuario
 // Registro de usuario (ahora con avatar y apodo opcionales)
 app.post('/api/register', async (req, res) => {
   const { usuario, password, avatar, apodo } = req.body;
@@ -349,6 +348,14 @@ app.post('/api/register', async (req, res) => {
       premium_expira: null
     });
     fs.writeFileSync(USUARIOS_PATH, JSON.stringify(usuarios, null, 2));
+
+    // Subir cambios a GitHub
+    const result = await updateFileOnGitHub('data/usuario.json', usuarios);
+    if (!result || !result.commit) {
+      console.error('Error al subir usuario a GitHub:', result);
+      return res.status(500).json({ error: 'No se pudo sincronizar usuario en GitHub' });
+    }
+
     console.log('Usuarios guardados correctamente. Total:', usuarios.length);
     res.json({ success: true });
   } catch (e) {
@@ -357,7 +364,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Login de usuario
+// Login de usuario (no modifica archivo, no sube a GitHub)
 app.post('/api/login', async (req, res) => {
   const { usuario, password } = req.body;
   if (!usuario || !password) return res.status(400).json({ error: 'Faltan datos' });
@@ -385,7 +392,8 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-// Endpoint para actualizar avatar y apodo del usuario
+
+// Endpoint para actualizar avatar y apodo del usuario (con subida a GitHub)
 app.post('/api/usuario/update', async (req, res) => {
   const { usuario, avatar, apodo } = req.body;
   if (!usuario) return res.status(400).json({ error: 'Falta usuario' });
@@ -398,13 +406,23 @@ app.post('/api/usuario/update', async (req, res) => {
     if (idx === -1) return res.status(404).json({ error: 'Usuario no encontrado' });
     if (avatar !== undefined) usuarios[idx].avatar = avatar;
     if (apodo !== undefined) usuarios[idx].apodo = apodo;
+
     fs.writeFileSync(USUARIOS_PATH, JSON.stringify(usuarios, null, 2));
+
+    // Subir cambios a GitHub
+    const result = await updateFileOnGitHub('data/usuario.json', usuarios);
+    if (!result || !result.commit) {
+      console.error('Error al subir usuario a GitHub:', result);
+      return res.status(500).json({ error: 'No se pudo sincronizar usuario en GitHub' });
+    }
+
     res.json({ success: true, usuario: usuarios[idx] });
   } catch (e) {
     console.error('Error update usuario:', e);
     res.status(500).json({ error: e.message });
   }
 });
+
 
 // Ruta para saber si ya hay admin creado
 app.get('/api/hay-admin', (req, res) => {
@@ -578,8 +596,6 @@ require('./bot');
 
 app.use(express.json());
 
-const usuariosPath = path.join(__dirname, 'data', 'usuario.json');
-
 app.post('/api/dar-vip', async (req, res) => {
   try {
     const { username, tipo, cantidad } = req.body;
@@ -611,33 +627,37 @@ app.post('/api/dar-vip', async (req, res) => {
       vipHasta = ahora.toISOString();
     }
 
-    // Validar que el archivo existe
     if (!fs.existsSync(usuariosPath)) {
       return res.status(500).json({ message: 'Archivo de usuarios no existe.' });
     }
 
-    // Leer y parsear usuarios
     const usuariosRaw = fs.readFileSync(usuariosPath, 'utf-8');
     let usuarios = JSON.parse(usuariosRaw);
 
-    // Buscar usuario por username o usuario
     const index = usuarios.findIndex(u => u.usuario === username || u.username === username);
 
     if (index === -1) {
       return res.status(404).json({ message: 'Usuario no encontrado.' });
     }
 
-    // Actualizar VIP
     usuarios[index].premium = true;
     usuarios[index].premium_expira = vipHasta || null;
 
-
-    // Guardar archivo actualizado
+    // Guardar localmente
     fs.writeFileSync(usuariosPath, JSON.stringify(usuarios, null, 2), 'utf-8');
 
-    res.json({
-      message: `✅ VIP asignado correctamente a ${username}${vipHasta ? ' hasta ' + vipHasta.split('T')[0] : ' permanentemente'}`,
-    });
+    // Subir a GitHub
+    const result = await updateFileOnGitHub('data/usuario.json', usuarios);
+
+    if (result && result.commit) {
+      res.json({
+        message: `✅ VIP asignado correctamente a ${username}${vipHasta ? ' hasta ' + vipHasta.split('T')[0] : ' permanentemente'}`,
+      });
+    } else {
+      console.error('Error al subir usuario a GitHub:', result);
+      res.status(500).json({ message: 'Error al actualizar usuario en GitHub', github: result });
+    }
+
   } catch (error) {
     console.error('❌ Error en /api/dar-vip:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
