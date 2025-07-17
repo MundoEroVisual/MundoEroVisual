@@ -608,7 +608,6 @@ app.post('/api/dar-vip', async (req, res) => {
       }
 
       const ahora = new Date();
-
       if (tipo === 'dias') {
         ahora.setDate(ahora.getDate() + cantidadNum);
       } else if (tipo === 'semanas') {
@@ -641,19 +640,16 @@ app.post('/api/dar-vip', async (req, res) => {
     // Guardar localmente
     fs.writeFileSync(usuariosPath, JSON.stringify(usuarios, null, 2), 'utf-8');
 
-    // Subir a GitHub
-    const githubResult = await updateFileOnGitHub(
-      'data/usuarios.json',
-      JSON.stringify(usuarios, null, 2)
-    );
+    // Subir a GitHub (nombre correcto del archivo es "usuario")
+    const result = await updateFileOnGitHub('data/usuario', JSON.stringify(usuarios, null, 2));
 
-    if (githubResult && githubResult.commit) {
+    if (result && result.commit) {
       res.json({
         message: `✅ VIP asignado correctamente a ${username}${vipHasta ? ' hasta ' + vipHasta.split('T')[0] : ' permanentemente'}`,
       });
     } else {
-      console.error('Error al subir usuario a GitHub:', githubResult);
-      res.status(500).json({ message: 'Error al actualizar usuario en GitHub', github: githubResult });
+      console.error('Error al subir usuario a GitHub:', result);
+      res.status(500).json({ message: 'Error al actualizar usuario en GitHub', github: result });
     }
 
   } catch (error) {
