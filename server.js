@@ -1,7 +1,3 @@
-
-
-// ================== IMPORTS Y APP INIT AL PRINCIPIO ==================
-// ================== IMPORTS Y APP INIT AL PRINCIPIO ==================
 const dotenv = require('dotenv');
 dotenv.config();
 const express = require('express');
@@ -14,7 +10,6 @@ const crypto = require('crypto');
 const fetch = require('node-fetch');
 const archiver = require('archiver');
 const bodyParser = require('body-parser');
-// const { exec } = require('child_process'); // Ya está importado arriba, no es necesario duplicar
 
 // --- Configuración para GitHub API ---
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -647,15 +642,18 @@ app.post('/api/dar-vip', async (req, res) => {
     fs.writeFileSync(usuariosPath, JSON.stringify(usuarios, null, 2), 'utf-8');
 
     // Subir a GitHub
-    const result = await updateFileOnGitHub('data/usuario.json', usuarios);
+    const githubResult = await updateFileOnGitHub(
+      'data/usuarios.json',
+      JSON.stringify(usuarios, null, 2)
+    );
 
-    if (result && result.commit) {
+    if (githubResult && githubResult.commit) {
       res.json({
         message: `✅ VIP asignado correctamente a ${username}${vipHasta ? ' hasta ' + vipHasta.split('T')[0] : ' permanentemente'}`,
       });
     } else {
-      console.error('Error al subir usuario a GitHub:', result);
-      res.status(500).json({ message: 'Error al actualizar usuario en GitHub', github: result });
+      console.error('Error al subir usuario a GitHub:', githubResult);
+      res.status(500).json({ message: 'Error al actualizar usuario en GitHub', github: githubResult });
     }
 
   } catch (error) {
