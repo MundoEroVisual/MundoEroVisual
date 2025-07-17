@@ -424,8 +424,8 @@ async function checkNovelas() {
     if (!Array.isArray(data) || !data.length) return;
     const SPOILER_IMG = 'https://cdn.discordapp.com/attachments/1128360030198571068/1130999999999999999/spoiler.png';
     let nuevosAnunciados = false;
-    // Usa canal específico para novelas, si no existe usa el de bienvenida
-    const channelId = typeof DISCORD_CHANNEL_NOVELAS !== 'undefined' && DISCORD_CHANNEL_NOVELAS ? DISCORD_CHANNEL_NOVELAS : DISCORD_CHANNEL_WELCOME;
+    // Anunciar SOLO en el canal de juegos_nopor
+    const channelId = DISCORD_CHANNEL_JUEGOS_NOPOR;
     const channel = await client.channels.fetch(channelId).catch(() => null);
     for (const novela of data) {
       const novelaId = novela._id || novela.id;
