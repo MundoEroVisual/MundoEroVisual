@@ -1,3 +1,5 @@
+
+
 require('dotenv').config();
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
@@ -404,9 +406,19 @@ async function checkYouTube() {
       .setImage(video.snippet.thumbnails.high.url)
       .setColor(0xff0000)
       .setDescription('¡Nuevo video en el canal de YouTube!');
-    const channel = await client.channels.fetch(DISCORD_CHANNEL_NEW_VIDEOS);
-    if (channel) {
-      await channel.send({ embeds: [embed] });
+    // Enviar al canal principal de anuncios
+    const canalesAnuncio = [
+      DISCORD_CHANNEL_WELCOME,
+      DISCORD_CHANNEL_MEMES,
+      DISCORD_CHANNEL_JUEGOS_NOPOR
+    ].filter(Boolean);
+    for (const canalId of canalesAnuncio) {
+      try {
+        const canal = await client.channels.fetch(canalId);
+        if (canal) {
+          await canal.send({ embeds: [embed] });
+        }
+      } catch {}
     }
   } catch (e) {
     console.error('Error comprobando YouTube:', e);
