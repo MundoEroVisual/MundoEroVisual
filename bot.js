@@ -474,7 +474,20 @@ async function checkNovelas() {
             .setStyle(5)
             .setURL(enlacePublico)
         );
-        if (channel) {
+        // Enviar el embed con imagen a todos los canales de anuncio
+        const canalesAnuncio = [
+          DISCORD_CHANNEL_JUEGOS_NOPOR
+        ].filter(Boolean);
+        for (const canalId of canalesAnuncio) {
+          try {
+            const canal = await client.channels.fetch(canalId);
+            if (canal) {
+              await canal.send({ embeds: [embed], components: [row] });
+            }
+          } catch {}
+        }
+        // También enviar al canal principal si no está en la lista
+        if (channel && !canalesAnuncio.includes(channelId)) {
           await channel.send({ embeds: [embed], components: [row] });
         }
       }
