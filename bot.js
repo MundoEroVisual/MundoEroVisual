@@ -1,3 +1,103 @@
+// --- SISTEMA DE TICKETS ---
+const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
+
+const CANAL_AYUDA_ID = '1391222796453019749'; // Canal donde se envía el botón
+const CATEGORIA_TICKETS_ID = '1391222553799954442'; // <-- Reemplaza por el ID real de la categoría de tickets
+const STAFF_ROLE_ID = '1372066132957331587'; // <-- Reemplaza por el ID real del rol del staff
+
+// 1. Registrar el comando /ticket
+client.once('ready', async () => {
+  // Registrar el comando slash /ticket si no existe
+  const data = [
+    new SlashCommandBuilder()
+      .setName('ticket')
+      .setDescription('Solicita ayuda y abre un ticket privado')
+      .toJSON()
+  ];
+  try {
+    await client.application.commands.set(data);
+    console.log('Comando /ticket registrado');
+  } catch (err) {
+    console.error('Error registrando /ticket:', err);
+  }
+});
+
+// 2. Enviar el mensaje con el botón en el canal de ayuda
+client.on('messageCreate', async msg => {
+  if (msg.channelId === CANAL_AYUDA_ID && !msg.author.bot) {
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId('abrir_ticket')
+        .setLabel('📩 Abrir Ticket')
+        .setStyle(1)
+    );
+    await msg.reply({
+      content: '¿Necesitas ayuda? Escribe el comando /ticket o haz clic en el botón para abrir un ticket privado.',
+      components: [row]
+    });
+  }
+});
+
+// 3. Handler para el comando /ticket
+client.on('interactionCreate', async interaction => {
+  if (interaction.isChatInputCommand() && interaction.commandName === 'ticket') {
+    // Simula el botón al usar el comando
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId('abrir_ticket')
+        .setLabel('📩 Abrir Ticket')
+        .setStyle(1)
+    );
+    await interaction.reply({
+      content: 'Haz clic en el botón para abrir tu ticket privado.',
+      components: [row],
+      ephemeral: true
+    });
+  }
+  // 4. Handler para abrir ticket
+  if (interaction.isButton() && interaction.customId === 'abrir_ticket') {
+    // Verifica si ya tiene un ticket abierto
+    const guild = interaction.guild;
+    const userId = interaction.user.id;
+    const nombreCanal = `ticket-${userId}`;
+    let canalExistente = guild.channels.cache.find(c => c.name === nombreCanal);
+    if (canalExistente) {
+      await interaction.reply({ content: 'Ya tienes un ticket abierto.', ephemeral: true });
+      return;
+    }
+    // Crear canal privado en la categoría
+    const canal = await guild.channels.create({
+      name: nombreCanal,
+      type: ChannelType.GuildText,
+      parent: CATEGORIA_TICKETS_ID,
+      permissionOverwrites: [
+        { id: guild.id, deny: [PermissionFlagsBits.ViewChannel] },
+        { id: userId, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages] },
+        { id: STAFF_ROLE_ID, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages] }
+      ]
+    });
+    // Mensaje de bienvenida y botón para cerrar
+    const rowClose = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId('cerrar_ticket')
+        .setLabel('🔒 Cerrar Ticket')
+        .setStyle(4)
+    );
+    await canal.send({
+      content: `¡Bienvenido <@${userId}>! Describe tu problema y el staff te atenderá aquí.`,
+      components: [rowClose]
+    });
+    await interaction.reply({ content: `Ticket creado: <#${canal.id}>`, ephemeral: true });
+  }
+  // 5. Handler para cerrar ticket
+  if (interaction.isButton() && interaction.customId === 'cerrar_ticket') {
+    const canal = interaction.channel;
+    await interaction.reply({ content: 'El ticket se cerrará en 5 segundos...', ephemeral: true });
+    setTimeout(() => {
+      canal.delete().catch(() => {});
+    }, 5000);
+  }
+});
 
 
 require('dotenv').config();
@@ -397,9 +497,9 @@ async function checkYouTube() {
     const data = await res.json();
     if (!data.items || !data.items.length) return;
     const video = data.items[0];
-    if (video.id.kind !== 'youtube#video') return;
-    if (lastVideoId === video.id.videoId) return;
-    lastVideoId = video.id.videoId;
+        if (video.id.kind !== 'youtube#video') return;
+        if (lastVideoId === video.id.videoId) return;
+        lastVideoId = video.id.videoId;
     const embed = new EmbedBuilder()
       .setTitle(video.snippet.title)
       .setURL(`https://youtu.be/${video.id.videoId}`)
@@ -407,11 +507,9 @@ async function checkYouTube() {
       .setColor(0xff0000)
       .setDescription('¡Nuevo video en el canal de YouTube!');
     // Enviar al canal principal de anuncios
-    const canalesAnuncio = [
-      DISCORD_CHANNEL_WELCOME,
-      DISCORD_CHANNEL_MEMES,
-      DISCORD_CHANNEL_JUEGOS_NOPOR
-    ].filter(Boolean);
+        const canalesAnuncio = [
+            DISCORD_CHANNEL_NEW_VIDEOS
+        ].filter(Boolean);
     for (const canalId of canalesAnuncio) {
       try {
         const canal = await client.channels.fetch(canalId);
@@ -470,13 +568,14 @@ async function checkNovelas() {
         const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
         const row = new ActionRowBuilder().addComponents(
           new ButtonBuilder()
-            .setLabel('Descargar')
+            .setLabel('Enlace de Descargar')
             .setStyle(5)
             .setURL(enlacePublico)
         );
         // Enviar el embed con imagen a todos los canales de anuncio
         const canalesAnuncio = [
-          DISCORD_CHANNEL_JUEGOS_NOPOR
+          DISCORD_CHANNEL_JUEGOS_NOPOR,
+          '1395222111559221378'
         ].filter(Boolean);
         for (const canalId of canalesAnuncio) {
           try {
