@@ -1,19 +1,114 @@
 // --- SISTEMA DE TICKETS ---
-const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits, ChannelType, Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
-const fetch = require('node-fetch');
-const RSSParser = require('rss-parser');
-require('dotenv').config();
+const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
+const CANAL_AYUDA_ID = '1391222796453019749'; // Canal donde se envía el botón
+const CATEGORIA_TICKETS_ID = '1391222553799954442'; // <-- Reemplaza por el ID real de la categoría de tickets
+const STAFF_ROLE_ID = '1372066132957331587'; // <-- Reemplaza por el ID real del rol del staff
+
+// 1. Registrar el comando /ticket
+client.once('ready', async () => {
+  // Registrar el comando slash /ticket si no existe
+  const data = [
+    new SlashCommandBuilder()
+      .setName('ticket')
+      .setDescription('Solicita ayuda y abre un ticket privado')
+      .toJSON()
+  ];
+  try {
+    await client.application.commands.set(data);
+    console.log('Comando /ticket registrado');
+  } catch (err) {
+    console.error('Error registrando /ticket:', err);
+  }
 });
 
-// ...existing code...
+// 2. Enviar el mensaje con el botón en el canal de ayuda
+client.on('messageCreate', async msg => {
+  if (msg.channelId === CANAL_AYUDA_ID && !msg.author.bot) {
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId('abrir_ticket')
+        .setLabel('📩 Abrir Ticket')
+        .setStyle(1)
+    );
+    await msg.reply({
+      content: '¿Necesitas ayuda? Escribe el comando /ticket o haz clic en el botón para abrir un ticket privado.',
+      components: [row]
+    });
+  }
+});
+
+// 3. Handler para el comando /ticket
+client.on('interactionCreate', async interaction => {
+  if (interaction.isChatInputCommand() && interaction.commandName === 'ticket') {
+    // Simula el botón al usar el comando
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId('abrir_ticket')
+        .setLabel('📩 Abrir Ticket')
+        .setStyle(1)
+    );
+    await interaction.reply({
+      content: 'Haz clic en el botón para abrir tu ticket privado.',
+      components: [row],
+      ephemeral: true
+    });
+  }
+  // 4. Handler para abrir ticket
+  if (interaction.isButton() && interaction.customId === 'abrir_ticket') {
+    // Verifica si ya tiene un ticket abierto
+    const guild = interaction.guild;
+    const userId = interaction.user.id;
+    const nombreCanal = `ticket-${userId}`;
+    let canalExistente = guild.channels.cache.find(c => c.name === nombreCanal);
+    if (canalExistente) {
+      await interaction.reply({ content: 'Ya tienes un ticket abierto.', ephemeral: true });
+      return;
+    }
+    // Crear canal privado en la categoría
+    const canal = await guild.channels.create({
+      name: nombreCanal,
+      type: ChannelType.GuildText,
+      parent: CATEGORIA_TICKETS_ID,
+      permissionOverwrites: [
+        { id: guild.id, deny: [PermissionFlagsBits.ViewChannel] },
+        { id: userId, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages] },
+        { id: STAFF_ROLE_ID, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages] }
+      ]
+    });
+    // Mensaje de bienvenida y botón para cerrar
+    const rowClose = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId('cerrar_ticket')
+        .setLabel('🔒 Cerrar Ticket')
+        .setStyle(4)
+    );
+    await canal.send({
+      content: `¡Bienvenido <@${userId}>! Describe tu problema y el staff te atenderá aquí.`,
+      components: [rowClose]
+    });
+    await interaction.reply({ content: `Ticket creado: <#${canal.id}>`, ephemeral: true });
+  }
+  // 5. Handler para cerrar ticket
+  if (interaction.isButton() && interaction.customId === 'cerrar_ticket') {
+    const canal = interaction.channel;
+    await interaction.reply({ content: 'El ticket se cerrará en 5 segundos...', ephemeral: true });
+    setTimeout(() => {
+      canal.delete().catch(() => {});
+    }, 5000);
+  }
+});
+
+
+require('dotenv').config();
+const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const fetch = require('node-fetch');
+// --- Configuración para GitHub API ---
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_OWNER = process.env.GITHUB_OWNER;
+const GITHUB_REPO = process.env.GITHUB_REPO;
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+
 // Función para subir archivo a GitHub (crea si no existe)
 async function updateFileOnGitHub(githubPath, newContent) {
   let sha = null;
@@ -40,10 +135,118 @@ async function updateFileOnGitHub(githubPath, newContent) {
   return await res.json();
 }
 
-// ...existing code...
-// ...existing code...
+// Devuelve el SHA del archivo en GitHub, o lanza error si no existe
+async function getFileSha(githubPath) {
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${githubPath}?ref=${GITHUB_BRANCH}`;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+    }
+  });
+  if (res.status === 404) throw new Error('Archivo no existe');
+  const data = await res.json();
+  return data.sha;
+}
+const RSSParser = require('rss-parser');
+console.log("TOKEN del .env es:", process.env.DISCORD_TOKEN);
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ]
+});
+
+// Comandos de mantenimiento para admins
 client.on('messageCreate', async msg => {
-  // ...existing code...
+
+  if (msg.author.bot || !msg.guild) return;
+  if (!msg.content.startsWith('!')) return;
+  const args = msg.content.slice(1).trim().split(/ +/);
+  const command = args.shift().toLowerCase();
+  // Solo admins pueden usar estos comandos
+  const isAdmin = msg.member.permissions.has('Administrator');
+
+  // Solo admins pueden ver los comandos y sus respuestas (excepto !anuncio)
+  if (!msg.member.permissions.has('Administrator') && !msg.content.startsWith('!anuncio')) return;
+
+  // Comando para mostrar todos los comandos disponibles (solo admins)
+  if (msg.content.trim() === '!comandos') {
+    const comandos = [
+      '`!clear <n>` — Borra los últimos n mensajes del canal.',
+      '`!clearall` — Borra todos los mensajes del canal actual.',
+      '`!reanunciar-novelas` — Vuelve a anunciar todas las novelas (resetea la lista).',
+      '`!refrescar-novelas` — Fuerza la relectura del JSON y reanuncia novelas que hayan sido borradas de la lista de anunciadas.',
+      '`!ping` — Prueba de latencia/respuesta del bot.',
+      '`!ban @usuario <motivo>` — Banea a un usuario.',
+      '`!kick @usuario <motivo>` — Expulsa a un usuario.',
+      '`!anuncio <mensaje>` — Envía un anuncio a todos los canales configurados.',
+      '`!userinfo [@usuario]` — Muestra información de un usuario.',
+      '`!serverinfo` — Muestra información del servidor.'
+    ];
+    // Solo admins ven la respuesta, se borra tras 10s
+    const adminMsg = await msg.reply({
+      embeds: [
+        new EmbedBuilder()
+          .setTitle('Comandos de administración disponibles')
+          .setDescription(comandos.join('\n'))
+          .setColor(0x00bfff)
+      ]
+    });
+    setTimeout(() => adminMsg.delete().catch(()=>{}), 10000);
+    return;
+  }
+  // Comando !refrescar-novelas
+  if (command === 'refrescar-novelas') {
+    try {
+      // Cargar la lista actualizada de novelas
+      const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/refs/heads/main/data/novelas-1.json');
+      const data = await res.json();
+      if (!Array.isArray(data) || !data.length) return msg.reply('No se pudo obtener la lista de novelas.');
+      let nuevas = 0;
+      for (const novela of data) {
+        const novelaId = novela._id || novela.id;
+        if (!novelasAnunciadas.has(novelaId)) {
+          novelasAnunciadas.add(novelaId);
+          nuevas++;
+          const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : 'https://eroverse.onrender.com/';
+          const enlacePublico = `https://eroverse.onrender.com/novela.html?id=${novela.id || novela._id}`;
+          const embed = new EmbedBuilder()
+            .setTitle(novela.titulo)
+            .setURL(enlacePublico)
+            .setImage(novela.portada)
+            .addFields(
+              { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+              { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+              { name: 'Peso', value: novela.peso || 'N/A', inline: true }
+            )
+            .setColor(0x00bfff)
+            .setDescription((novela.desc || '') + `\n¡Nueva novela subida!`);
+          const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
+          const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+              .setLabel('Descargar')
+              .setStyle(5)
+              .setURL(enlacePublico)
+          );
+          await msg.channel.send({ embeds: [embed], components: [row] });
+        }
+      }
+      // Guardar la lista actualizada
+      const arr = Array.from(novelasAnunciadas);
+      fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify(arr, null, 2), 'utf-8');
+      await updateFileOnGitHub('data/novelasAnunciadas.json', arr);
+      if (nuevas > 0) {
+        msg.reply(`✅ Se reanunciaron ${nuevas} novelas que no estaban en la lista de anunciadas.`);
+      } else {
+        msg.reply('No había novelas nuevas para reanunciar.');
+      }
+    } catch (e) {
+      msg.reply('Ocurrió un error al refrescar y reanunciar las novelas.');
+    }
+  }
   // Comando !userinfo (solo admins, respuesta solo para admins)
   if (command === 'userinfo') {
     if (!msg.member.permissions.has('Administrator')) return;
@@ -182,10 +385,7 @@ client.on('messageCreate', async msg => {
   if (command === 'ping') {
     msg.reply('Pong!');
   }
-  // Fin de bloque de comandos
-}
-// Fin de client.on('messageCreate', ...)
-);
+});
 
 const parser = new RSSParser();
 // Log de actividad en canal específico
@@ -363,17 +563,17 @@ async function checkNovelas() {
         ) {
           portada = SPOILER_IMG;
         }
-        const embed = new EmbedBuilder();
-        embed.setTitle(novela.titulo);
-        embed.setURL(enlacePublico);
-        embed.setImage(portada);
-        embed.addFields([
-          { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
-          { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
-          { name: 'Peso', value: novela.peso || 'N/A', inline: true }
-        ]);
-        embed.setColor(0x00bfff);
-        embed.setDescription((novela.desc || '') + '\n¡Nueva novela subida!');
+        const embed = new EmbedBuilder()
+          .setTitle(novela.titulo)
+          .setURL(enlacePublico)
+          .setImage(portada)
+          .addFields(
+            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+            { name: 'Peso', value: novela.peso || 'N/A', inline: true }
+          )
+          .setColor(0x00bfff)
+          .setDescription((novela.desc || '') + `\n¡Nueva novela subida!`);
         // Botón de descarga público
         const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
         const row = new ActionRowBuilder().addComponents(
