@@ -566,4 +566,3 @@ async function checkYouTube() {
 
 // Inicio sesión del bot
 client.login(DISCORD_TOKEN);
-
