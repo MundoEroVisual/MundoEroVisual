@@ -1,6 +1,7 @@
 // --- SISTEMA DE TICKETS ---
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits, ChannelType, Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
+const RSSParser = require('rss-parser');
 require('dotenv').config();
 
 const client = new Client({
