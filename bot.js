@@ -443,10 +443,19 @@ const {
 client.on('guildMemberAdd', async member => {
   try {
     // Asignar rol miembro automáticamente si existe
-    if (process.env.DISCORD_ROLE_MIEMBRO) {
-      const role = member.guild.roles.cache.get(process.env.DISCORD_ROLE_MIEMBRO);
+    const rolId = process.env.DISCORD_ROLE_MIEMBRO;
+    if (rolId) {
+      // Buscar el rol en la guild
+      let role = member.guild.roles.cache.get(rolId);
+      if (!role) {
+        // Si no está en caché, buscarlo en la API
+        const roles = await member.guild.roles.fetch();
+        role = roles.get(rolId);
+      }
       if (role && !member.roles.cache.has(role.id)) {
-        await member.roles.add(role).catch(() => {});
+        await member.roles.add(role).catch((e) => {
+          console.error('Error asignando rol miembro:', e);
+        });
       }
     }
     const channel = member.guild.channels.cache.get(DISCORD_CHANNEL_WELCOME);
