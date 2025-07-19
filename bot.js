@@ -469,35 +469,45 @@ function guardarNovelasAnunciadas() {
 
 // Chequear novelas desde GitHub y anunciar nuevas
 async function checkNovelas() {
-  const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/novelas-1.json`;
   try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("No se pudo obtener novelas");
+    const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/refs/heads/main/data/novelas-1.json');
     const data = await res.json();
-    const canal = await client.channels.fetch(DISCORD_CHANNEL_JUEGOS_NOPOR);
-
+    if (!Array.isArray(data) || !data.length) return;
+    const channel = await client.channels.fetch(DISCORD_CHANNEL_JUEGOS_NOPOR);
     for (const novela of data) {
-      if (!novelasAnunciadas.has(novela.id)) {
-        novelasAnunciadas.add(novela.id);
+      const novelaId = novela._id || novela.id;
+      if (!novelasAnunciadas.has(novelaId)) {
+        novelasAnunciadas.add(novelaId);
 
+        // URL para enlace (solo si válida)
+        const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : null;
+
+        // Crear embed base
         const embed = new EmbedBuilder()
-          .setTitle(`📢 Nueva novela: ${novela.nombre}`)
-          .setDescription(novela.descripcion || "Sin descripción")
-          .setURL(novela.url || "")
-          .setImage(novela.imagen || "")
+          .setTitle(novela.titulo)
           .addFields(
-            { name: "Estado", value: novela.estado || "Desconocido", inline: true },
-            { name: "Peso", value: novela.peso || "Desconocido", inline: true }
+            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+            { name: 'Peso', value: novela.peso || 'N/A', inline: true }
           )
-          .setColor(0xff69b4)
-          .setTimestamp();
+          .setColor(0x00bfff)
+          .setDescription((novela.desc || '') + (urlNovela ? `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!` : '\n¡Nueva novela subida!'));
 
-        canal.send({ embeds: [embed] });
+        // Agregar URL solo si es válida
+        if (urlNovela) {
+          embed.setURL(urlNovela);
+        }
+
+        // Agregar imagen solo si portada existe y no es cadena vacía
+        if (novela.portada && novela.portada.trim() !== '') {
+          embed.setImage(novela.portada);
+        }
+
+        await channel.send({ embeds: [embed] });
       }
     }
-    guardarNovelasAnunciadas();
   } catch (err) {
-    console.error("Error al chequear novelas:", err);
+    console.error('Error comprobando novelas:', err);
   }
 }
 
@@ -508,33 +518,28 @@ setInterval(() => {
   }
 }, 10 * 60 * 1000);
 
-// Chequear videos nuevos de YouTube y anunciar
-const parser = new RSSParser();
-let videosAnunciados = new Set();
-
+// 2. YouTube: Detectar nuevos videos
+let lastVideoId = null;
 async function checkYouTube() {
   try {
-    const feed = await parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`);
-    const canal = await client.channels.fetch(DISCORD_CHANNEL_NEW_VIDEOS);
-    if (!canal) return;
-
-    for (const item of feed.items) {
-      if (!videosAnunciados.has(item.id)) {
-        videosAnunciados.add(item.id);
-        const embed = new EmbedBuilder()
-          .setTitle(item.title)
-          .setURL(item.link)
-          .setAuthor({ name: feed.title, url: feed.link })
-          .setThumbnail(item["media:thumbnail"]?.url)
-          .setDescription(item.contentSnippet)
-          .setColor(0xff0000)
-          .setTimestamp(new Date(item.pubDate));
-
-        canal.send({ content: "📺 ¡Nuevo video!", embeds: [embed] });
-      }
-    }
-  } catch (e) {
-    console.error("Error al chequear YouTube:", e);
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=1`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data.items || !data.items.length) return;
+    const video = data.items[0];
+    if (video.id.kind !== 'youtube#video') return;
+    if (lastVideoId === video.id.videoId) return;
+    lastVideoId = video.id.videoId;
+    const embed = new EmbedBuilder()
+      .setTitle(video.snippet.title)
+      .setURL(`https://youtu.be/${video.id.videoId}`)
+      .setImage(video.snippet.thumbnails.high.url)
+      .setColor(0xff0000)
+      .setDescription('¡Nuevo video en el canal de YouTube!');
+    const channel = await client.channels.fetch(DISCORD_CHANNEL_NEW_VIDEOS);
+    await channel.send({ embeds: [embed] });
+  } catch (err) {
+    console.error('Error comprobando YouTube:', err);
   }
 }
 
