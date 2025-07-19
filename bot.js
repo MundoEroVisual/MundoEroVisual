@@ -444,9 +444,10 @@ client.on('guildMemberAdd', async member => {
   try {
     // Asignar rol miembro automáticamente si existe
     const rolId = process.env.DISCORD_ROLE_MIEMBRO;
+    let role = null;
     if (rolId) {
       // Buscar el rol en la guild
-      let role = member.guild.roles.cache.get(rolId);
+      role = member.guild.roles.cache.get(rolId);
       if (!role) {
         // Si no está en caché, buscarlo en la API
         const roles = await member.guild.roles.fetch();
