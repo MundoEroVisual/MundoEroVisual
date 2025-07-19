@@ -1,5 +1,57 @@
 // --- SISTEMA DE TICKETS ---
-const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
+const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits, ChannelType, Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const fetch = require('node-fetch');
+require('dotenv').config();
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ]
+});
+
+// ...existing code...
+// Función para subir archivo a GitHub (crea si no existe)
+async function updateFileOnGitHub(githubPath, newContent) {
+  let sha = null;
+  try {
+    sha = await getFileSha(githubPath);
+  } catch (e) {
+    sha = null;
+  }
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${githubPath}`;
+  const body = {
+    message: 'Actualización automática desde el bot',
+    content: Buffer.from(JSON.stringify(newContent, null, 2)).toString('base64'),
+    branch: GITHUB_BRANCH
+  };
+  if (sha) body.sha = sha;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+    },
+    body: JSON.stringify(body)
+  });
+  return await res.json();
+}
+// Devuelve el SHA del archivo en GitHub, o lanza error si no existe
+async function getFileSha(githubPath) {
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${githubPath}?ref=${GITHUB_BRANCH}`;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+    }
+  });
+  if (res.status === 404) throw new Error('Archivo no existe');
+  const data = await res.json();
+  return data.sha;
+}
+// ...remaining code...
 
 const CANAL_AYUDA_ID = '1391222796453019749'; // Canal donde se envía el botón
 const CATEGORIA_TICKETS_ID = '1391222553799954442'; // <-- Reemplaza por el ID real de la categoría de tickets
@@ -100,14 +152,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 
-require('dotenv').config();
-const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
-const fetch = require('node-fetch');
-// --- Configuración para GitHub API ---
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_OWNER = process.env.GITHUB_OWNER;
-const GITHUB_REPO = process.env.GITHUB_REPO;
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+// ...existing code...
 
 // Función para subir archivo a GitHub (crea si no existe)
 async function updateFileOnGitHub(githubPath, newContent) {
@@ -150,14 +195,6 @@ async function getFileSha(githubPath) {
 }
 const RSSParser = require('rss-parser');
 console.log("TOKEN del .env es:", process.env.DISCORD_TOKEN);
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
-});
 
 // Comandos de mantenimiento para admins
 client.on('messageCreate', async msg => {
