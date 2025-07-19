@@ -462,9 +462,9 @@ client.on("messageDelete", async (msg) => {
 // 6. ANUNCIOS AUTOMÁTICOS DE NOVELAS Y YOUTUBE
 // --------------------------------------------
 
-// Función para guardar novelas anunciadas a disco
-function guardarNovelasAnunciadas() {
-  fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify([...novelasAnunciadas]), "utf-8");
+// Función para guardar novelas anunciadas en gihub
+async function guardarNovelasAnunciadas() {
+  await guardarNovelasEnGitHub([...novelasAnunciadas]);
 }
 
 // Chequear novelas desde GitHub y anunciar nuevas
