@@ -512,13 +512,12 @@ async function checkNovelas() {
   }
 }
 
-
-// Checkeo periódico de novelas (cada 10 minutos)
-setInterval(() => {
-  if (client.isReady()) {
-    checkNovelas();
-  }
-}, 10 * 60 * 1000);
+// 8. Intervalos periódicos
+client.once('ready', () => {
+  console.log(`Bot iniciado como ${client.user.tag}`);
+  setInterval(checkYouTube, 60 * 1000); // cada minuto
+  setInterval(checkNovelas, 120 * 1000); // cada 2 minutos
+});
 
 // 2. YouTube: Detectar nuevos videos
 let lastVideoId = null;
