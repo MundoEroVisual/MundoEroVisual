@@ -505,11 +505,13 @@ async function checkNovelas() {
 
         await channel.send({ embeds: [embed] });
       }
-    }
+        }
+    guardarNovelasAnunciadas();
   } catch (err) {
-    console.error('Error comprobando novelas:', err);
+    console.error("Error al chequear novelas:", err);
   }
 }
+
 
 // Checkeo periódico de novelas (cada 10 minutos)
 setInterval(() => {
