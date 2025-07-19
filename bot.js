@@ -13,8 +13,6 @@ const {
   EmbedBuilder,
 } = require("discord.js");
 
-// --- Configuración de constantes y variables globales ---
-
 // IDs configurables (cambia según tu servidor)
 const CANAL_AYUDA_ID = "1391222796453019749";
 const CATEGORIA_TICKETS_ID = "1391222553799954442";
@@ -471,7 +469,7 @@ function guardarNovelasAnunciadas() {
 
 // Chequear novelas desde GitHub y anunciar nuevas
 async function checkNovelas() {
-  const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/novelas-1.json`;
+  const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/novelas-1.json`;
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error("No se pudo obtener novelas");
