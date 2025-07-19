@@ -24,39 +24,25 @@ async function updateFileOnGitHub(githubPath, newContent) {
   const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${githubPath}`;
   const body = {
     message: 'Actualización automática desde el bot',
+    content: Buffer.from(JSON.stringify(newContent, null, 2)).toString('base64'),
+    branch: GITHUB_BRANCH
+  };
+  if (sha) body.sha = sha;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+    },
+    body: JSON.stringify(body)
+  });
+  return await res.json();
+}
+
 // ...existing code...
-          .setURL(enlacePublico)
-          .setImage(novela.portada)
-          .addFields(
-            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
-            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
-            { name: 'Peso', value: novela.peso || 'N/A', inline: true }
-          )
-          .setColor(0x00bfff)
-          .setDescription((novela.desc || '') + '\n¡Nueva novela subida!');
-          const { ButtonBuilder, ActionRowBuilder } = require('discord.js');
-          const row = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-              .setLabel('Descargar')
-              .setStyle(5)
-              .setURL(enlacePublico)
-          );
-          await msg.channel.send({ embeds: [embed], components: [row] });
-        }
-      }
-      // Guardar la lista actualizada
-      const arr = Array.from(novelasAnunciadas);
-      fs.writeFileSync(NOVELAS_ANUNCIADAS_PATH, JSON.stringify(arr, null, 2), 'utf-8');
-      await updateFileOnGitHub('data/novelasAnunciadas.json', arr);
-      if (nuevas > 0) {
-        msg.reply(`✅ Se reanunciaron ${nuevas} novelas que no estaban en la lista de anunciadas.`);
-      } else {
-        msg.reply('No había novelas nuevas para reanunciar.');
-      }
-    } catch (e) {
-      msg.reply('Ocurrió un error al refrescar y reanunciar las novelas.');
-    }
-  }
+// ...existing code...
+client.on('messageCreate', async msg => {
+  // ...existing code...
   // Comando !userinfo (solo admins, respuesta solo para admins)
   if (command === 'userinfo') {
     if (!msg.member.permissions.has('Administrator')) return;
@@ -195,7 +181,10 @@ async function updateFileOnGitHub(githubPath, newContent) {
   if (command === 'ping') {
     msg.reply('Pong!');
   }
-});
+  // Fin de bloque de comandos
+}
+// Fin de client.on('messageCreate', ...)
+);
 
 const parser = new RSSParser();
 // Log de actividad en canal específico
