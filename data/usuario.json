@@ -23,5 +23,14 @@
     "apodo": "mmg",
     "premium": false,
     "premium_expira": null
+  },
+  {
+    "usuario": "Junior panta",
+    "password": "$2b$10$wLVzP9cmx95jP7oxnodlG..EgGaDOGA4tWaMWQDYkccn2DsaSUFmm",
+    "admin": false,
+    "avatar": "Nose que poner",
+    "apodo": "Xamqui",
+    "premium": false,
+    "premium_expira": null
   }
 ]
