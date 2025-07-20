@@ -664,7 +664,9 @@ app.post('/api/dar-vip', async (req, res) => {
     }
 
     let vipHasta = null;
-    if (tipo !== 'permanente') {
+    if (tipo === 'permanente') {
+      vipHasta = '3000-01-01T00:00:00.000Z';
+    } else {
       const cantidadNum = parseInt(cantidad);
       if (!cantidad || isNaN(cantidadNum) || cantidadNum < 1) {
         return res.status(400).json({ message: 'Cantidad inválida para tipo no permanente' });
