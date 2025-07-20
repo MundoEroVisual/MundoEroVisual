@@ -43,10 +43,6 @@ setInterval(revisarYCancelarVipExpirado, 10 * 60 * 1000);
 revisarYCancelarVipExpirado();
 
 // --- Configuración para GitHub API ---
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_OWNER = process.env.GITHUB_OWNER;
-const GITHUB_REPO = process.env.GITHUB_REPO;
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
 
 // ================== ADMIN SESSIONS GLOBAL ==================
 let adminSessions = {};
@@ -195,29 +191,43 @@ async function getFileSha(githubPath) {
   return data.sha;
 }
 
-// Actualizar archivo en GitHub
-async function updateFileOnGitHub(githubPath, newContent) {
-  const sha = await getFileSha(githubPath);
-  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${githubPath}`;
-  const body = {
-    message: 'Actualización automática desde la app',
-    content: Buffer.from(JSON.stringify(newContent, null, 2)).toString('base64'),
-    sha: sha,
-    branch: GITHUB_BRANCH
-  };
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: {
-      Authorization: `token ${GITHUB_TOKEN}`,
-      Accept: 'application/vnd.github+json',
-    },
-    body: JSON.stringify(body)
-  });
-  return await res.json();
+
+// --- Configuración para GitHub API ---
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_OWNER = process.env.GITHUB_OWNER;
+const GITHUB_REPO = process.env.GITHUB_REPO;
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+
+// --- TAREA AUTOMÁTICA PARA CANCELAR VIP EXPIRADO ---
+async function revisarYCancelarVipExpirado() {
+  try {
+    let usuarios = await getJsonFromGitHub('data/usuario.json');
+    if (!Array.isArray(usuarios)) return;
+    let cambiado = false;
+    const ahora = new Date();
+    for (const user of usuarios) {
+      if (user.premium && user.premium_expira) {
+        const expira = new Date(user.premium_expira);
+        if (expira < ahora) {
+          user.premium = false;
+          user.premium_expira = null;
+          cambiado = true;
+        }
+      }
+    }
+    if (cambiado) {
+      await updateFileOnGitHub('data/usuario.json', usuarios);
+      console.log('[VIP] Se canceló el VIP expirado de uno o más usuarios.');
+    }
+  } catch (e) {
+    console.error('[VIP] Error al revisar/cancelar VIP expirado:', e);
+  }
 }
 
-// Ruta para login de admin (ahora con cookie segura)
-// Nuevo login de admin: usa usuarios.json y bcrypt igual que el login normal
+// Ejecutar cada 10 minutos
+setInterval(revisarYCancelarVipExpirado, 10 * 60 * 1000);
+// Ejecutar al iniciar el servidor también
+revisarYCancelarVipExpirado();
 app.post('/api/admin-login', async (req, res) => {
   const { user, pass } = req.body;
   const USUARIOS_PATH = path.join(__dirname, 'data', 'usuario.json');
