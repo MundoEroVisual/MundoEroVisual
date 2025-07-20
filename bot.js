@@ -1,7 +1,8 @@
 require("dotenv").config();
 const fs = require("fs");
-const fetch = require("node-fetch");
 const RSSParser = require("rss-parser");
+// Si usas Node.js v18+, fetch es global. Si no, descomenta la siguiente línea:
+// const fetch = require("node-fetch");
 const {
   Client,
   GatewayIntentBits,
@@ -55,6 +56,12 @@ const {
   DISCORD_CHANNEL_ACTIVITY_LOG,
 } = process.env;
 
+// Validación de variables críticas
+if (!DISCORD_TOKEN) throw new Error("Falta DISCORD_TOKEN en .env");
+if (!YOUTUBE_API_KEY) throw new Error("Falta YOUTUBE_API_KEY en .env");
+if (!YOUTUBE_CHANNEL_ID) throw new Error("Falta YOUTUBE_CHANNEL_ID en .env");
+if (!DISCORD_CHANNEL_NEW_VIDEOS) throw new Error("Falta DISCORD_CHANNEL_NEW_VIDEOS en .env");
+
 // --- Cliente Discord ---
 const client = new Client({
   intents: [
@@ -96,6 +103,12 @@ client.once("ready", async () => {
       components: [row],
     });
   }
+
+  // Ejecutar checkNovelas cada 2 minutos
+  setInterval(checkNovelas, 2 * 60 * 1000);
+
+  // Ejecutar checkYouTube cada 5 minutos
+  setInterval(checkYouTube, 5 * 60 * 1000);
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -362,6 +375,7 @@ client.on("messageCreate", async (msg) => {
 client.on("guildMemberAdd", async (member) => {
   try {
     if (DISCORD_ROLE_MIEMBRO) {
+      // Buscar el rol en caché o en la API
       let role = member.guild.roles.cache.get(DISCORD_ROLE_MIEMBRO);
       if (!role) {
         const roles = await member.guild.roles.fetch();
@@ -369,7 +383,12 @@ client.on("guildMemberAdd", async (member) => {
       }
       if (role && !member.roles.cache.has(role.id)) {
         await member.roles.add(role);
+        console.log(`Rol miembro asignado a ${member.user.tag}`);
+      } else if (!role) {
+        console.warn(`No se encontró el rol miembro (${DISCORD_ROLE_MIEMBRO}) en el servidor.`);
       }
+    } else {
+      console.warn("DISCORD_ROLE_MIEMBRO no está definido en .env");
     }
     const channel = member.guild.channels.cache.get(DISCORD_CHANNEL_WELCOME);
     if (!channel) return;
@@ -466,7 +485,39 @@ async function guardarNovelasEnGitHub(novelas) {
     const { Octokit } = await import("@octokit/rest");
     const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
-    // El resto de tu código usando octokit aquí...
+    // Parámetros
+    const owner = GITHUB_OWNER;
+    const repo = GITHUB_REPO;
+    const path = "data/novelasAnunciadas.json";
+    const branch = GITHUB_BRANCH || "main";
+    const content = JSON.stringify(novelas, null, 2);
+    let sha = undefined;
+
+    // Obtener SHA del archivo actual si existe
+    try {
+      const { data: fileData } = await octokit.repos.getContent({
+        owner,
+        repo,
+        path,
+        ref: branch,
+      });
+      sha = fileData.sha;
+    } catch (e) {
+      // Si no existe, lo creamos nuevo
+      sha = undefined;
+    }
+
+    // Subir el archivo
+    await octokit.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path,
+      message: "Actualizar novelas anunciadas desde el bot",
+      content: Buffer.from(content).toString("base64"),
+      branch,
+      sha,
+    });
+    console.log("✅ Novelas anunciadas guardadas en GitHub");
   } catch (error) {
     console.error("❌ Error al guardar en GitHub:", error.message);
   }
@@ -493,7 +544,8 @@ async function checkNovelas() {
         novelasAnunciadas.add(novelaId);
         huboNovedad = true;
 
-        const urlNovela = novela.url && novela.url.trim() !== '' ? novela.url : null;
+        // Construir el enlace usando el id
+        const urlNovela = `https://eroverse.onrender.com/novela.html?id=${novelaId}`;
 
         const embed = new EmbedBuilder()
           .setTitle(novela.titulo || "Nueva novela")
@@ -503,11 +555,9 @@ async function checkNovelas() {
             { name: 'Peso', value: novela.peso || 'N/A', inline: true }
           )
           .setColor(0x00bfff)
-          .setDescription((novela.desc || '') + (urlNovela ? `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!` : '\n¡Nueva novela subida!'));
+          .setDescription((novela.desc || '') + `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!`);
 
-        if (urlNovela) {
-          embed.setURL(urlNovela);
-        }
+        embed.setURL(urlNovela);
 
         if (novela.portada && novela.portada.trim() !== '') {
           embed.setImage(novela.portada);
@@ -538,7 +588,18 @@ client.once('ready', () => {
 });
 
 // 2. YouTube: Detectar nuevos videos
+const LAST_VIDEO_PATH = './data/lastVideoId.txt';
 let lastVideoId = null;
+
+// Cargar el último video anunciado al iniciar
+try {
+  if (fs.existsSync(LAST_VIDEO_PATH)) {
+    lastVideoId = fs.readFileSync(LAST_VIDEO_PATH, 'utf-8').trim() || null;
+  }
+} catch (e) {
+  lastVideoId = null;
+}
+
 async function checkYouTube() {
   try {
     const url = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=1`;
@@ -549,6 +610,10 @@ async function checkYouTube() {
     if (video.id.kind !== 'youtube#video') return;
     if (lastVideoId === video.id.videoId) return;
     lastVideoId = video.id.videoId;
+    // Guardar el último ID en archivo
+    try {
+      fs.writeFileSync(LAST_VIDEO_PATH, lastVideoId, 'utf-8');
+    } catch {}
 
     const embed = new EmbedBuilder()
       .setTitle(video.snippet.title)
