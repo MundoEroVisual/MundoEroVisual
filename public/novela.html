@@ -213,7 +213,9 @@
     ">No</button>
   </div>
 </div>
+<div id="contenidoPrincipal">
   <div class="container" id="novelaDetalle"></div>
+</div>
 <script>
   // Obtener id de la novela de la URL
   function getParam(name) {
@@ -389,6 +391,7 @@
 <script>
   function aceptarEdad() {
     document.getElementById('modal18').style.display = 'none';
+    document.getElementById('contenidoPrincipal').style.display = '';
   }
 
   function rechazarEdad() {
@@ -404,6 +407,7 @@
 
   window.onload = function () {
     document.getElementById('modal18').style.display = 'flex';
+    document.getElementById('contenidoPrincipal').style.display = 'none';
   };
 </script>
 </body>
