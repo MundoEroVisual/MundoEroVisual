@@ -213,6 +213,13 @@
     ">No</button>
   </div>
 </div>
+<div id="adblockModal" style="display:none;position:fixed;z-index:100000;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.96);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
+  <div style="background:#111;border:3px solid #ffd700;border-radius:18px;padding:32px;max-width:400px;text-align:center;box-shadow:0 0 32px #ffd70088;">
+    <h2 style="color:#ffd700;margin-bottom:10px;">AdBlock detectado</h2>
+    <p style="color:#fff;font-size:1.1em;margin-bottom:24px;">Para acceder al contenido, desactiva tu bloqueador de anuncios y recarga la página.<br><br>¡Gracias por apoyar el proyecto!</p>
+    <button onclick="window.location.reload()" style="background:#ffd700;color:#000;font-weight:bold;padding:12px 24px;font-size:1.15em;border-radius:24px;border:2px solid #ffd700;cursor:pointer;">Recargar</button>
+  </div>
+</div>
 <div id="contenidoPrincipal">
   <div class="container" id="novelaDetalle"></div>
 </div>
@@ -387,6 +394,60 @@
     el.style.display = el.style.display === 'block' ? 'none' : 'block';
   }
   window.toggleSpoilers = toggleSpoilers;
+
+  // Detección avanzada de AdBlock
+  function detectarAdblockAvanzado() {
+    let adblockDetectado = false;
+
+    // 1. Bait clásico
+    var bait = document.createElement('div');
+    bait.className = 'adsbox pub_300x250 ad-banner ad-banner-top ad-placement ad-placeholder ad-text ad-content';
+    bait.style.height = '1px';
+    bait.style.width = '1px';
+    bait.style.position = 'absolute';
+    bait.style.left = '-999px';
+    document.body.appendChild(bait);
+    setTimeout(function() {
+      if (window.getComputedStyle(bait).display === 'none' || bait.offsetParent === null) {
+        adblockDetectado = true;
+      }
+      bait.remove();
+      continuarDeteccion();
+    }, 100);
+
+    // 2. Intentar cargar un script de publicidad falso
+    var script = document.createElement('script');
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+    script.onerror = function() {
+      adblockDetectado = true;
+      continuarDeteccion();
+    };
+    document.body.appendChild(script);
+
+    // 3. Comprobar variables globales bloqueadas
+    setTimeout(function() {
+      if (typeof window.adsbygoogle === 'undefined') {
+        adblockDetectado = true;
+      }
+      continuarDeteccion();
+    }, 300);
+
+    // Mostrar modal si se detecta AdBlock
+    let yaMostrado = false;
+    function continuarDeteccion() {
+      if (adblockDetectado && !yaMostrado) {
+        yaMostrado = true;
+        document.getElementById('adblockModal').style.display = 'flex';
+        document.getElementById('modal18').style.display = 'none';
+        document.getElementById('contenidoPrincipal').style.display = 'none';
+      }
+    }
+  }
+  window.onload = function () {
+    document.getElementById('modal18').style.display = 'flex';
+    document.getElementById('contenidoPrincipal').style.display = 'none';
+    detectarAdblockAvanzado();
+  };
 </script>
 <script>
   function aceptarEdad() {
