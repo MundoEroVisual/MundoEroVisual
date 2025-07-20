@@ -11,6 +11,37 @@ const fetch = require('node-fetch');
 const archiver = require('archiver');
 const bodyParser = require('body-parser');
 
+// --- TAREA AUTOMÁTICA PARA CANCELAR VIP EXPIRADO ---
+async function revisarYCancelarVipExpirado() {
+  try {
+    let usuarios = await getJsonFromGitHub('data/usuario.json');
+    if (!Array.isArray(usuarios)) return;
+    let cambiado = false;
+    const ahora = new Date();
+    for (const user of usuarios) {
+      if (user.premium && user.premium_expira) {
+        const expira = new Date(user.premium_expira);
+        if (expira < ahora) {
+          user.premium = false;
+          user.premium_expira = null;
+          cambiado = true;
+        }
+      }
+    }
+    if (cambiado) {
+      await updateFileOnGitHub('data/usuario.json', usuarios);
+      console.log('[VIP] Se canceló el VIP expirado de uno o más usuarios.');
+    }
+  } catch (e) {
+    console.error('[VIP] Error al revisar/cancelar VIP expirado:', e);
+  }
+}
+
+// Ejecutar cada 10 minutos
+setInterval(revisarYCancelarVipExpirado, 10 * 60 * 1000);
+// Ejecutar al iniciar el servidor también
+revisarYCancelarVipExpirado();
+
 // --- Configuración para GitHub API ---
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_OWNER = process.env.GITHUB_OWNER;
