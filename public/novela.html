@@ -211,6 +211,9 @@
       border: 2px solid #ff3c3c;
       cursor: pointer;
     ">No</button>
+    <div style="margin-top:24px;color:#ffd700;font-size:1em;background:#222;padding:12px 8px;border-radius:12px;border:1.5px solid #ffd700;">
+      <b>Importante:</b> Si tienes algún tipo de bloqueador de anuncios, la página no funcionará correctamente.<br>Desactívalo y recarga para disfrutar el contenido.
+    </div>
   </div>
 </div>
 <div id="adblockModal" style="display:none;position:fixed;z-index:100000;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.96);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
@@ -395,7 +398,7 @@
   }
   window.toggleSpoilers = toggleSpoilers;
 
-  // Detección avanzada de AdBlock
+  // Detección avanzada de AdBlock (incluye uBlock Origin Lite)
   function detectarAdblockAvanzado() {
     let adblockDetectado = false;
 
@@ -415,22 +418,49 @@
       continuarDeteccion();
     }, 100);
 
-    // 2. Intentar cargar un script de publicidad falso
-    var script = document.createElement('script');
-    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-    script.onerror = function() {
-      adblockDetectado = true;
-      continuarDeteccion();
-    };
-    document.body.appendChild(script);
-
-    // 3. Comprobar variables globales bloqueadas
-    setTimeout(function() {
-      if (typeof window.adsbygoogle === 'undefined') {
+    // 2. Intentar cargar varios scripts de publicidad conocidos
+    var scripts = [
+      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+      'https://www.googletagservices.com/tag/js/gpt.js',
+      'https://adservice.google.com/adsid/integrator.js',
+      'https://static.doubleclick.net/instream/ad_status.js'
+    ];
+    scripts.forEach(function(src) {
+      var script = document.createElement('script');
+      script.src = src;
+      script.onerror = function() {
         adblockDetectado = true;
-      }
-      continuarDeteccion();
-    }, 300);
+        continuarDeteccion();
+      };
+      document.body.appendChild(script);
+      // Si el script no aparece en el DOM tras 200ms, probablemente fue bloqueado
+      setTimeout(function() {
+        if (!document.body.contains(script)) {
+          adblockDetectado = true;
+          continuarDeteccion();
+        }
+      }, 200);
+    });
+    // 4. Intentar cargar varias imágenes de dominios publicitarios
+    var imgs = [
+      'https://ads.adfox.ru/1234567/testad.jpg',
+      'https://ad.doubleclick.net/ddm/ad/testad.jpg',
+      'https://www.googleadservices.com/pagead/testad.jpg'
+    ];
+    imgs.forEach(function(src) {
+      var img = document.createElement('img');
+      img.src = src;
+      img.style.position = 'absolute';
+      img.style.left = '-999px';
+      img.onerror = function() {
+        adblockDetectado = true;
+        continuarDeteccion();
+      };
+      document.body.appendChild(img);
+      setTimeout(function() {
+        img.remove();
+      }, 500);
+    });
 
     // Mostrar modal si se detecta AdBlock
     let yaMostrado = false;
