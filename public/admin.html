@@ -307,6 +307,10 @@
   z-index: 10000;
   display: none;
 }
+
+    /* Ocultar todo el contenido y usuario-info hasta login exitoso */
+    #contenido, #usuario-info { display: none; }
+    #login { display: block; }
   </style>
 </head>
 <body>
@@ -351,66 +355,120 @@
   </form>
 </div>
 <div class="layout-admin">
-  <nav class="sidebar">
-    <h2>Eroverse</h2>
-    <div class="sidebar-nav">
-      <button id="nav-config" onclick="showSection('config')">Configuración</button>
-      <button id="nav-novelas" class="active" onclick="showSection('novelas')">Novelas</button>
-      <button id="nav-generos" onclick="showSection('generos')">Géneros</button>
-      <button id="abrir-panel-subida" class="btn" style="margin-top:32px;"> Subir novela</button>
-      <button id="toggleVipPanel" style="margin-top: 20px;">VIP a usuario</button>
-    </div>
-  </nav>
-  <div class="main-content">
-    <div class="admin-header">
-      <h1>Panel Administrativo</h1>
-      <button class="mode-toggle" id="toggle-mode">🌙 Modo oscuro</button>
-    </div>
-    <!-- Selector de método de guardado -->
-    <div style="margin-bottom:24px;">
-      <label for="metodo-guardado" style="font-weight:bold;color:#ff3cac;">Método de guardado:</label>
-      <select id="metodo-guardado" style="margin-left:12px;padding:6px 12px;border-radius:6px;">
-        <option value="api">Backend Glitch/API</option>
-        <option value="github">Directo en GitHub (token)</option>
-        <option value="descargar">Descargar JSON local</option>
-      </select>
-    </div>
-    <div id="section-novelas">
-      <div class="section" id="lista-novelas-section">
-        <h2>🗃️ Lista de novelas</h2>
-        <input type="text" id="buscar-novela" placeholder="🔍 Buscar por título..." style="margin-bottom:12px;">
-        <button id="generos-dropdown-btn" style="margin-bottom:12px;">Filtrar por género ▼</button>
-        <div id="generos-dropdown" style="display:none;position:absolute;z-index:10;background:#222;padding:12px 18px;border-radius:8px;box-shadow:0 2px 12px #000a;"></div>
-        <button id="exportar-json">📤 Exportar como JSON</button>
-        <div id="contador-visitas" style="margin:18px 0 0 0;color:#ff3cac;font-weight:bold;font-size:1.1em;"></div>
-        <div id="novelas-lista"></div>
-        <button id="subir-novela-btn" class="btn" style="margin-bottom:16px;background:#00e676;display:none;">➕ Subir nueva novela</button>
+    <nav class="sidebar">
+      <h2>Eroverse</h2>
+      <div class="sidebar-nav">
+        <button id="nav-config" onclick="showSection('config')">Configuración</button>
+        <button id="nav-novelas" class="active" onclick="showSection('novelas')">Novelas</button>
+        <button id="nav-generos" onclick="showSection('generos')">Géneros</button>
+        <button id="abrir-panel-subida" class="btn" style="margin-top:32px;"> Subir novela</button>
+        <button id="toggleVipPanel" style="margin-top: 20px;">VIP a usuario</button>
       </div>
-    </div>
-    <div id="section-generos" style="display:none;">
-      <div class="section">
-        <h2>🏷️ Gestión de géneros</h2>
-        <form id="form-nuevo-genero" style="display:flex;gap:8px;margin-bottom:16px;">
-          <input type="text" id="input-nuevo-genero" placeholder="Nuevo género..." maxlength="32" style="flex:1;">
-          <button type="submit" class="btn">Añadir</button>
-        </form>
-        <ul id="lista-generos" style="list-style:none;padding:0;margin:0 0 16px 0;"></ul>
+    </nav>
+    <div class="main-content">
+      <div class="admin-header">
+        <h1>Panel Administrativo</h1>
+        <button class="mode-toggle" id="toggle-mode">🌙 Modo oscuro</button>
       </div>
-    </div>
-    <div id="section-config" style="display:none;">
-      <div class="section" id="config-section">
-        <h2>⚙️ Configuración general</h2>
-        <form id="form-config">
-          <div class="config-row"><label>Nombre del sitio</label><input type="text" id="config-nombre"></div>
-          <div class="config-row"><label>Descripción corta</label><input type="text" id="config-desc"></div>
-          <div class="config-row"><label>Enlace de logo</label><input type="url" id="config-logo"></div>
-          <div class="config-row"><label>Fondo del sitio</label><input type="text" id="config-fondo"></div>
-          <button type="submit">Guardar configuración</button>
-        </form>
+      <!-- Selector de método de guardado -->
+      <div style="margin-bottom:24px;">
+        <label for="metodo-guardado" style="font-weight:bold;color:#ff3cac;">Método de guardado:</label>
+        <select id="metodo-guardado" style="margin-left:12px;padding:6px 12px;border-radius:6px;">
+          <option value="api">Backend Glitch/API</option>
+          <option value="github">Directo en GitHub (token)</option>
+          <option value="descargar">Descargar JSON local</option>
+        </select>
+      </div>
+      <div id="section-novelas">
+        <div class="section" id="lista-novelas-section">
+          <h2>🗃️ Lista de novelas</h2>
+          <input type="text" id="buscar-novela" placeholder="🔍 Buscar por título..." style="margin-bottom:12px;">
+          <button id="generos-dropdown-btn" style="margin-bottom:12px;">Filtrar por género ▼</button>
+          <div id="generos-dropdown" style="display:none;position:absolute;z-index:10;background:#222;padding:12px 18px;border-radius:8px;box-shadow:0 2px 12px #000a;"></div>
+          <button id="exportar-json">📤 Exportar como JSON</button>
+          <div id="contador-visitas" style="margin:18px 0 0 0;color:#ff3cac;font-weight:bold;font-size:1.1em;"></div>
+          <div id="novelas-lista"></div>
+          <button id="subir-novela-btn" class="btn" style="margin-bottom:16px;background:#00e676;display:none;">➕ Subir nueva novela</button>
+        </div>
+      </div>
+      <div id="section-generos" style="display:none;">
+        <div class="section">
+          <h2>🏷️ Gestión de géneros</h2>
+          <form id="form-nuevo-genero" style="display:flex;gap:8px;margin-bottom:16px;">
+            <input type="text" id="input-nuevo-genero" placeholder="Nuevo género..." maxlength="32" style="flex:1;">
+            <button type="submit" class="btn">Añadir</button>
+          </form>
+          <ul id="lista-generos" style="list-style:none;padding:0;margin:0 0 16px 0;"></ul>
+        </div>
+      </div>
+      <div id="section-config" style="display:none;">
+        <div class="section" id="config-section">
+          <h2>⚙️ Configuración general</h2>
+          <form id="form-config">
+            <div class="config-row"><label>Nombre del sitio</label><input type="text" id="config-nombre"></div>
+            <div class="config-row"><label>Descripción corta</label><input type="text" id="config-desc"></div>
+            <div class="config-row"><label>Enlace de logo</label><input type="url" id="config-logo"></div>
+            <div class="config-row"><label>Fondo del sitio</label><input type="text" id="config-fondo"></div>
+            <button type="submit">Guardar configuración</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
+  <!-- Panel para dar VIP con fondo negro y letras blancas -->
+<style>
+#panel-dar-vip {
+  background: #111;
+  color: #fff;
+  padding: 2em;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 2em auto;
+  box-shadow: 0 0 20px #0008;
+}
+#panel-dar-vip input, #panel-dar-vip select, #panel-dar-vip button {
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border-radius: 5px;
+  width: 100%;
+}
+#panel-dar-vip button {
+  background: #333;
+  cursor: pointer;
+}
+</style>
+<div id="panel-dar-vip">
+  <h2>Asignar VIP</h2>
+  <input type="text" id="vip-username" placeholder="Usuario">
+  <select id="vip-tipo">
+    <option value="dias">Días</option>
+    <option value="semanas">Semanas</option>
+    <option value="meses">Meses</option>
+    <option value="permanente">Permanente</option>
+  </select>
+  <input type="number" id="vip-cantidad" placeholder="Cantidad">
+  <button onclick="darVip()">Asignar VIP</button>
+  <div id="vip-resultado"></div>
 </div>
+<script>
+function darVip() {
+  const username = document.getElementById('vip-username').value;
+  const tipo = document.getElementById('vip-tipo').value;
+  const cantidad = document.getElementById('vip-cantidad').value;
+  fetch('/api/dar-vip', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, tipo, cantidad })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('vip-resultado').innerText = data.message || 'Error';
+  });
+}
+</script>
 <script>
 // --- NAVEGACIÓN ENTRE SECCIONES ---
 function showSection(section) {
@@ -1326,6 +1384,39 @@ window.borrarNovela = async function(idx) {
       document.getElementById('vipResultado').textContent = 'Error al conectarse al servidor.';
     }
   });
+</script>
+<div id="login">
+  <h2>Login Admin</h2>
+  <input type="text" id="admin-user" placeholder="Usuario" autocomplete="off">
+  <input type="password" id="admin-pass" placeholder="Contraseña">
+  <button onclick="loginAdmin()">Entrar</button>
+  <div id="login-error" style="color:red;"></div>
+</div>
+<div id="usuario-info"></div>
+<div id="contenido">
+  <!-- ...existing code... -->
+</div>
+<script>
+function loginAdmin() {
+  const user = document.getElementById('admin-user').value;
+  const pass = document.getElementById('admin-pass').value;
+  fetch('/api/admin-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user, pass })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('contenido').style.display = 'block';
+      document.getElementById('usuario-info').style.display = 'none';
+    } else {
+      document.getElementById('login-error').innerText = 'Login incorrecto';
+    }
+  });
+}
+document.getElementById('usuario-info').style.display = 'none';
 </script>
 </body>
 </html>
