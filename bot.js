@@ -90,19 +90,28 @@ client.once("ready", async () => {
     console.error("Error al registrar el comando:", err);
   }
 
-  // Enviar botón al canal de ayuda (solo al iniciar)
+  // Enviar botón al canal de ayuda solo si no existe ya
   const canal = await client.channels.fetch(CANAL_AYUDA_ID).catch(() => null);
   if (canal && canal.isTextBased()) {
-    const row = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setCustomId("abrir_ticket")
-        .setLabel("📩 Abrir Ticket")
-        .setStyle(1)
+    // Buscar si ya existe el mensaje del botón en los últimos 20 mensajes
+    const mensajes = await canal.messages.fetch({ limit: 20 }).catch(() => null);
+    const yaExiste = mensajes && mensajes.some(m =>
+      m.author.id === client.user.id &&
+      m.content.includes("¿Necesitas ayuda? Haz clic en el botón para abrir un ticket.") &&
+      m.components && m.components.length > 0
     );
-    canal.send({
-      content: "¿Necesitas ayuda? Haz clic en el botón para abrir un ticket.",
-      components: [row],
-    });
+    if (!yaExiste) {
+      const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId("abrir_ticket")
+          .setLabel("📩 Abrir Ticket")
+          .setStyle(1)
+      );
+      canal.send({
+        content: "¿Necesitas ayuda? Haz clic en el botón para abrir un ticket.",
+        components: [row],
+      });
+    }
   }
 
   // Ejecutar checkNovelas cada 2 minutos
@@ -296,6 +305,7 @@ client.on("messageCreate", async (msg) => {
       "`!sorteo` — Participa en el sorteo VIP.",
       "`!sorteo + @usuario` — Añade manualmente a un usuario al sorteo (solo admins).",
       "`!sorteocantidad` — Muestra la cantidad y lista de usuarios participando en el sorteo VIP.",
+      "`!ultimanovela` — Vuelve a anunciar la última novela subida.",
       "`!clear <n>` — Borra los últimos n mensajes del canal.",
       "`!clearall` — Borra todos los mensajes del canal actual.",
       "`!reanunciar-novelas` — Vuelve a anunciar todas las novelas (resetea la lista).",
@@ -530,6 +540,84 @@ client.on("messageCreate", async (msg) => {
     return;
   }
 
+  // !ultimanovela para volver a anunciar la última novela subida
+  if (command === "ultimanovela") {
+    try {
+      // Leer el JSON de novelas
+      const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/novelas-1.json');
+      const data = await res.json();
+      if (!Array.isArray(data) || !data.length) {
+        msg.reply("No hay novelas disponibles.");
+        return;
+      }
+      const novela = data[data.length - 1];
+      if (!novela) {
+        msg.reply("No se encontró la última novela.");
+        return;
+      }
+      // Canal original
+      const channel = await client.channels.fetch(DISCORD_CHANNEL_JUEGOS_NOPOR);
+      // Canal VIP
+      const canalVipId = "1396729794325905479";
+      const channelVip = await client.channels.fetch(canalVipId).catch(() => null);
+
+      // Enlace público
+      const novelaId = novela._id || novela.id;
+      const urlNovela = `https://eroverse.onrender.com/novela.html?id=${novelaId}`;
+      // Enlace VIP (android_vip)
+      const urlVip = novela.android_vip || urlNovela;
+
+      // Embed para canal público
+      const embed = new EmbedBuilder()
+        .setTitle(novela.titulo || "Nueva novela")
+        .addFields(
+          { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+          { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+          { name: 'Peso', value: novela.peso || 'N/A', inline: true }
+        )
+        .setColor(0x00bfff)
+        .setDescription((novela.desc || '') + `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!`);
+      embed.setURL(urlNovela);
+      if (novela.portada && novela.portada.trim() !== '') {
+        embed.setImage(novela.portada);
+      }
+      // Adjuntar imágenes de spoiler si existen
+      let filesPublico = [];
+      if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
+        filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+      }
+      await channel.send({ embeds: [embed], files: filesPublico });
+
+      // Embed para canal VIP
+      if (channelVip) {
+        const embedVip = new EmbedBuilder()
+          .setTitle(novela.titulo || "Nueva novela VIP")
+          .addFields(
+            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+            { name: 'Peso', value: novela.peso || 'N/A', inline: true },
+            { name: 'Enlace VIP', value: `[Descargar VIP](${urlVip})`, inline: false }
+          )
+          .setColor(0xffd700)
+          .setDescription((novela.desc || '') + `\n¡Nueva novela subida para VIP!`);
+        embedVip.setURL(urlVip);
+        if (novela.portada && novela.portada.trim() !== '') {
+          embedVip.setImage(novela.portada);
+        }
+        // Adjuntar imágenes de spoiler si existen
+        let files = [];
+        if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
+          files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+        }
+        await channelVip.send({ embeds: [embedVip], files });
+      }
+      msg.reply("✅ Última novela anunciada en ambos canales.");
+    } catch (e) {
+      msg.reply("Error al anunciar la última novela.");
+    }
+    return;
+  }
+
   if (command === "userinfo") {
     const user = msg.mentions.users.first() || msg.author;
     const member = msg.guild.members.cache.get(user.id);
@@ -657,6 +745,180 @@ client.on("messageCreate", async (msg) => {
   }
 
   // Otros comandos aquí...
+// --- SISTEMA VIP DISCORD-WEB ---
+async function cargarVipsDesdeGitHub() {
+  try {
+    const { Octokit } = await import("@octokit/rest");
+    const octokit = new Octokit({ auth: GITHUB_TOKEN });
+    const owner = GITHUB_OWNER;
+    const repo = GITHUB_REPO;
+    const path = "data/usuario.json";
+    const branch = GITHUB_BRANCH || "main";
+    let usuarios = [];
+    try {
+      const { data: fileData } = await octokit.repos.getContent({ owner, repo, path, ref: branch });
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+      usuarios = JSON.parse(content);
+      if (!Array.isArray(usuarios)) usuarios = [];
+    } catch (e) {
+      usuarios = [];
+    }
+    // Solo los que tienen premium=true
+    return usuarios.filter(u => u.premium);
+  } catch (error) {
+    console.error("❌ Error al cargar VIPs:", error.message);
+    return [];
+  }
+}
+
+async function guardarVipsEnGitHub(vips) {
+  try {
+    const { Octokit } = await import("@octokit/rest");
+    const octokit = new Octokit({ auth: GITHUB_TOKEN });
+    const owner = GITHUB_OWNER;
+    const repo = GITHUB_REPO;
+    const path = "data/usuario.json";
+    const branch = GITHUB_BRANCH || "main";
+    let usuarios = [];
+    let sha = undefined;
+    try {
+      const { data: fileData } = await octokit.repos.getContent({ owner, repo, path, ref: branch });
+      sha = fileData.sha;
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+      usuarios = JSON.parse(content);
+      if (!Array.isArray(usuarios)) usuarios = [];
+    } catch (e) {
+      sha = undefined;
+      usuarios = [];
+    }
+    // Actualizar usuarios VIP (premium=true) según vips
+    // vips: [{ discordId, webUser }]
+    // Si existe usuario con webUser, actualizar discordId y premium=true
+    // Si no existe, crear nuevo usuario VIP
+    for (const vip of vips) {
+      let usuario = usuarios.find(u => u.usuario === vip.webUser);
+      if (usuario) {
+        usuario.discordId = vip.discordId;
+        usuario.premium = true;
+        usuario.premium_expira = vip.premium_expira || null;
+      } else {
+        usuarios.push({
+          usuario: vip.webUser || "",
+          password: "",
+          admin: false,
+          premium: true,
+          premium_expira: vip.premium_expira || null,
+          discordId: vip.discordId
+        });
+      }
+    }
+    // Eliminar premium a los que no están en vips
+    usuarios.forEach(u => {
+      if (!vips.some(v => v.discordId === u.discordId || v.webUser === u.usuario)) {
+        u.premium = false;
+        u.discordId = undefined;
+        u.premium_expira = null;
+      }
+    });
+    await octokit.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path,
+      message: "Actualizar VIPs desde Discord",
+      content: Buffer.from(JSON.stringify(usuarios, null, 2)).toString("base64"),
+      branch,
+      sha,
+    });
+    console.log("✅ VIPs guardados en GitHub");
+  } catch (error) {
+    console.error("❌ Error al guardar VIPs:", error.message);
+  }
+}
+
+client.on("messageCreate", async (msg) => {
+  if (msg.author.bot || !msg.guild) return;
+  if (!msg.content.startsWith("!vip")) return;
+  const args = msg.content.slice(4).trim().split(/ +/);
+  const isAdmin = msg.member.permissions.has(PermissionFlagsBits.Administrator);
+  if (!isAdmin) {
+    msg.reply("Solo administradores pueden gestionar VIPs.");
+    return;
+  }
+  // !vip + @usuario nombreEnWeb
+  if (args[0] === "+" && args[1]) {
+    const userMention = args[1];
+    const webUser = args[2] || null;
+    const userIdMatch = userMention.match(/^<@!?([0-9]+)>$/);
+    let discordId = null;
+    if (userIdMatch) {
+      discordId = userIdMatch[1];
+    } else {
+      const miembro = msg.guild.members.cache.find(m => m.user.tag === userMention || m.user.username === userMention);
+      if (miembro) discordId = miembro.id;
+    }
+    if (!discordId) {
+      msg.reply("Usuario no válido o no encontrado.");
+      return;
+    }
+    let vips = await cargarVipsDesdeGitHub();
+    if (vips.some(v => v.discordId === discordId || (webUser && v.usuario === webUser))) {
+      msg.reply("Ese usuario ya es VIP.");
+      return;
+    }
+    vips.push({ discordId, webUser });
+    await guardarVipsEnGitHub(vips);
+    // Asignar rol VIP en Discord
+    try {
+      const VIP_ROLE_ID = "1372074678692216842";
+      const miembro = await msg.guild.members.fetch(discordId);
+      if (miembro && !miembro.roles.cache.has(VIP_ROLE_ID)) {
+        await miembro.roles.add(VIP_ROLE_ID);
+      }
+    } catch (e) {
+      console.error("Error asignando rol VIP:", e);
+    }
+    msg.reply(`✅ Usuario <@${discordId}> añadido como VIP${webUser ? ` (web: ${webUser})` : ''} y rol VIP asignado.`);
+    return;
+  }
+  // !vip - @usuario
+  if (args[0] === "-" && args[1]) {
+    const userMention = args[1];
+    const webUser = args[2] || null;
+    const userIdMatch = userMention.match(/^<@!?([0-9]+)>$/);
+    let discordId = null;
+    if (userIdMatch) {
+      discordId = userIdMatch[1];
+    } else {
+      const miembro = msg.guild.members.cache.find(m => m.user.tag === userMention || m.user.username === userMention);
+      if (miembro) discordId = miembro.id;
+    }
+    let vips = await cargarVipsDesdeGitHub();
+    const antes = vips.length;
+    vips = vips.filter(v => {
+      if (discordId && v.discordId === discordId) return false;
+      if (webUser && v.webUser === webUser) return false;
+      return true;
+    });
+    if (vips.length === antes) {
+      msg.reply("No se encontró ese VIP.");
+      return;
+    }
+    await guardarVipsEnGitHub(vips);
+    msg.reply("✅ VIP eliminado.");
+    return;
+  }
+  // !vip lista
+  if (args[0] === "lista") {
+    let vips = await cargarVipsDesdeGitHub();
+    if (!vips.length) {
+      msg.reply("No hay usuarios VIP.");
+      return;
+    }
+    const lines = vips.map(v => `Discord: <@${v.discordId}>${v.usuario ? ` | Web: ${v.usuario}` : ''}`);
+    msg.reply(`👑 Lista de VIPs:\n${lines.join('\n')}`);
+    return;
+  }
+});
 });
 // 2. COMANDOS DE ADMINISTRACIÓN
 // --------------------------------
@@ -825,11 +1087,15 @@ async function checkNovelas() {
     const data = await res.json();
     if (!Array.isArray(data) || !data.length) return;
 
+    // Canal original
     const channel = await client.channels.fetch(DISCORD_CHANNEL_JUEGOS_NOPOR);
     if (!channel) {
       console.error("Canal para anuncios no encontrado");
       return;
     }
+    // Canal VIP
+    const canalVipId = "1396729794325905479";
+    const channelVip = await client.channels.fetch(canalVipId).catch(() => null);
 
     let huboNovedad = false;
 
@@ -839,9 +1105,12 @@ async function checkNovelas() {
         novelasAnunciadas.add(novelaId);
         huboNovedad = true;
 
-        // Construir el enlace usando el id
+        // Enlace público
         const urlNovela = `https://eroverse.onrender.com/novela.html?id=${novelaId}`;
+        // Enlace VIP (android_vip)
+        const urlVip = novela.android_vip || urlNovela;
 
+        // Embed para canal público
         const embed = new EmbedBuilder()
           .setTitle(novela.titulo || "Nueva novela")
           .addFields(
@@ -851,14 +1120,42 @@ async function checkNovelas() {
           )
           .setColor(0x00bfff)
           .setDescription((novela.desc || '') + `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!`);
-
         embed.setURL(urlNovela);
-
         if (novela.portada && novela.portada.trim() !== '') {
           embed.setImage(novela.portada);
         }
+        // Adjuntar imágenes de spoiler si existen
+        let filesPublico = [];
+        if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
+          filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+        }
+        await channel.send({ embeds: [embed], files: filesPublico });
 
-        await channel.send({ embeds: [embed] });
+        // Embed para canal VIP
+        if (channelVip) {
+          const embedVip = new EmbedBuilder()
+            .setTitle(novela.titulo || "Nueva novela VIP")
+            .addFields(
+              { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+              { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+              { name: 'Peso', value: novela.peso || 'N/A', inline: true },
+              { name: 'Enlace VIP', value: `[Descargar VIP](${urlVip})`, inline: false }
+            )
+            .setColor(0xffd700)
+            .setDescription((novela.desc || '') + `\n¡Nueva novela subida para VIP!`);
+          embedVip.setURL(urlVip);
+          if (novela.portada && novela.portada.trim() !== '') {
+            embedVip.setImage(novela.portada);
+          }
+
+          // Adjuntar imágenes de spoiler si existen
+          let files = [];
+          if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
+            files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+          }
+          // Enviar embed y archivos juntos
+          await channelVip.send({ embeds: [embedVip], files });
+        }
       }
     }
 
@@ -880,6 +1177,24 @@ client.once('ready', () => {
 
   // Ejecutar checkYouTube cada 5 minutos
   setInterval(checkYouTube, 5 * 60 * 1000);
+
+  // Revisar cada minuto que todos los usuarios tengan el rol miembro
+  const MIEMBRO_ROLE_ID = "1372066618749751417";
+  setInterval(async () => {
+    try {
+      for (const [guildId, guild] of client.guilds.cache) {
+        // Obtener todos los miembros
+        const miembros = await guild.members.fetch();
+        for (const miembro of miembros.values()) {
+          if (!miembro.user.bot && !miembro.roles.cache.has(MIEMBRO_ROLE_ID)) {
+            await miembro.roles.add(MIEMBRO_ROLE_ID).catch(() => {});
+          }
+        }
+      }
+    } catch (e) {
+      console.error("Error asignando rol miembro automáticamente:", e);
+    }
+  }, 60 * 1000);
 });
 
 // 2. YouTube: Detectar nuevos videos
