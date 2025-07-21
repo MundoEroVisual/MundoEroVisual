@@ -1358,5 +1358,5 @@ async function guardarSorteoEnGitHub(sorteo, eliminar = false) {
     console.error("❌ Error al guardar/eliminar sorteo en GitHub:", error.message);
   }
 }
-}
+
 
