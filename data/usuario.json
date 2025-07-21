@@ -21,8 +21,9 @@
     "admin": false,
     "avatar": "https://avatars.githubusercontent.com/u/195238951?s=64&v=4",
     "apodo": "mmg",
-    "premium": false,
-    "premium_expira": null
+    "premium": true,
+    "premium_expira": "2025-08-20T09:40:02.561Z",
+    "discordId": "1175925603292172299"
   },
   {
     "usuario": "Junior panta",
@@ -48,6 +49,27 @@
     "admin": false,
     "avatar": "Diablito con queso",
     "apodo": "Diablo",
+    "premium": true,
+    "premium_expira": "2025-08-21T04:31:02.943Z"
+  },
+  {
+    "usuario": "",
+    "password": "",
+    "admin": false,
+    "premium": true,
+    "premium_expira": "2099-12-31T23:59:59.000Z"
+  },
+  {
+    "usuario": "",
+    "password": "",
+    "admin": false,
+    "premium": true,
+    "premium_expira": "3000-01-01T00:00:00.000Z"
+  },
+  {
+    "usuario": "",
+    "password": "",
+    "admin": false,
     "premium": true,
     "premium_expira": "2025-08-21T04:31:02.943Z"
   }
