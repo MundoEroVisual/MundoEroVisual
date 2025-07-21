@@ -19,6 +19,7 @@ const CANAL_AYUDA_ID = "1391222796453019749";
 const CATEGORIA_TICKETS_ID = "1391222553799954442";
 const STAFF_ROLE_ID = "1372066132957331587";
 const CANAL_SORTEO_ID = "1396642489464520776";
+const CANAL_ANUNCIOS_ID = "1372061643105898527";
 
 // Variables para anuncios de novelas y YouTube
 const NOVELAS_ANUNCIADAS_PATH = "./data/novelasAnunciadas.json";
@@ -40,7 +41,6 @@ let novelasAnunciadas = new Set();
 const {
   DISCORD_TOKEN,
   DISCORD_CHANNEL_WELCOME,
-  DISCORD_CHANNEL_NEW_VIDEOS,
   DISCORD_CHANNEL_MEMES,
   DISCORD_CHANNEL_HENTAI,
   DISCORD_CHANNEL_PORNOLAND,
@@ -341,15 +341,15 @@ client.on("messageCreate", async (msg) => {
     await msgFijado.pin();
     // Enviar el mensaje de reglas justo después del sorteo
     await canalSorteo.send(mensajeReglas);
-    // Enviar aviso de sorteo creado a todos los canales menos el de sorteos
+    // Enviar aviso de sorteo creado solo al canal de avisos de nuevos videos
     const aviso = `✅ ¡Se ha creado un nuevo sorteo VIP! Participa en el canal <#${canalId}> usando !sorteo.`;
-    const canales = msg.guild.channels.cache.filter(c => c.isTextBased() && c.id !== canalId);
-    for (const canal of canales.values()) {
-      try {
-        const avisoMsg = await canal.send(aviso);
+    try {
+      const canalAviso = await client.channels.fetch(DISCORD_CHANNEL_NEW_VIDEOS);
+      if (canalAviso) {
+        const avisoMsg = await canalAviso.send(aviso);
         setTimeout(() => avisoMsg.delete().catch(() => {}), 5000);
-      } catch {}
-    }
+      }
+    } catch {}
     setTimeout(async () => {
       if (!sorteoActual) return;
       const participantes = Array.from(sorteoActual.participantes);
@@ -783,7 +783,7 @@ async function checkYouTube() {
       .setColor(0xff0000)
       .setDescription('¡Nuevo video en el canal de YouTube!');
 
-    const channel = await client.channels.fetch(DISCORD_CHANNEL_NEW_VIDEOS);
+    const channel = await client.channels.fetch(CANAL_ANUNCIOS_ID);
     await channel.send({ embeds: [embed] });
   } catch (err) {
     console.error('Error comprobando YouTube:', err);
