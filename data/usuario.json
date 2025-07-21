@@ -41,5 +41,14 @@
     "apodo": "Decx",
     "premium": false,
     "premium_expira": null
+  },
+  {
+    "usuario": "kfalt",
+    "password": "$2b$10$bz5sqXOQw4UcNrPKDx18feKgWs/Y1R62uaSD5V.TKJWaE34SGUeta",
+    "admin": false,
+    "avatar": "Diablito con queso",
+    "apodo": "Diablo",
+    "premium": false,
+    "premium_expira": null
   }
 ]
