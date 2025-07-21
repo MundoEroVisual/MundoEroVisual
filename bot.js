@@ -266,7 +266,7 @@ client.on("messageCreate", async (msg) => {
   if (!isAdmin && command !== "anuncio") return;
 
   // Comando para mostrar todos los comandos disponibles (solo admins)
-  if (command === "comandos") {
+  if (command === "!comandos") {
     if (!isAdmin) return;
     const comandos = [
       "`!crearsorteo tipo: VIP duracion: 1m canal: #sorteos` — Crea un sorteo VIP.",
