@@ -250,24 +250,21 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 // --------------------------------
-// 2. COMANDOS DE ADMINISTRACIÓN
-// --------------------------------
-
+// --- COMANDOS DE TEXTO RESTAURADOS ---
+let sorteoActual = null;
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot || !msg.guild) return;
   if (!msg.content.startsWith("!")) return;
 
   const args = msg.content.slice(1).trim().split(/ +/);
   const command = args.shift().toLowerCase();
-
   const isAdmin = msg.member.permissions.has(PermissionFlagsBits.Administrator);
 
-  // Solo admins pueden usar estos comandos, excepto !anuncio
-  if (!isAdmin && command !== "anuncio") return;
+  // Solo admins pueden usar estos comandos, excepto !anuncio y !sorteo
+  if (!isAdmin && !["anuncio", "sorteo"].includes(command)) return;
 
-  // Comando para mostrar todos los comandos disponibles (solo admins)
-  if (command === "!comandos") {
-    if (!isAdmin) return;
+  // !comandos para mostrar todos los comandos disponibles
+  if (command === "comandos") {
     const comandos = [
       "`!crearsorteo tipo: VIP duracion: 1m canal: #sorteos` — Crea un sorteo VIP.",
       "`!sorteo` — Participa en el sorteo VIP.",
@@ -282,13 +279,12 @@ client.on("messageCreate", async (msg) => {
       "`!userinfo [@usuario]` — Muestra información de un usuario.",
       "`!serverinfo` — Muestra información del servidor."
     ];
-// --- SORTEO VIP TEXTO ---
-let sorteoActual = null;
-client.on("messageCreate", async (msg) => {
-  if (msg.author.bot || !msg.guild) return;
-  const isAdmin = msg.member.permissions.has(PermissionFlagsBits.Administrator);
+    msg.reply({ content: comandos.join("\n") });
+    return;
+  }
+
   // !crearsorteo tipo: VIP duracion: 1m canal: #sorteos
-  if (isAdmin && msg.content.startsWith("!crearsorteo")) {
+  if (isAdmin && command === "crearsorteo") {
     const tipoMatch = msg.content.match(/tipo:\s*(\w+)/i);
     const duracionMatch = msg.content.match(/duracion:\s*(\d+m)/i);
     const canalMatch = msg.content.match(/canal:\s*#?(\w+)/i);
@@ -330,9 +326,11 @@ client.on("messageCreate", async (msg) => {
       }
       sorteoActual = null;
     }, minutos * 60 * 1000);
+    return;
   }
+
   // !sorteo para participar
-  if (msg.content.trim() === "!sorteo" && sorteoActual && msg.channelId === sorteoActual.canalParticipacion) {
+  if (command === "sorteo" && sorteoActual && msg.channelId === sorteoActual.canalParticipacion) {
     const userId = msg.author.id;
     if (sorteoActual.participantes.has(userId)) {
       msg.reply('🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos');
@@ -340,18 +338,19 @@ client.on("messageCreate", async (msg) => {
     }
     sorteoActual.participantes.add(userId);
     msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
+    return;
   }
+
   // Moderación en canal de sorteos: solo !sorteo permitido
   if (msg.channelId === CANAL_SORTEO_ID && !msg.author.bot && !msg.content.startsWith("!sorteo") && isAdmin === false) {
     await msg.delete();
     await msg.author.send("⚠️ Solo puedes escribir !sorteo en el canal de sorteos. Si necesitas ayuda abre un ticket en el canal de ayuda.");
-  }
-});
+    return;
   }
 
+  // --- Comandos de administración ---
   if (command === "refrescar-novelas") {
     try {
-      // Actualiza la lista de novelas desde GitHub y anuncia las nuevas
       await checkNovelas();
       msg.reply("✅ Lista de novelas refrescada y anunciadas si hay novedades.");
     } catch (e) {
@@ -361,7 +360,6 @@ client.on("messageCreate", async (msg) => {
   }
 
   if (command === "userinfo") {
-    if (!isAdmin) return;
     const user = msg.mentions.users.first() || msg.author;
     const member = msg.guild.members.cache.get(user.id);
     const embed = new EmbedBuilder()
@@ -388,7 +386,6 @@ client.on("messageCreate", async (msg) => {
   }
 
   if (command === "serverinfo") {
-    if (!isAdmin) return;
     const { guild } = msg;
     const embed = new EmbedBuilder()
       .setTitle(`Información del servidor: ${guild.name}`)
@@ -406,7 +403,6 @@ client.on("messageCreate", async (msg) => {
   }
 
   if (command === "clear" || command === "purge") {
-    if (!isAdmin) return;
     const amount = parseInt(args[0], 10);
     if (isNaN(amount) || amount < 1 || amount > 100) {
       return msg.reply("Debes especificar un número entre 1 y 100. Ejemplo: !clear 10");
@@ -422,7 +418,6 @@ client.on("messageCreate", async (msg) => {
   }
 
   if (command === "clearall") {
-    if (!isAdmin) return;
     let deleted = 0;
     let lastId;
     try {
@@ -443,7 +438,6 @@ client.on("messageCreate", async (msg) => {
   }
 
   if (command === "ban") {
-    if (!isAdmin) return;
     if (args.length < 1) return msg.reply("Debes mencionar a un usuario para banear.");
     const userToBan = msg.mentions.members.first();
     const motivo = args.slice(1).join(" ") || "Sin motivo";
@@ -459,7 +453,6 @@ client.on("messageCreate", async (msg) => {
   }
 
   if (command === "kick") {
-    if (!isAdmin) return;
     if (args.length < 1) return msg.reply("Debes mencionar a un usuario para expulsar.");
     const userToKick = msg.mentions.members.first();
     const motivo = args.slice(1).join(" ") || "Sin motivo";
@@ -477,14 +470,11 @@ client.on("messageCreate", async (msg) => {
   if (command === "anuncio") {
     const mensaje = args.join(" ");
     if (!mensaje) return msg.reply("Debes escribir el mensaje del anuncio.");
-    // Canales configurados para anuncios
     const canales = [
       DISCORD_CHANNEL_WELCOME,
       DISCORD_CHANNEL_MEMES,
       DISCORD_CHANNEL_JUEGOS_NOPOR,
-      // Puedes agregar más aquí
     ].filter(Boolean);
-
     for (const canalId of canales) {
       try {
         const canal = await client.channels.fetch(canalId);
@@ -497,6 +487,11 @@ client.on("messageCreate", async (msg) => {
 
   // Otros comandos aquí...
 });
+// 2. COMANDOS DE ADMINISTRACIÓN
+// --------------------------------
+
+// --- El bloque de comandos de texto ha sido eliminado. Usa solo comandos slash (/).
+// --- El bloque de comandos de texto ha sido eliminado. Usa solo comandos slash (/).
 
 // --------------------
 // 3. MENSAJE DE BIENVENIDA Y ROL
