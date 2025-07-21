@@ -32,5 +32,14 @@
     "apodo": "Xamqui",
     "premium": false,
     "premium_expira": null
+  },
+  {
+    "usuario": "kfalt75",
+    "password": "$2b$10$eHi.j61ru9SS4rIgVSRcHO3n7B7FsBoQjKl2XbGX016U4kEFRvN6i",
+    "admin": false,
+    "avatar": "Diablito con queso",
+    "apodo": "Decx",
+    "premium": false,
+    "premium_expira": null
   }
 ]
