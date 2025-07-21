@@ -18,6 +18,7 @@ const {
 const CANAL_AYUDA_ID = "1391222796453019749";
 const CATEGORIA_TICKETS_ID = "1391222553799954442";
 const STAFF_ROLE_ID = "1372066132957331587";
+const CANAL_SORTEO_ID = "1396642489464520776";
 
 // Variables para anuncios de novelas y YouTube
 const NOVELAS_ANUNCIADAS_PATH = "./data/novelasAnunciadas.json";
@@ -175,6 +176,77 @@ client.on("interactionCreate", async (interaction) => {
       }, 5000);
     }
   }
+
+  // --- SORTEO VIP ---
+  if (interaction.isChatInputCommand() && interaction.commandName === "crearsorteo") {
+    if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+      await interaction.reply({ content: "Solo administradores pueden crear sorteos.", ephemeral: true });
+      return;
+    }
+    // Recoge los parámetros
+    const tipo = interaction.options.getString("tipo") || "VIP";
+    const duracion = interaction.options.getString("duracion") || "45m";
+    const canal = interaction.options.getChannel("canal") || await client.channels.fetch(CANAL_SORTEO_ID);
+    const minutos = duracion.endsWith("m") ? parseInt(duracion) : 45;
+    const termina = Date.now() + minutos * 60 * 1000;
+    sorteoActual = {
+      tipo,
+      premio: "VIP Gratis",
+      ganadores: 1,
+      termina,
+      canalParticipacion: canal.id,
+      participantes: new Set()
+    };
+    // Mensaje de sorteo
+    const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${minutos} minutos (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **/sorteo** en el canal <#${canal.id}>`;
+    // Enviar a todos los canales permitidos
+    client.guilds.cache.forEach(async (guild) => {
+      guild.channels.cache.forEach(async (ch) => {
+        if (ch.isTextBased() && ch.permissionsFor(client.user).has(PermissionFlagsBits.SendMessages)) {
+          try {
+            await ch.send(mensajeSorteo);
+          } catch {}
+        }
+      });
+    });
+    // Enviar y fijar el mensaje en el canal de sorteos
+    const canalSorteo = await client.channels.fetch(CANAL_SORTEO_ID);
+    const msgFijado = await canalSorteo.send(mensajeSorteo);
+    await msgFijado.pin();
+    // Mensaje de reglas
+    await canalSorteo.send(`⚠️ En este canal solo se permite escribir /sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`);
+    await interaction.reply({ content: "✅ Sorteo creado y anunciado.", ephemeral: true });
+    // Timer para finalizar sorteo
+    setTimeout(async () => {
+      if (!sorteoActual) return;
+      const participantes = Array.from(sorteoActual.participantes);
+      if (participantes.length === 0) {
+        await canalSorteo.send("⏰ Sorteo finalizado. No hubo participantes.");
+      } else {
+        const ganador = participantes[Math.floor(Math.random() * participantes.length)];
+        await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
+      }
+      sorteoActual = null;
+    }, minutos * 60 * 1000);
+  }
+  // Comando para participar
+  if (interaction.commandName === "sorteo") {
+    if (!sorteoActual || Date.now() > sorteoActual.termina) {
+      await interaction.reply({ content: "No hay sorteo activo.", ephemeral: true });
+      return;
+    }
+    if (interaction.channelId !== sorteoActual.canalParticipacion) {
+      await interaction.reply({ content: `Debes participar en el canal <#${sorteoActual.canalParticipacion}>.`, ephemeral: true });
+      return;
+    }
+    const userId = interaction.user.id;
+    if (sorteoActual.participantes.has(userId)) {
+      await interaction.reply({ content: '🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos', ephemeral: true });
+      return;
+    }
+    sorteoActual.participantes.add(userId);
+    await interaction.reply({ content: '🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!', ephemeral: true });
+  }
 });
 
 // --------------------------------
@@ -206,7 +278,7 @@ client.on("messageCreate", async (msg) => {
       "`!kick @usuario <motivo>` — Expulsa a un usuario.",
       "`!anuncio <mensaje>` — Envía un anuncio a todos los canales configurados.",
       "`!userinfo [@usuario]` — Muestra información de un usuario.",
-      "`!serverinfo` — Muestra información del servidor.",
+      "`!serverinfo` — Muestra información del servidor."
     ];
     const adminMsg = await msg.reply({
       embeds: [
