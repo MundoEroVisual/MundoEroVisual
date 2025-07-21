@@ -1249,11 +1249,6 @@ async function checkNovelas() {
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
         }
-        // Construir lista de imágenes de spoiler como URLs visibles
-        let spoilerText = '';
-        if (filesPublico.length) {
-          spoilerText = '\n\n**Spoilers:**\n' + filesPublico.map((img, i) => `[Imagen ${i+1}](${img})`).join(' | ');
-        }
         // Enviar todos los datos y todas las imágenes de spoiler en un solo mensaje
         await channel.send({
           content:
@@ -1262,8 +1257,7 @@ async function checkNovelas() {
             `Estado: ${novela.estado || 'Desconocido'}\n` +
             `Peso: ${novela.peso || 'N/A'}\n` +
             `Enlace: ${urlNovela}\n` +
-            `${novela.desc || ''}\n¡Nueva novela subida!` +
-            spoilerText,
+            `${novela.desc || ''}\n¡Nueva novela subida!`,
           embeds: [embed],
           files: filesPublico
         });
