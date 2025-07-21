@@ -791,18 +791,7 @@ client.on("messageCreate", async (msg) => {
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
         }
-        // Enviar todos los datos y todas las imágenes en un solo mensaje
-        await channelVip.send({
-          content:
-            `**${novela.titulo || 'Nueva novela VIP'}**\n` +
-            `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
-            `Estado: ${novela.estado || 'Desconocido'}\n` +
-            `Peso: ${novela.peso || 'N/A'}\n` +
-            `Enlace VIP: ${urlVip}\n` +
-            `${novela.desc || ''}\n¡Nueva novela subida para VIP!`,
-          embeds: [embedVip],
-          files
-        });
+        await channelVip.send({ embeds: [embedVip], files });
         enviados++;
       }
       msg.reply(`✅ Se han anunciado ${enviados} novelas en el canal VIP.`);
@@ -1249,18 +1238,7 @@ async function checkNovelas() {
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
         }
-        // Enviar todos los datos y todas las imágenes de spoiler en un solo mensaje
-        await channel.send({
-          content:
-            `**${novela.titulo || 'Nueva novela'}**\n` +
-            `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
-            `Estado: ${novela.estado || 'Desconocido'}\n` +
-            `Peso: ${novela.peso || 'N/A'}\n` +
-            `Enlace: ${urlNovela}\n` +
-            `${novela.desc || ''}\n¡Nueva novela subida!`,
-          embeds: [embed],
-          files: filesPublico
-        });
+        await channel.send({ embeds: [embed], files: filesPublico });
 
         // Embed para canal VIP
         if (channelVip) {
