@@ -345,16 +345,6 @@ client.on("messageCreate", async (msg) => {
     await msg.author.send("⚠️ Solo puedes escribir !sorteo en el canal de sorteos. Si necesitas ayuda abre un ticket en el canal de ayuda.");
   }
 });
-    const adminMsg = await msg.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setTitle("Comandos de administración disponibles")
-          .setDescription(comandos.join("\n"))
-          .setColor(0x00bfff),
-      ],
-    });
-    setTimeout(() => adminMsg.delete().catch(() => {}), 10000);
-    return;
   }
 
   if (command === "refrescar-novelas") {
