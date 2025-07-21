@@ -26,7 +26,7 @@ const NOVELAS_ANUNCIADAS_PATH = "./data/novelasAnunciadas.json";
 let novelasAnunciadas = new Set();
 
 // Carga inicial de novelas anunciadas (si existe)
-(() => {
+(function () {
   try {
     if (fs.existsSync(NOVELAS_ANUNCIADAS_PATH)) {
       const data = JSON.parse(fs.readFileSync(NOVELAS_ANUNCIADAS_PATH, "utf-8"));
@@ -111,15 +111,12 @@ client.once("ready", async () => {
         content: "¿Necesitas ayuda? Haz clic en el botón para abrir un ticket.",
         components: [row],
       });
-    }
-  }
 
   // Ejecutar checkNovelas cada 2 minutos
   setInterval(checkNovelas, 2 * 60 * 1000);
 
-  // Ejecutar checkYouTube cada 5 minutos
-  setInterval(checkYouTube, 5 * 60 * 1000);
-});
+// Ejecutar checkYouTube cada 5 minutos
+setInterval(checkYouTube, 5 * 60 * 1000);
 
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isChatInputCommand() && interaction.commandName === "ticket") {
@@ -306,6 +303,9 @@ client.on("messageCreate", async (msg) => {
       "`!sorteo + @usuario` — Añade manualmente a un usuario al sorteo (solo admins).",
       "`!sorteocantidad` — Muestra la cantidad y lista de usuarios participando en el sorteo VIP.",
       "`!ultimanovela` — Vuelve a anunciar la última novela subida.",
+      "`!vip + @usuario nombreEnWeb` — Añade un usuario como VIP (Discord y web, asigna rol VIP).",
+      "`!vip - @usuario [nombreEnWeb]` — Elimina el VIP de un usuario (Discord y web, quita rol VIP).",
+      "`!vip lista` — Muestra la lista de usuarios VIP.",
       "`!clear <n>` — Borra los últimos n mensajes del canal.",
       "`!clearall` — Borra todos los mensajes del canal actual.",
       "`!reanunciar-novelas` — Vuelve a anunciar todas las novelas (resetea la lista).",
@@ -474,6 +474,7 @@ client.on("messageCreate", async (msg) => {
       }
       sorteoActual.participantes.add(userId);
       // Guardar participantes en GitHub
+        ganadores: sorteoActual.ganadores,
       await guardarSorteoEnGitHub({
         tipo: sorteoActual.tipo,
         premio: sorteoActual.premio,
@@ -581,10 +582,10 @@ client.on("messageCreate", async (msg) => {
       if (novela.portada && novela.portada.trim() !== '') {
         embed.setImage(novela.portada);
       }
-      // Adjuntar imágenes de spoiler si existen
+      // Adjuntar imágenes de spoiler si existen (usando 'spoilers')
       let filesPublico = [];
-      if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
-        filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+      if (Array.isArray(novela.spoilers) && novela.spoilers.length) {
+        filesPublico = novela.spoilers.filter(img => typeof img === 'string' && img.trim() !== '');
       }
       await channel.send({ embeds: [embed], files: filesPublico });
 
@@ -604,12 +605,12 @@ client.on("messageCreate", async (msg) => {
         if (novela.portada && novela.portada.trim() !== '') {
           embedVip.setImage(novela.portada);
         }
-        // Adjuntar imágenes de spoiler si existen
-        let files = [];
-        if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
-          files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+        // Adjuntar imágenes de spoiler si existen (usando 'spoilers')
+        let filesVip = [];
+        if (Array.isArray(novela.spoilers) && novela.spoilers.length) {
+          filesVip = novela.spoilers.filter(img => typeof img === 'string' && img.trim() !== '');
         }
-        await channelVip.send({ embeds: [embedVip], files });
+        await channelVip.send({ embeds: [embedVip], files: filesVip });
       }
       msg.reply("✅ Última novela anunciada en ambos canales.");
     } catch (e) {
@@ -919,13 +920,6 @@ client.on("messageCreate", async (msg) => {
     return;
   }
 });
-});
-// 2. COMANDOS DE ADMINISTRACIÓN
-// --------------------------------
-
-// --- El bloque de comandos de texto ha sido eliminado. Usa solo comandos slash (/).
-// --- El bloque de comandos de texto ha sido eliminado. Usa solo comandos slash (/).
-
 // --------------------
 // 3. MENSAJE DE BIENVENIDA Y ROL
 // --------------------
@@ -1124,10 +1118,10 @@ async function checkNovelas() {
         if (novela.portada && novela.portada.trim() !== '') {
           embed.setImage(novela.portada);
         }
-        // Adjuntar imágenes de spoiler si existen
+        // Adjuntar imágenes de spoiler si existen (usando 'spoilers')
         let filesPublico = [];
-        if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
-          filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+        if (Array.isArray(novela.spoilers) && novela.spoilers.length) {
+          filesPublico = novela.spoilers.filter(img => typeof img === 'string' && img.trim() !== '');
         }
         await channel.send({ embeds: [embed], files: filesPublico });
 
@@ -1147,14 +1141,12 @@ async function checkNovelas() {
           if (novela.portada && novela.portada.trim() !== '') {
             embedVip.setImage(novela.portada);
           }
-
-          // Adjuntar imágenes de spoiler si existen
-          let files = [];
-          if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
-            files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+          // Adjuntar imágenes de spoiler si existen (usando 'spoilers')
+          let filesVip = [];
+          if (Array.isArray(novela.spoilers) && novela.spoilers.length) {
+            filesVip = novela.spoilers.filter(img => typeof img === 'string' && img.trim() !== '');
           }
-          // Enviar embed y archivos juntos
-          await channelVip.send({ embeds: [embedVip], files });
+          await channelVip.send({ embeds: [embedVip], files: filesVip });
         }
       }
     }
@@ -1366,3 +1358,5 @@ async function guardarSorteoEnGitHub(sorteo, eliminar = false) {
     console.error("❌ Error al guardar/eliminar sorteo en GitHub:", error.message);
   }
 }
+}
+
