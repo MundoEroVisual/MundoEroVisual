@@ -186,8 +186,24 @@ client.on("interactionCreate", async (interaction) => {
     const tipo = interaction.options.getString("tipo") || "VIP";
     const duracion = interaction.options.getString("duracion") || "45m";
     const canal = interaction.options.getChannel("canal") || await client.channels.fetch(CANAL_SORTEO_ID);
-    const minutos = duracion.endsWith("m") ? parseInt(duracion) : 45;
-    const termina = Date.now() + minutos * 60 * 1000;
+    let msDuracion = 45 * 60 * 1000;
+    let duracionTexto = "45 minutos";
+    const duracionMatch = duracion.match(/^(\d+)([mhd])$/i);
+    if (duracionMatch) {
+      const valor = parseInt(duracionMatch[1]);
+      const unidad = duracionMatch[2].toLowerCase();
+      if (unidad === "m") {
+        msDuracion = valor * 60 * 1000;
+        duracionTexto = `${valor} minuto${valor === 1 ? '' : 's'}`;
+      } else if (unidad === "h") {
+        msDuracion = valor * 60 * 60 * 1000;
+        duracionTexto = `${valor} hora${valor === 1 ? '' : 's'}`;
+      } else if (unidad === "d") {
+        msDuracion = valor * 24 * 60 * 60 * 1000;
+        duracionTexto = `${valor} día${valor === 1 ? '' : 's'}`;
+      }
+    }
+    const termina = Date.now() + msDuracion;
     sorteoActual = {
       tipo,
       premio: "VIP Gratis",
@@ -197,7 +213,7 @@ client.on("interactionCreate", async (interaction) => {
       participantes: new Set()
     };
     // Mensaje de sorteo
-    const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${minutos} minutos (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **/sorteo** en el canal <#${canal.id}>`;
+    const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${duracionTexto} (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **/sorteo** en el canal <#${canal.id}>`;
     // Enviar a todos los canales permitidos
     client.guilds.cache.forEach(async (guild) => {
       guild.channels.cache.forEach(async (ch) => {
@@ -226,7 +242,7 @@ client.on("interactionCreate", async (interaction) => {
         await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
       }
       sorteoActual = null;
-    }, minutos * 60 * 1000);
+    }, msDuracion);
   }
   // Comando para participar
   if (interaction.commandName === "sorteo") {
@@ -312,18 +328,33 @@ client.on("messageCreate", async (msg) => {
   // !crearsorteo tipo: VIP duracion: 1m canal: #sorteos
   if (isAdmin && command === "crearsorteo") {
     const tipoMatch = msg.content.match(/tipo:\s*(\w+)/i);
-    const duracionMatch = msg.content.match(/duracion:\s*(\d+m)/i);
+    const duracionMatch = msg.content.match(/duracion:\s*(\d+[mhd])/i);
     const canalMatch = msg.content.match(/canal:\s*#?(\w+)/i);
     const tipo = tipoMatch ? tipoMatch[1] : "VIP";
     const duracion = duracionMatch ? duracionMatch[1] : "45m";
-    const minutos = parseInt(duracion) || 45;
+    let msDuracion = 45 * 60 * 1000;
+    let duracionTexto = "45 minutos";
+    if (duracionMatch) {
+      const valor = parseInt(duracion.match(/(\d+)/)[1]);
+      const unidad = duracion.match(/([mhd])/i)[1].toLowerCase();
+      if (unidad === "m") {
+        msDuracion = valor * 60 * 1000;
+        duracionTexto = `${valor} minuto${valor === 1 ? '' : 's'}`;
+      } else if (unidad === "h") {
+        msDuracion = valor * 60 * 60 * 1000;
+        duracionTexto = `${valor} hora${valor === 1 ? '' : 's'}`;
+      } else if (unidad === "d") {
+        msDuracion = valor * 24 * 60 * 60 * 1000;
+        duracionTexto = `${valor} día${valor === 1 ? '' : 's'}`;
+      }
+    }
     let canalId = CANAL_SORTEO_ID;
     if (canalMatch) {
       // Buscar canal por nombre
       const canalObj = msg.guild.channels.cache.find(c => c.name === canalMatch[1]);
       if (canalObj) canalId = canalObj.id;
     }
-    const termina = Date.now() + minutos * 60 * 1000;
+    const termina = Date.now() + msDuracion;
     sorteoActual = {
       tipo,
       premio: "VIP Gratis",
@@ -333,7 +364,7 @@ client.on("messageCreate", async (msg) => {
       participantes: new Set()
     };
     const mensajeReglas = `⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`;
-    const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${minutos} minutos (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **!sorteo** en el canal <#${canalId}>`;
+    const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${duracionTexto} (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **!sorteo** en el canal <#${canalId}>`;
     // Enviar y fijar el mensaje en el canal de sorteos
     const canalSorteo = await msg.guild.channels.fetch(canalId);
     const msgFijado = await canalSorteo.send(mensajeSorteo);
@@ -358,7 +389,7 @@ client.on("messageCreate", async (msg) => {
         await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
       }
       sorteoActual = null;
-    }, minutos * 60 * 1000);
+    }, msDuracion);
     return;
   }
 
