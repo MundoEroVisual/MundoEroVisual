@@ -306,6 +306,7 @@ client.on("messageCreate", async (msg) => {
       "`!sorteo + @usuario` — Añade manualmente a un usuario al sorteo (solo admins).",
       "`!sorteocantidad` — Muestra la cantidad y lista de usuarios participando en el sorteo VIP.",
       "`!ultimanovela` — Vuelve a anunciar la última novela subida.",
+      "`!vipnovelas` — Anuncia todas las novelas en el canal VIP de descargas.",
       "`!clear <n>` — Borra los últimos n mensajes del canal.",
       "`!clearall` — Borra todos los mensajes del canal actual.",
       "`!vip + @usuario nombreEnWeb` — Añade un usuario como VIP (Discord y web, asigna rol VIP).",
@@ -748,6 +749,68 @@ client.on("messageCreate", async (msg) => {
   }
 
   // Otros comandos aquí...
+  // !vipnovelas — Anuncia todas las novelas en el canal VIP de descargas
+  if (command === "vipnovelas") {
+    try {
+      // Leer el JSON de novelas
+      const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/novelas-1.json');
+      const data = await res.json();
+      if (!Array.isArray(data) || !data.length) {
+        msg.reply("No hay novelas disponibles.");
+        return;
+      }
+      // Canal VIP
+      const canalVipId = "1396729794325905479";
+      const channelVip = await client.channels.fetch(canalVipId).catch(() => null);
+      if (!channelVip) {
+        msg.reply("No se encontró el canal VIP.");
+        return;
+      }
+      let enviados = 0;
+      for (const novela of data) {
+        // Enlace VIP (android_vip)
+        const novelaId = novela._id || novela.id;
+        const urlVip = novela.android_vip || `https://eroverse.onrender.com/novela.html?id=${novelaId}`;
+        // Embed para canal VIP
+        const embedVip = new EmbedBuilder()
+          .setTitle(novela.titulo || "Nueva novela VIP")
+          .addFields(
+            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+            { name: 'Peso', value: novela.peso || 'N/A', inline: true },
+            { name: 'Enlace VIP', value: `[Descargar VIP](${urlVip})`, inline: false }
+          )
+          .setColor(0xffd700)
+          .setDescription((novela.desc || '') + `\n¡Nueva novela subida para VIP!`);
+        embedVip.setURL(urlVip);
+        if (novela.portada && novela.portada.trim() !== '') {
+          embedVip.setImage(novela.portada);
+        }
+        // Adjuntar imágenes de spoiler si existen
+        let files = [];
+        if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
+          files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+        }
+        // Enviar todos los datos y todas las imágenes en un solo mensaje
+        await channelVip.send({
+          content:
+            `**${novela.titulo || 'Nueva novela VIP'}**\n` +
+            `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
+            `Estado: ${novela.estado || 'Desconocido'}\n` +
+            `Peso: ${novela.peso || 'N/A'}\n` +
+            `Enlace VIP: ${urlVip}\n` +
+            `${novela.desc || ''}\n¡Nueva novela subida para VIP!`,
+          embeds: [embedVip],
+          files
+        });
+        enviados++;
+      }
+      msg.reply(`✅ Se han anunciado ${enviados} novelas en el canal VIP.`);
+    } catch (e) {
+      msg.reply("Error al anunciar las novelas VIP.");
+    }
+    return;
+  }
 // --- SISTEMA VIP DISCORD-WEB ---
 async function cargarVipsDesdeGitHub() {
   try {
@@ -1186,7 +1249,18 @@ async function checkNovelas() {
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
         }
-        await channel.send({ embeds: [embed], files: filesPublico });
+        // Enviar todos los datos y todas las imágenes de spoiler en un solo mensaje
+        await channel.send({
+          content:
+            `**${novela.titulo || 'Nueva novela'}**\n` +
+            `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
+            `Estado: ${novela.estado || 'Desconocido'}\n` +
+            `Peso: ${novela.peso || 'N/A'}\n` +
+            `Enlace: ${urlNovela}\n` +
+            `${novela.desc || ''}\n¡Nueva novela subida!`,
+          embeds: [embed],
+          files: filesPublico
+        });
 
         // Embed para canal VIP
         if (channelVip) {
