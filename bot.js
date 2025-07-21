@@ -62,6 +62,30 @@ if (!DISCORD_TOKEN) throw new Error("Falta DISCORD_TOKEN en .env");
 if (!YOUTUBE_API_KEY) throw new Error("Falta YOUTUBE_API_KEY en .env");
 if (!YOUTUBE_CHANNEL_ID) throw new Error("Falta YOUTUBE_CHANNEL_ID en .env");
 
+async function anunciarNovelaConSpoilersPorPares(channel, novela) {
+  // Embed principal con portada y datos
+  const embed = new EmbedBuilder()
+    .setTitle(novela.titulo)
+    .addFields(
+      { name: 'Géneros', value: novela.generos.join(', '), inline: false },
+      { name: 'Estado', value: novela.estado, inline: true },
+      { name: 'Peso', value: novela.peso, inline: true },
+      { name: 'Enlace', value: `[Ver novela](${novela.enlace})`, inline: false }
+    )
+    .setDescription(novela.desc + '\n¡Nueva novela subida!')
+    .setColor(0x00bfff)
+    .setImage(novela.portada);
+
+  // Embeds de spoilers por pares
+  let spoilerEmbeds = [];
+  for (let i = 0; i < novela.spoilers.length; i += 2) {
+    const embedSpoiler = new EmbedBuilder().setColor(0xcccccc).setDescription('Spoilers');
+    if (novela.spoilers[i]) embedSpoiler.setImage(novela.spoilers[i]);
+    if (novela.spoilers[i+1]) embedSpoiler.setThumbnail(novela.spoilers[i+1]);
+    spoilerEmbeds.push(embedSpoiler);
+  }
+  await channel.send({ embeds: [embed, ...spoilerEmbeds] });
+}
 // --- Cliente Discord ---
 const client = new Client({
   intents: [
@@ -71,8 +95,30 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
   ],
 });
+// ...importaciones...
 
-// ---------------------
+async function anunciarNovelaConSpoilersPorPares(channel, novela) {
+  const embed = new EmbedBuilder()
+    .setTitle(novela.titulo)
+    .addFields(
+      { name: 'Géneros', value: novela.generos.join(', '), inline: false },
+      { name: 'Estado', value: novela.estado, inline: true },
+      { name: 'Peso', value: novela.peso, inline: true },
+      { name: 'Enlace', value: `[Ver novela](${novela.enlace})`, inline: false }
+    )
+    .setDescription(novela.desc + '\n¡Nueva novela subida!')
+    .setColor(0x00bfff)
+    .setImage(novela.portada);
+
+  let spoilerEmbeds = [];
+  for (let i = 0; i < novela.spoilers.length; i += 2) {
+    const embedSpoiler = new EmbedBuilder().setColor(0xcccccc).setDescription('Spoilers');
+    if (novela.spoilers[i]) embedSpoiler.setImage(novela.spoilers[i]);
+    if (novela.spoilers[i+1]) embedSpoiler.setThumbnail(novela.spoilers[i+1]);
+    spoilerEmbeds.push(embedSpoiler);
+  }
+  await channel.send({ embeds: [embed, ...spoilerEmbeds] });
+}
 // 1. SISTEMA DE TICKETS
 // ---------------------
 client.once("ready", async () => {
