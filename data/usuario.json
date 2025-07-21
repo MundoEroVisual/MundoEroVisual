@@ -51,5 +51,14 @@
     "apodo": "Diablo",
     "premium": true,
     "premium_expira": "2025-08-21T04:31:02.943Z"
+  },
+  {
+    "usuario": "Tvwpollo",
+    "password": "$2b$10$.gf2X0.aCD7fViDG6Um7DezspPPDEsB0Za9HTEHvquYlnSyx35qRm",
+    "admin": false,
+    "avatar": "https://img.pikbest.com/ai/illus_our/20230422/32f04686973e03ff9dbaaea86984a9fe.jpg",
+    "apodo": "Bro",
+    "premium": false,
+    "premium_expira": null
   }
 ]
