@@ -50,34 +50,5 @@
     "apodo": "Diablo",
     "premium": true,
     "premium_expira": "2025-08-21T04:31:02.943Z"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2099-12-31T23:59:59.000Z"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "3000-01-01T00:00:00.000Z"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2025-08-21T04:31:02.943Z"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": null,
-    "discordId": "1175925603292172299"
   }
 ]
