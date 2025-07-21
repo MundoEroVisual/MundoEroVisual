@@ -310,12 +310,14 @@ client.on("messageCreate", async (msg) => {
       canalParticipacion: canalId,
       participantes: new Set()
     };
+    const mensajeReglas = `⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`;
     const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${minutos} minutos (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **!sorteo** en el canal <#${canalId}>`;
     // Enviar y fijar el mensaje en el canal de sorteos
     const canalSorteo = await msg.guild.channels.fetch(canalId);
     const msgFijado = await canalSorteo.send(mensajeSorteo);
     await msgFijado.pin();
-    await canalSorteo.send(`⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`);
+    // Enviar el mensaje de reglas justo después del sorteo
+    await canalSorteo.send(mensajeReglas);
     msg.reply("✅ Sorteo creado y anunciado.");
     setTimeout(async () => {
       if (!sorteoActual) return;
