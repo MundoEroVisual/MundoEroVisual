@@ -21,8 +21,8 @@
     "admin": false,
     "avatar": "https://avatars.githubusercontent.com/u/195238951?s=64&v=4",
     "apodo": "mmg",
-    "premium": true,
-    "premium_expira": "2025-07-21T11:00:00.000Z",
+    "premium": false,
+    "premium_expira": null,
     "discordId": "1175925603292172299"
   },
   {
