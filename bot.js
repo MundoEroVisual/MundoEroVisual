@@ -871,7 +871,20 @@ client.on("messageCreate", async (msg) => {
     // Por defecto, VIP 30 días si no se especifica fecha
     let premium_expira = new Date();
     premium_expira.setDate(premium_expira.getDate() + 30);
-    vips.push({ discordId, webUser, premium_expira: premium_expira.toISOString() });
+    let actualizado = false;
+    // Buscar si ya existe el usuario por discordId o webUser
+    for (let vip of vips) {
+      if (vip.discordId === discordId || (webUser && vip.webUser === webUser)) {
+        vip.premium_expira = premium_expira.toISOString();
+        vip.discordId = discordId;
+        if (webUser) vip.webUser = webUser;
+        vip.premium = true;
+        actualizado = true;
+      }
+    }
+    if (!actualizado) {
+      vips.push({ discordId, webUser, premium_expira: premium_expira.toISOString(), premium: true });
+    }
     await guardarVipsEnGitHub(vips);
     // Asignar rol VIP en Discord
     try {
@@ -881,9 +894,10 @@ client.on("messageCreate", async (msg) => {
         await miembro.roles.add(VIP_ROLE_ID);
       }
     } catch (e) {
+      // Si ves un error de permisos aquí, asegúrate de que el bot tenga el rol más alto que el rol VIP y permisos de Gestionar roles.
       console.error("Error asignando rol VIP:", e);
     }
-    msg.reply(`✅ Usuario <@${discordId}> añadido como VIP${webUser ? ` (web: ${webUser})` : ''} y rol VIP asignado hasta ${premium_expira.toISOString().slice(0,10)}.`);
+    msg.reply(`✅ Usuario <@${discordId}> añadido/renovado como VIP${webUser ? ` (web: ${webUser})` : ''} y rol VIP asignado hasta ${premium_expira.toISOString().slice(0,10)}.`);
     return;
 // Tarea periódica para quitar el rol VIP si expiró la membresía
 const VIP_ROLE_ID = "1372074678692216842";
