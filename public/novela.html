@@ -275,25 +275,60 @@
     });
 
   function renderNovela() {
+    const esVip = Array.isArray(novela.generos) && novela.generos.map(g => g.toLowerCase()).includes('vip');
     document.getElementById('novelaDetalle').innerHTML = `
       <img class="portada" src="${novela.portada || ''}" alt="Portada">
       <div class="titulo">${novela.titulo}</div>
     <div class="generos">
     ${novela.generos.map(g=>`<button class="genre-chip" onclick="window.location.href='index.html?genero=${encodeURIComponent(g)}'">#${g}</button>`).join(' ')}
-  </div> 
-   <div class="desc">${novela.desc}</div>
-   <div class="estado"><b>Estado:</b> ${novela.estado ? novela.estado : '<span style=\'color:#b3b3c6;\'>Sin especificar</span>'}</div>
-   <div class="peso"><b>Peso:</b> ${novela.peso ? novela.peso : '<span style=\'color:#b3b3c6;\'>Sin especificar</span>'}</div>
+    </div>
+    ${esVip ? `<div style="margin-bottom:14px;"><span style="background:#ffd700;color:#000;padding:6px 18px;border-radius:12px;font-weight:bold;font-size:1.15em;border:2px solid #ffd700;box-shadow:0 2px 8px #ffd70033;">VIP</span>
+    <button class="descargar-btn" style="margin-left:12px;" onclick="mostrarPanelInstruccionesVIP()">Instrucciones</button></div>` : ''}
+     <div class="desc">${novela.desc}</div>
+     <div class="estado"><b>Estado:</b> ${novela.estado ? novela.estado : '<span style=\'color:#b3b3c6;\'>Sin especificar</span>'}</div>
+     <div class="peso"><b>Peso:</b> ${novela.peso ? novela.peso : '<span style=\'color:#b3b3c6;\'>Sin especificar</span>'}</div>
       <div class="spoilers">
         <button class="spoiler-btn" onclick="toggleSpoilers()">Mostrar/Ocultar Spoilers</button>
         <div class="spoiler-imgs" id="spoilerImgs">
-          ${novela.spoilers && novela.spoilers.length ? novela.spoilers.map(img=>`<img src="${img}" alt="Spoiler">`).join('') : '<span style="color:#b3b3c6;">Sin spoilers</span>'}
+          ${novela.spoilers && novela.spoilers.length ? novela.spoilers.map(img=>`<img src=\"${img}\" alt=\"Spoiler\">`).join('') : '<span style="color:#b3b3c6;">Sin spoilers</span>'}
         </div>
       </div>
      <div class="descargas" id="zonaDescarga" style="display:flex;flex-direction:column;gap:12px;margin-bottom:18px;"></div>
       <a href="index.html" style="color:#ff3cac;">← Volver al inicio</a>
     `;
     renderZonaDescarga();
+  }
+
+  // Panel de instrucciones VIP
+  if (!document.getElementById('panelInstruccionesVIP')) {
+    const modal = document.createElement('div');
+    modal.id = 'panelInstruccionesVIP';
+    modal.style = 'display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(2px);align-items:center;justify-content:center;';
+    modal.innerHTML = `
+      <div style="background:#111;border:3px solid #ffd700;border-radius:18px;max-width:380px;margin:auto;padding:32px 24px;box-shadow:0 0 32px #ffd70088;text-align:left;position:relative;">
+        <span onclick="document.getElementById('panelInstruccionesVIP').style.display='none'" style="position:absolute;top:12px;right:18px;font-size:1.6em;cursor:pointer;color:#ffd700;">&times;</span>
+        <h2 style="color:#ffd700;margin-bottom:10px;">Instrucciones VIP</h2>
+        <div style="color:#fff;font-size:1.1em;margin-bottom:18px;">
+          🔞 ¡Esta novela es contenido exclusivo para miembros VIP!<br><br>
+          🔓 Si no eres VIP, debes completar el siguiente proceso 4 veces para desbloquearla:<br><br>
+          👉 <b>Sigue estos pasos en cada enlace:</b><br>
+          <ul style="margin-left:18px;color:#ffd700;">
+            <li>Pulsa "Continuar"</li>
+            <li>Espera 8 segundos</li>
+            <li>Pulsa "IR"</li>
+            <li>Repite esto en los 4 enlaces</li>
+          </ul>
+          🚫 ¿No ves los botones?<br>
+          Desactiva AdBlock o abre el enlace en modo incógnito.<br><br>
+          💎 ¿Eres VIP?<br>
+          Entonces no necesitas hacer nada de esto. Accede directamente y disfruta sin restricciones.
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  window.mostrarPanelInstruccionesVIP = function() {
+    document.getElementById('panelInstruccionesVIP').style.display = 'flex';
   }
 
   // Renderiza la zona de descarga según el tipo de usuario
