@@ -868,7 +868,10 @@ client.on("messageCreate", async (msg) => {
       msg.reply("Ese usuario ya es VIP.");
       return;
     }
-    vips.push({ discordId, webUser });
+    // Por defecto, VIP 30 días si no se especifica fecha
+    let premium_expira = new Date();
+    premium_expira.setDate(premium_expira.getDate() + 30);
+    vips.push({ discordId, webUser, premium_expira: premium_expira.toISOString() });
     await guardarVipsEnGitHub(vips);
     // Asignar rol VIP en Discord
     try {
@@ -880,8 +883,45 @@ client.on("messageCreate", async (msg) => {
     } catch (e) {
       console.error("Error asignando rol VIP:", e);
     }
-    msg.reply(`✅ Usuario <@${discordId}> añadido como VIP${webUser ? ` (web: ${webUser})` : ''} y rol VIP asignado.`);
+    msg.reply(`✅ Usuario <@${discordId}> añadido como VIP${webUser ? ` (web: ${webUser})` : ''} y rol VIP asignado hasta ${premium_expira.toISOString().slice(0,10)}.`);
     return;
+// Tarea periódica para quitar el rol VIP si expiró la membresía
+const VIP_ROLE_ID = "1372074678692216842";
+setInterval(async () => {
+  try {
+    const vips = await cargarVipsDesdeGitHub();
+    const ahora = new Date();
+    for (const guild of client.guilds.cache.values()) {
+      for (const vip of vips) {
+        if (!vip.discordId || !vip.premium_expira) continue;
+        const expira = new Date(vip.premium_expira);
+        if (expira < ahora) {
+          // Quitar rol VIP si lo tiene
+          try {
+            const miembro = await guild.members.fetch(vip.discordId).catch(() => null);
+            if (miembro && miembro.roles.cache.has(VIP_ROLE_ID)) {
+              await miembro.roles.remove(VIP_ROLE_ID);
+              console.log(`Rol VIP removido a ${miembro.user.tag} por expiración.`);
+            }
+          } catch (e) {
+            // Puede que el usuario no esté en el servidor
+          }
+        } else {
+          // Si aún es VIP y no tiene el rol, asignarlo
+          try {
+            const miembro = await guild.members.fetch(vip.discordId).catch(() => null);
+            if (miembro && !miembro.roles.cache.has(VIP_ROLE_ID)) {
+              await miembro.roles.add(VIP_ROLE_ID);
+              console.log(`Rol VIP asignado a ${miembro.user.tag} (verificación periódica).`);
+            }
+          } catch (e) {}
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Error en la verificación de expiración de VIPs:", e);
+  }
+}, 60 * 1000); // Cada minuto
   }
   // !vip - @usuario
   if (args[0] === "-" && args[1]) {
