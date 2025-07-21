@@ -269,6 +269,8 @@ client.on("messageCreate", async (msg) => {
   if (command === "comandos") {
     if (!isAdmin) return;
     const comandos = [
+      "`!crearsorteo tipo: VIP duracion: 1m canal: #sorteos` — Crea un sorteo VIP.",
+      "`!sorteo` — Participa en el sorteo VIP.",
       "`!clear <n>` — Borra los últimos n mensajes del canal.",
       "`!clearall` — Borra todos los mensajes del canal actual.",
       "`!reanunciar-novelas` — Vuelve a anunciar todas las novelas (resetea la lista).",
@@ -280,6 +282,69 @@ client.on("messageCreate", async (msg) => {
       "`!userinfo [@usuario]` — Muestra información de un usuario.",
       "`!serverinfo` — Muestra información del servidor."
     ];
+// --- SORTEO VIP TEXTO ---
+let sorteoActual = null;
+client.on("messageCreate", async (msg) => {
+  if (msg.author.bot || !msg.guild) return;
+  const isAdmin = msg.member.permissions.has(PermissionFlagsBits.Administrator);
+  // !crearsorteo tipo: VIP duracion: 1m canal: #sorteos
+  if (isAdmin && msg.content.startsWith("!crearsorteo")) {
+    const tipoMatch = msg.content.match(/tipo:\s*(\w+)/i);
+    const duracionMatch = msg.content.match(/duracion:\s*(\d+m)/i);
+    const canalMatch = msg.content.match(/canal:\s*#?(\w+)/i);
+    const tipo = tipoMatch ? tipoMatch[1] : "VIP";
+    const duracion = duracionMatch ? duracionMatch[1] : "45m";
+    const minutos = parseInt(duracion) || 45;
+    let canalId = CANAL_SORTEO_ID;
+    if (canalMatch) {
+      // Buscar canal por nombre
+      const canalObj = msg.guild.channels.cache.find(c => c.name === canalMatch[1]);
+      if (canalObj) canalId = canalObj.id;
+    }
+    const termina = Date.now() + minutos * 60 * 1000;
+    sorteoActual = {
+      tipo,
+      premio: "VIP Gratis",
+      ganadores: 1,
+      termina,
+      canalParticipacion: canalId,
+      participantes: new Set()
+    };
+    const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${minutos} minutos (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **!sorteo** en el canal <#${canalId}>`;
+    // Enviar y fijar el mensaje en el canal de sorteos
+    const canalSorteo = await msg.guild.channels.fetch(canalId);
+    const msgFijado = await canalSorteo.send(mensajeSorteo);
+    await msgFijado.pin();
+    await canalSorteo.send(`⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`);
+    msg.reply("✅ Sorteo creado y anunciado.");
+    setTimeout(async () => {
+      if (!sorteoActual) return;
+      const participantes = Array.from(sorteoActual.participantes);
+      if (participantes.length === 0) {
+        await canalSorteo.send("⏰ Sorteo finalizado. No hubo participantes.");
+      } else {
+        const ganador = participantes[Math.floor(Math.random() * participantes.length)];
+        await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
+      }
+      sorteoActual = null;
+    }, minutos * 60 * 1000);
+  }
+  // !sorteo para participar
+  if (msg.content.trim() === "!sorteo" && sorteoActual && msg.channelId === sorteoActual.canalParticipacion) {
+    const userId = msg.author.id;
+    if (sorteoActual.participantes.has(userId)) {
+      msg.reply('🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos');
+      return;
+    }
+    sorteoActual.participantes.add(userId);
+    msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
+  }
+  // Moderación en canal de sorteos: solo !sorteo permitido
+  if (msg.channelId === CANAL_SORTEO_ID && !msg.author.bot && !msg.content.startsWith("!sorteo") && isAdmin === false) {
+    await msg.delete();
+    await msg.author.send("⚠️ Solo puedes escribir !sorteo en el canal de sorteos. Si necesitas ayuda abre un ticket en el canal de ayuda.");
+  }
+});
     const adminMsg = await msg.reply({
       embeds: [
         new EmbedBuilder()
@@ -703,3 +768,41 @@ async function checkYouTube() {
 
 // Inicio sesión del bot
 client.login(DISCORD_TOKEN);
+
+// Registro de comandos slash personalizados
+client.once("ready", async () => {
+  // Registrar /crearsorteo
+  try {
+    await client.application.commands.create({
+      name: "crearsorteo",
+      description: "Crear un sorteo VIP",
+      options: [
+        {
+          name: "tipo",
+          type: 3, // STRING
+          description: "Tipo de sorteo",
+          required: false
+        },
+        {
+          name: "duracion",
+          type: 3, // STRING
+          description: "Duración (ejemplo: 1m, 45m)",
+          required: false
+        },
+        {
+          name: "canal",
+          type: 7, // CHANNEL
+          description: "Canal de participación",
+          required: false
+        }
+      ]
+    });
+    await client.application.commands.create({
+      name: "sorteo",
+      description: "Participa en el sorteo VIP"
+    });
+    console.log("Comandos /crearsorteo y /sorteo registrados");
+  } catch (err) {
+    console.error("Error al registrar comandos de sorteo:", err);
+  }
+});
