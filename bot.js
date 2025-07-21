@@ -340,13 +340,12 @@ client.on("messageCreate", async (msg) => {
     await msgFijado.pin();
     // Enviar el mensaje de reglas justo después del sorteo
     await canalSorteo.send(mensajeReglas);
-    // Enviar aviso de sorteo creado solo al canal de anuncios
+    // Enviar aviso de sorteo creado solo al canal de anuncios (NO se elimina)
     const aviso = `✅ ¡Se ha creado un nuevo sorteo VIP! Participa en el canal <#${canalId}> usando !sorteo.`;
     try {
       const canalAviso = await client.channels.fetch(CANAL_ANUNCIOS_ID);
       if (canalAviso) {
-        const avisoMsg = await canalAviso.send(aviso);
-        setTimeout(() => avisoMsg.delete().catch(() => {}), 5000);
+        await canalAviso.send(aviso);
       }
     } catch {}
     setTimeout(async () => {
@@ -377,10 +376,16 @@ client.on("messageCreate", async (msg) => {
     return;
   }
 
-  // Moderación en canal de sorteos: solo !sorteo permitido
-  if (msg.channelId === CANAL_SORTEO_ID && !msg.author.bot && !msg.content.startsWith("!sorteo") && isAdmin === false) {
+  // Moderación en canal de sorteos: solo !sorteo permitido para no admins
+  if (
+    msg.channelId === CANAL_SORTEO_ID &&
+    !msg.author.bot &&
+    !msg.content.startsWith("!sorteo") &&
+    !msg.member.permissions.has(PermissionFlagsBits.Administrator)
+  ) {
     await msg.delete();
-    await msg.author.send("⚠️ Solo puedes escribir !sorteo en el canal de sorteos. Si necesitas ayuda abre un ticket en el canal de ayuda.");
+    const reglasMsg = await msg.channel.send("⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.");
+    setTimeout(() => reglasMsg.delete().catch(() => {}), 5000);
     return;
   }
 
