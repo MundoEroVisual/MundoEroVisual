@@ -212,6 +212,16 @@ client.on("interactionCreate", async (interaction) => {
       canalParticipacion: canal.id,
       participantes: new Set()
     };
+    // Guardar sorteo en GitHub
+    guardarSorteoEnGitHub({
+      tipo,
+      premio: "VIP Gratis",
+      ganadores: 1,
+      termina,
+      canalParticipacion: canal.id,
+      fechaCreacion: new Date().toISOString(),
+      creador: interaction.user ? interaction.user.id : null
+    });
     // Mensaje de sorteo
     const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${duracionTexto} (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **/sorteo** en el canal <#${canal.id}>`;
     // Enviar a todos los canales permitidos
@@ -281,8 +291,9 @@ client.on("messageCreate", async (msg) => {
   // !comandos para mostrar todos los comandos disponibles
   if (command === "comandos") {
     const comandos = [
-      "`!crearsorteo tipo: VIP duracion: 1m canal: #sorteos` — Crea un sorteo VIP.",
+      "`!crearsorteo tipo: VIP duracion: 1m canal: #sorteo` — Crea un sorteo VIP.",
       "`!sorteo` — Participa en el sorteo VIP.",
+      "`!sorteo + @usuario` — Añade manualmente a un usuario al sorteo (solo admins).",
       "`!sorteocantidad` — Muestra la cantidad y lista de usuarios participando en el sorteo VIP.",
       "`!clear <n>` — Borra los últimos n mensajes del canal.",
       "`!clearall` — Borra todos los mensajes del canal actual.",
@@ -363,6 +374,16 @@ client.on("messageCreate", async (msg) => {
       canalParticipacion: canalId,
       participantes: new Set()
     };
+    // Guardar sorteo en GitHub
+    guardarSorteoEnGitHub({
+      tipo,
+      premio: "VIP Gratis",
+      ganadores: 1,
+      termina,
+      canalParticipacion: canalId,
+      fechaCreacion: new Date().toISOString(),
+      creador: msg.author ? msg.author.id : null
+    });
     const mensajeReglas = `⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`;
     const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${duracionTexto} (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **!sorteo** en el canal <#${canalId}>`;
     // Enviar y fijar el mensaje en el canal de sorteos
@@ -394,17 +415,54 @@ client.on("messageCreate", async (msg) => {
   }
 
   // !sorteo para participar
-  if (command === "sorteo" && sorteoActual && msg.channelId === sorteoActual.canalParticipacion) {
-    const userId = msg.author.id;
-    if (sorteoActual.participantes.has(userId)) {
-      const replyMsg = await msg.reply('🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos');
+  if (command === "sorteo") {
+    // Si el admin usa !sorteo + @usuario para añadir manualmente
+    if (isAdmin && args[0] === "+" && args[1]) {
+      const userMention = args[1];
+      const userIdMatch = userMention.match(/^<@!?([0-9]+)>$/);
+      let userId = null;
+      if (userIdMatch) {
+        userId = userIdMatch[1];
+      } else {
+        // Si no es mención, intentar buscar por nombre
+        const miembro = msg.guild.members.cache.find(m => m.user.tag === userMention || m.user.username === userMention);
+        if (miembro) userId = miembro.id;
+      }
+      if (!userId) {
+        const replyMsg = await msg.reply("Usuario no válido o no encontrado.");
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+      if (!sorteoActual) {
+        const replyMsg = await msg.reply("No hay sorteo activo.");
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+      if (sorteoActual.participantes.has(userId)) {
+        const replyMsg = await msg.reply(`El usuario ya está participando en el sorteo.`);
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+      sorteoActual.participantes.add(userId);
+      const miembro = await msg.guild.members.fetch(userId).catch(() => null);
+      const nombre = miembro ? miembro.user.tag : userId;
+      const replyMsg = await msg.reply(`✅ El usuario ${nombre} ha sido añadido al sorteo.`);
       setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
     }
-    sorteoActual.participantes.add(userId);
-    const replyMsg = await msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
-    setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
-    return;
+    // Participación normal
+    if (sorteoActual && msg.channelId === sorteoActual.canalParticipacion) {
+      const userId = msg.author.id;
+      if (sorteoActual.participantes.has(userId)) {
+        const replyMsg = await msg.reply('🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos');
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+      sorteoActual.participantes.add(userId);
+      const replyMsg = await msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+      return;
+    }
   }
 
   // Moderación en canal de sorteos: solo !sorteo permitido para no admins
@@ -865,3 +923,53 @@ client.once("ready", async () => {
     console.error("Error al registrar comandos de sorteo:", err);
   }
 });
+
+// Guardar sorteos en GitHub
+async function guardarSorteoEnGitHub(sorteo) {
+  try {
+    const { Octokit } = await import("@octokit/rest");
+    const octokit = new Octokit({ auth: GITHUB_TOKEN });
+
+    const owner = GITHUB_OWNER;
+    const repo = GITHUB_REPO;
+    const path = "data/sorteos.json";
+    const branch = GITHUB_BRANCH || "main";
+
+    // Leer el archivo actual si existe
+    let sorteos = [];
+    let sha = undefined;
+    try {
+      const { data: fileData } = await octokit.repos.getContent({
+        owner,
+        repo,
+        path,
+        ref: branch,
+      });
+      sha = fileData.sha;
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+      sorteos = JSON.parse(content);
+      if (!Array.isArray(sorteos)) sorteos = [];
+    } catch (e) {
+      // Si no existe, lo creamos nuevo
+      sha = undefined;
+      sorteos = [];
+    }
+
+    // Agregar el nuevo sorteo
+    sorteos.push(sorteo);
+
+    // Subir el archivo actualizado
+    await octokit.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path,
+      message: "Guardar/actualizar sorteo desde el bot",
+      content: Buffer.from(JSON.stringify(sorteos, null, 2)).toString("base64"),
+      branch,
+      sha,
+    });
+    console.log("✅ Sorteo guardado en GitHub");
+  } catch (error) {
+    console.error("❌ Error al guardar sorteo en GitHub:", error.message);
+  }
+}
