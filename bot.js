@@ -590,23 +590,7 @@ client.on("messageCreate", async (msg) => {
       if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
         filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
       }
-      // Construir lista de imágenes de spoiler como imágenes embebidas
-      let spoilerEmbeds = [];
-      if (filesPublico.length) {
-        spoilerEmbeds = filesPublico.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
-      }
-      // Enviar todos los datos y todas las imágenes de spoiler en un solo mensaje
-      await channel.send({
-        content:
-          `**${novela.titulo || 'Nueva novela'}**\n` +
-          `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
-          `Estado: ${novela.estado || 'Desconocido'}\n` +
-          `Peso: ${novela.peso || 'N/A'}\n` +
-          `Enlace: ${urlNovela}\n` +
-          `${novela.desc || ''}\n¡Nueva novela subida!`,
-        embeds: [embed, ...spoilerEmbeds],
-        files: filesPublico
-      });
+      await channel.send({ embeds: [embed], files: filesPublico });
 
       // Embed para canal VIP
       if (channelVip) {
@@ -626,23 +610,10 @@ client.on("messageCreate", async (msg) => {
         }
         // Adjuntar imágenes de spoiler si existen
         let files = [];
-        let spoilerEmbeds = [];
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
-          spoilerEmbeds = files.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
         }
-        // Enviar todos los datos y todas las imágenes en un solo mensaje
-        await channelVip.send({
-          content:
-            `**${novela.titulo || 'Nueva novela VIP'}**\n` +
-            `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
-            `Estado: ${novela.estado || 'Desconocido'}\n` +
-            `Peso: ${novela.peso || 'N/A'}\n` +
-            `Enlace VIP: ${urlVip}\n` +
-            `${novela.desc || ''}\n¡Nueva novela subida para VIP!`,
-          embeds: [embedVip, ...spoilerEmbeds],
-          files
-        });
+        await channelVip.send({ embeds: [embedVip], files });
       }
       msg.reply("✅ Última novela anunciada en ambos canales.");
     } catch (e) {
@@ -817,10 +788,8 @@ client.on("messageCreate", async (msg) => {
         }
         // Adjuntar imágenes de spoiler si existen
         let files = [];
-        let spoilerEmbeds = [];
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
-          spoilerEmbeds = files.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
         }
         // Enviar todos los datos y todas las imágenes en un solo mensaje
         await channelVip.send({
@@ -831,7 +800,7 @@ client.on("messageCreate", async (msg) => {
             `Peso: ${novela.peso || 'N/A'}\n` +
             `Enlace VIP: ${urlVip}\n` +
             `${novela.desc || ''}\n¡Nueva novela subida para VIP!`,
-          embeds: [embedVip, ...spoilerEmbeds],
+          embeds: [embedVip],
           files
         });
         enviados++;
@@ -1280,10 +1249,10 @@ async function checkNovelas() {
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
         }
-        // Construir lista de imágenes de spoiler como imágenes embebidas
-        let spoilerEmbeds = [];
+        // Construir lista de imágenes de spoiler como URLs visibles
+        let spoilerText = '';
         if (filesPublico.length) {
-          spoilerEmbeds = filesPublico.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
+          spoilerText = '\n\n**Spoilers:**\n' + filesPublico.map((img, i) => `[Imagen ${i+1}](${img})`).join(' | ');
         }
         // Enviar todos los datos y todas las imágenes de spoiler en un solo mensaje
         await channel.send({
@@ -1293,8 +1262,9 @@ async function checkNovelas() {
             `Estado: ${novela.estado || 'Desconocido'}\n` +
             `Peso: ${novela.peso || 'N/A'}\n` +
             `Enlace: ${urlNovela}\n` +
-            `${novela.desc || ''}\n¡Nueva novela subida!`,
-          embeds: [embed, ...spoilerEmbeds],
+            `${novela.desc || ''}\n¡Nueva novela subida!` +
+            spoilerText,
+          embeds: [embed],
           files: filesPublico
         });
 
@@ -1314,25 +1284,14 @@ async function checkNovelas() {
           if (novela.portada && novela.portada.trim() !== '') {
             embedVip.setImage(novela.portada);
           }
+
           // Adjuntar imágenes de spoiler si existen
           let files = [];
-          let spoilerEmbeds = [];
           if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
             files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
-            spoilerEmbeds = files.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
           }
-          // Enviar todos los datos y todas las imágenes en un solo mensaje
-          await channelVip.send({
-            content:
-              `**${novela.titulo || 'Nueva novela VIP'}**\n` +
-              `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
-              `Estado: ${novela.estado || 'Desconocido'}\n` +
-              `Peso: ${novela.peso || 'N/A'}\n` +
-              `Enlace VIP: ${urlVip}\n` +
-              `${novela.desc || ''}\n¡Nueva novela subida para VIP!`,
-            embeds: [embedVip, ...spoilerEmbeds],
-            files
-          });
+          // Enviar embed y archivos juntos
+          await channelVip.send({ embeds: [embedVip], files });
         }
       }
     }
@@ -1343,5 +1302,204 @@ async function checkNovelas() {
     }
   } catch (err) {
     console.error("Error al chequear novelas:", err);
+  }
+}
+
+
+client.once('ready', () => {
+  console.log(`Bot iniciado como ${client.user.tag}`);
+
+  // Ejecutar checkNovelas cada 2 minutos
+  setInterval(checkNovelas, 2 * 60 * 1000);
+
+  // Ejecutar checkYouTube cada 5 minutos
+  setInterval(checkYouTube, 5 * 60 * 1000);
+
+  // Revisar cada minuto que todos los usuarios tengan el rol miembro
+  const MIEMBRO_ROLE_ID = "1372066618749751417";
+  setInterval(async () => {
+    try {
+      for (const [guildId, guild] of client.guilds.cache) {
+        // Obtener todos los miembros
+        const miembros = await guild.members.fetch();
+        for (const miembro of miembros.values()) {
+          if (!miembro.user.bot && !miembro.roles.cache.has(MIEMBRO_ROLE_ID)) {
+            await miembro.roles.add(MIEMBRO_ROLE_ID).catch(() => {});
+          }
+        }
+      }
+    } catch (e) {
+      console.error("Error asignando rol miembro automáticamente:", e);
+    }
+  }, 60 * 1000);
+});
+
+// 2. YouTube: Detectar nuevos videos
+const LAST_VIDEO_PATH = './data/lastVideoId.txt';
+let lastVideoId = null;
+
+// Cargar el último video anunciado al iniciar
+try {
+  if (fs.existsSync(LAST_VIDEO_PATH)) {
+    lastVideoId = fs.readFileSync(LAST_VIDEO_PATH, 'utf-8').trim() || null;
+  }
+} catch (e) {
+  lastVideoId = null;
+}
+
+async function checkYouTube() {
+  try {
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=1`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data.items || !data.items.length) return;
+    const video = data.items[0];
+    if (video.id.kind !== 'youtube#video') return;
+    if (lastVideoId === video.id.videoId) return;
+    lastVideoId = video.id.videoId;
+    // Guardar el último ID en archivo
+    try {
+      fs.writeFileSync(LAST_VIDEO_PATH, lastVideoId, 'utf-8');
+    } catch {}
+
+    const embed = new EmbedBuilder()
+      .setTitle(video.snippet.title)
+      .setURL(`https://youtu.be/${video.id.videoId}`)
+      .setImage(video.snippet.thumbnails.high.url)
+      .setColor(0xff0000)
+      .setDescription('¡Nuevo video en el canal de YouTube!');
+
+    const channel = await client.channels.fetch(CANAL_ANUNCIOS_ID);
+    await channel.send({ embeds: [embed] });
+  } catch (err) {
+    console.error('Error comprobando YouTube:', err);
+  }
+}
+
+// Inicio sesión del bot
+client.login(DISCORD_TOKEN);
+
+// Registro de comandos slash personalizados
+client.once("ready", async () => {
+  // Registrar /crearsorteo
+  try {
+    await client.application.commands.create({
+      name: "crearsorteo",
+      description: "Crear un sorteo VIP",
+      options: [
+        {
+          name: "tipo",
+          type: 3, // STRING
+          description: "Tipo de sorteo",
+          required: false
+        },
+        {
+          name: "duracion",
+          type: 3, // STRING
+          description: "Duración (ejemplo: 1m, 45m)",
+          required: false
+        },
+        {
+          name: "canal",
+          type: 7, // CHANNEL
+          description: "Canal de participación",
+          required: false
+        }
+      ]
+    });
+    await client.application.commands.create({
+      name: "sorteo",
+      description: "Participa en el sorteo VIP"
+    });
+    console.log("Comandos /crearsorteo y /sorteo registrados");
+  } catch (err) {
+    console.error("Error al registrar comandos de sorteo:", err);
+  }
+});
+
+// Guardar sorteos en GitHub
+// Cargar sorteo activo al iniciar el bot
+async function cargarSorteoActivo() {
+  try {
+    const { Octokit } = await import("@octokit/rest");
+    const octokit = new Octokit({ auth: GITHUB_TOKEN });
+    const owner = GITHUB_OWNER;
+    const repo = GITHUB_REPO;
+    const path = "data/sorteos.json";
+    const branch = GITHUB_BRANCH || "main";
+    let sorteos = [];
+    try {
+      const { data: fileData } = await octokit.repos.getContent({
+        owner,
+        repo,
+        path,
+        ref: branch,
+      });
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+      sorteos = JSON.parse(content);
+      if (!Array.isArray(sorteos)) sorteos = [];
+    } catch (e) {
+      sorteos = [];
+    }
+    // Solo cargar el sorteo que no ha terminado
+    const ahora = Date.now();
+    const activo = sorteos.find(s => s.termina > ahora);
+    if (activo) {
+      sorteoActual = {
+        ...activo,
+        participantes: new Set(activo.participantes || [])
+      };
+      console.log("✅ Sorteo activo cargado desde GitHub");
+    }
+  } catch (error) {
+    console.error("❌ Error al cargar sorteo activo:", error.message);
+  }
+}
+async function guardarSorteoEnGitHub(sorteo, eliminar = false) {
+  try {
+    const { Octokit } = await import("@octokit/rest");
+    const octokit = new Octokit({ auth: GITHUB_TOKEN });
+    const owner = GITHUB_OWNER;
+    const repo = GITHUB_REPO;
+    const path = "data/sorteos.json";
+    const branch = GITHUB_BRANCH || "main";
+    let sorteos = [];
+    let sha = undefined;
+    try {
+      const { data: fileData } = await octokit.repos.getContent({
+        owner,
+        repo,
+        path,
+        ref: branch,
+      });
+      sha = fileData.sha;
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+      sorteos = JSON.parse(content);
+      if (!Array.isArray(sorteos)) sorteos = [];
+    } catch (e) {
+      sha = undefined;
+      sorteos = [];
+    }
+    if (eliminar) {
+      // Eliminar el sorteo por id (usa termina como id único)
+      sorteos = sorteos.filter(s => s.termina !== sorteo.termina);
+    } else {
+      // Si ya existe, actualizar; si no, agregar
+      const idx = sorteos.findIndex(s => s.termina === sorteo.termina);
+      if (idx >= 0) sorteos[idx] = sorteo;
+      else sorteos.push(sorteo);
+    }
+    await octokit.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path,
+      message: eliminar ? "Eliminar sorteo finalizado" : "Guardar/actualizar sorteo desde el bot",
+      content: Buffer.from(JSON.stringify(sorteos, null, 2)).toString("base64"),
+      branch,
+      sha,
+    });
+    console.log(eliminar ? "✅ Sorteo eliminado de GitHub" : "✅ Sorteo guardado/actualizado en GitHub");
+  } catch (error) {
+    console.error("❌ Error al guardar/eliminar sorteo en GitHub:", error.message);
   }
 }
