@@ -77,6 +77,7 @@ const client = new Client({
 // ---------------------
 client.once("ready", async () => {
   console.log(`✅ Bot conectado como ${client.user.tag}`);
+  await cargarSorteoActivo();
 
   // Registrar comando /ticket
   try {
@@ -338,6 +339,12 @@ client.on("messageCreate", async (msg) => {
 
   // !crearsorteo tipo: VIP duracion: 1m canal: #sorteos
   if (isAdmin && command === "crearsorteo") {
+    // Impedir crear un sorteo si hay uno activo
+    if (sorteoActual && Date.now() < sorteoActual.termina) {
+      const replyMsg = await msg.reply("Ya hay un sorteo activo. Espera a que termine antes de crear otro.");
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+      return;
+    }
     const tipoMatch = msg.content.match(/tipo:\s*(\w+)/i);
     const duracionMatch = msg.content.match(/duracion:\s*(\d+[mhd])/i);
     const canalMatch = msg.content.match(/canal:\s*#?(\w+)/i);
@@ -374,15 +381,16 @@ client.on("messageCreate", async (msg) => {
       canalParticipacion: canalId,
       participantes: new Set()
     };
-    // Guardar sorteo en GitHub
-    guardarSorteoEnGitHub({
+    // Guardar sorteo en GitHub (incluye participantes)
+    await guardarSorteoEnGitHub({
       tipo,
       premio: "VIP Gratis",
       ganadores: 1,
       termina,
       canalParticipacion: canalId,
       fechaCreacion: new Date().toISOString(),
-      creador: msg.author ? msg.author.id : null
+      creador: msg.author ? msg.author.id : null,
+      participantes: []
     });
     const mensajeReglas = `⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`;
     const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${duracionTexto} (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **!sorteo** en el canal <#${canalId}>`;
@@ -409,6 +417,17 @@ client.on("messageCreate", async (msg) => {
         const ganador = participantes[Math.floor(Math.random() * participantes.length)];
         await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
       }
+      // Eliminar sorteo del archivo
+      await guardarSorteoEnGitHub({
+        tipo: sorteoActual.tipo,
+        premio: sorteoActual.premio,
+        ganadores: sorteoActual.ganadores,
+        termina: sorteoActual.termina,
+        canalParticipacion: sorteoActual.canalParticipacion,
+        fechaCreacion: sorteoActual.fechaCreacion,
+        creador: sorteoActual.creador,
+        participantes: Array.from(sorteoActual.participantes)
+      }, true);
       sorteoActual = null;
     }, msDuracion);
     return;
@@ -444,6 +463,17 @@ client.on("messageCreate", async (msg) => {
         return;
       }
       sorteoActual.participantes.add(userId);
+      // Guardar participantes en GitHub
+      await guardarSorteoEnGitHub({
+        tipo: sorteoActual.tipo,
+        premio: sorteoActual.premio,
+        ganadores: sorteoActual.ganadores,
+        termina: sorteoActual.termina,
+        canalParticipacion: sorteoActual.canalParticipacion,
+        fechaCreacion: sorteoActual.fechaCreacion,
+        creador: sorteoActual.creador,
+        participantes: Array.from(sorteoActual.participantes)
+      });
       const miembro = await msg.guild.members.fetch(userId).catch(() => null);
       const nombre = miembro ? miembro.user.tag : userId;
       const replyMsg = await msg.reply(`✅ El usuario ${nombre} ha sido añadido al sorteo.`);
@@ -459,6 +489,17 @@ client.on("messageCreate", async (msg) => {
         return;
       }
       sorteoActual.participantes.add(userId);
+      // Guardar participantes en GitHub
+      await guardarSorteoEnGitHub({
+        tipo: sorteoActual.tipo,
+        premio: sorteoActual.premio,
+        ganadores: sorteoActual.ganadores,
+        termina: sorteoActual.termina,
+        canalParticipacion: sorteoActual.canalParticipacion,
+        fechaCreacion: sorteoActual.fechaCreacion,
+        creador: sorteoActual.creador,
+        participantes: Array.from(sorteoActual.participantes)
+      });
       const replyMsg = await msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
       setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
@@ -925,17 +966,51 @@ client.once("ready", async () => {
 });
 
 // Guardar sorteos en GitHub
-async function guardarSorteoEnGitHub(sorteo) {
+// Cargar sorteo activo al iniciar el bot
+async function cargarSorteoActivo() {
   try {
     const { Octokit } = await import("@octokit/rest");
     const octokit = new Octokit({ auth: GITHUB_TOKEN });
-
     const owner = GITHUB_OWNER;
     const repo = GITHUB_REPO;
     const path = "data/sorteos.json";
     const branch = GITHUB_BRANCH || "main";
-
-    // Leer el archivo actual si existe
+    let sorteos = [];
+    try {
+      const { data: fileData } = await octokit.repos.getContent({
+        owner,
+        repo,
+        path,
+        ref: branch,
+      });
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+      sorteos = JSON.parse(content);
+      if (!Array.isArray(sorteos)) sorteos = [];
+    } catch (e) {
+      sorteos = [];
+    }
+    // Solo cargar el sorteo que no ha terminado
+    const ahora = Date.now();
+    const activo = sorteos.find(s => s.termina > ahora);
+    if (activo) {
+      sorteoActual = {
+        ...activo,
+        participantes: new Set(activo.participantes || [])
+      };
+      console.log("✅ Sorteo activo cargado desde GitHub");
+    }
+  } catch (error) {
+    console.error("❌ Error al cargar sorteo activo:", error.message);
+  }
+}
+async function guardarSorteoEnGitHub(sorteo, eliminar = false) {
+  try {
+    const { Octokit } = await import("@octokit/rest");
+    const octokit = new Octokit({ auth: GITHUB_TOKEN });
+    const owner = GITHUB_OWNER;
+    const repo = GITHUB_REPO;
+    const path = "data/sorteos.json";
+    const branch = GITHUB_BRANCH || "main";
     let sorteos = [];
     let sha = undefined;
     try {
@@ -950,26 +1025,29 @@ async function guardarSorteoEnGitHub(sorteo) {
       sorteos = JSON.parse(content);
       if (!Array.isArray(sorteos)) sorteos = [];
     } catch (e) {
-      // Si no existe, lo creamos nuevo
       sha = undefined;
       sorteos = [];
     }
-
-    // Agregar el nuevo sorteo
-    sorteos.push(sorteo);
-
-    // Subir el archivo actualizado
+    if (eliminar) {
+      // Eliminar el sorteo por id (usa termina como id único)
+      sorteos = sorteos.filter(s => s.termina !== sorteo.termina);
+    } else {
+      // Si ya existe, actualizar; si no, agregar
+      const idx = sorteos.findIndex(s => s.termina === sorteo.termina);
+      if (idx >= 0) sorteos[idx] = sorteo;
+      else sorteos.push(sorteo);
+    }
     await octokit.repos.createOrUpdateFileContents({
       owner,
       repo,
       path,
-      message: "Guardar/actualizar sorteo desde el bot",
+      message: eliminar ? "Eliminar sorteo finalizado" : "Guardar/actualizar sorteo desde el bot",
       content: Buffer.from(JSON.stringify(sorteos, null, 2)).toString("base64"),
       branch,
       sha,
     });
-    console.log("✅ Sorteo guardado en GitHub");
+    console.log(eliminar ? "✅ Sorteo eliminado de GitHub" : "✅ Sorteo guardado/actualizado en GitHub");
   } catch (error) {
-    console.error("❌ Error al guardar sorteo en GitHub:", error.message);
+    console.error("❌ Error al guardar/eliminar sorteo en GitHub:", error.message);
   }
 }
