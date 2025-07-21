@@ -590,7 +590,23 @@ client.on("messageCreate", async (msg) => {
       if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
         filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
       }
-      await channel.send({ embeds: [embed], files: filesPublico });
+      // Construir lista de imágenes de spoiler como imágenes embebidas
+      let spoilerEmbeds = [];
+      if (filesPublico.length) {
+        spoilerEmbeds = filesPublico.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
+      }
+      // Enviar todos los datos y todas las imágenes de spoiler en un solo mensaje
+      await channel.send({
+        content:
+          `**${novela.titulo || 'Nueva novela'}**\n` +
+          `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
+          `Estado: ${novela.estado || 'Desconocido'}\n` +
+          `Peso: ${novela.peso || 'N/A'}\n` +
+          `Enlace: ${urlNovela}\n` +
+          `${novela.desc || ''}\n¡Nueva novela subida!`,
+        embeds: [embed, ...spoilerEmbeds],
+        files: filesPublico
+      });
 
       // Embed para canal VIP
       if (channelVip) {
@@ -610,10 +626,23 @@ client.on("messageCreate", async (msg) => {
         }
         // Adjuntar imágenes de spoiler si existen
         let files = [];
+        let spoilerEmbeds = [];
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+          spoilerEmbeds = files.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
         }
-        await channelVip.send({ embeds: [embedVip], files });
+        // Enviar todos los datos y todas las imágenes en un solo mensaje
+        await channelVip.send({
+          content:
+            `**${novela.titulo || 'Nueva novela VIP'}**\n` +
+            `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
+            `Estado: ${novela.estado || 'Desconocido'}\n` +
+            `Peso: ${novela.peso || 'N/A'}\n` +
+            `Enlace VIP: ${urlVip}\n` +
+            `${novela.desc || ''}\n¡Nueva novela subida para VIP!`,
+          embeds: [embedVip, ...spoilerEmbeds],
+          files
+        });
       }
       msg.reply("✅ Última novela anunciada en ambos canales.");
     } catch (e) {
@@ -788,8 +817,10 @@ client.on("messageCreate", async (msg) => {
         }
         // Adjuntar imágenes de spoiler si existen
         let files = [];
+        let spoilerEmbeds = [];
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+          spoilerEmbeds = files.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
         }
         // Enviar todos los datos y todas las imágenes en un solo mensaje
         await channelVip.send({
@@ -800,7 +831,7 @@ client.on("messageCreate", async (msg) => {
             `Peso: ${novela.peso || 'N/A'}\n` +
             `Enlace VIP: ${urlVip}\n` +
             `${novela.desc || ''}\n¡Nueva novela subida para VIP!`,
-          embeds: [embedVip],
+          embeds: [embedVip, ...spoilerEmbeds],
           files
         });
         enviados++;
@@ -1249,6 +1280,11 @@ async function checkNovelas() {
         if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
           filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
         }
+        // Construir lista de imágenes de spoiler como imágenes embebidas
+        let spoilerEmbeds = [];
+        if (filesPublico.length) {
+          spoilerEmbeds = filesPublico.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
+        }
         // Enviar todos los datos y todas las imágenes de spoiler en un solo mensaje
         await channel.send({
           content:
@@ -1258,7 +1294,7 @@ async function checkNovelas() {
             `Peso: ${novela.peso || 'N/A'}\n` +
             `Enlace: ${urlNovela}\n` +
             `${novela.desc || ''}\n¡Nueva novela subida!`,
-          embeds: [embed],
+          embeds: [embed, ...spoilerEmbeds],
           files: filesPublico
         });
 
@@ -1278,14 +1314,25 @@ async function checkNovelas() {
           if (novela.portada && novela.portada.trim() !== '') {
             embedVip.setImage(novela.portada);
           }
-
           // Adjuntar imágenes de spoiler si existen
           let files = [];
+          let spoilerEmbeds = [];
           if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
             files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+            spoilerEmbeds = files.map((img) => new EmbedBuilder().setImage(img).setColor(0xcccccc));
           }
-          // Enviar embed y archivos juntos
-          await channelVip.send({ embeds: [embedVip], files });
+          // Enviar todos los datos y todas las imágenes en un solo mensaje
+          await channelVip.send({
+            content:
+              `**${novela.titulo || 'Nueva novela VIP'}**\n` +
+              `Géneros: ${(novela.generos || []).join(', ') || 'N/A'}\n` +
+              `Estado: ${novela.estado || 'Desconocido'}\n` +
+              `Peso: ${novela.peso || 'N/A'}\n` +
+              `Enlace VIP: ${urlVip}\n` +
+              `${novela.desc || ''}\n¡Nueva novela subida para VIP!`,
+            embeds: [embedVip, ...spoilerEmbeds],
+            files
+          });
         }
       }
     }
