@@ -268,6 +268,7 @@ client.on("messageCreate", async (msg) => {
     const comandos = [
       "`!crearsorteo tipo: VIP duracion: 1m canal: #sorteos` — Crea un sorteo VIP.",
       "`!sorteo` — Participa en el sorteo VIP.",
+      "`!sorteocantidad` — Muestra la cantidad y lista de usuarios participando en el sorteo VIP.",
       "`!clear <n>` — Borra los últimos n mensajes del canal.",
       "`!clearall` — Borra todos los mensajes del canal actual.",
       "`!reanunciar-novelas` — Vuelve a anunciar todas las novelas (resetea la lista).",
@@ -280,6 +281,32 @@ client.on("messageCreate", async (msg) => {
       "`!serverinfo` — Muestra información del servidor."
     ];
     msg.reply({ content: comandos.join("\n") });
+    return;
+  }
+  // !sorteocantidad para mostrar participantes del sorteo
+  if (command === "sorteocantidad") {
+    if (!sorteoActual) {
+      const replyMsg = await msg.reply("No hay sorteo activo.");
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+      return;
+    }
+    const participantes = Array.from(sorteoActual.participantes);
+    if (participantes.length === 0) {
+      const replyMsg = await msg.reply("No hay usuarios participando en el sorteo.");
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+      return;
+    }
+    // Obtener los nombres de usuario
+    const nombres = await Promise.all(participantes.map(async id => {
+      try {
+        const miembro = await msg.guild.members.fetch(id);
+        return miembro.user.tag;
+      } catch {
+        return id;
+      }
+    }));
+    const replyMsg = await msg.reply(`👥 Participantes en el sorteo (${participantes.length}):\n${nombres.join("\n")}`);
+    setTimeout(() => replyMsg.delete().catch(() => {}), 10000);
     return;
   }
 
@@ -314,7 +341,15 @@ client.on("messageCreate", async (msg) => {
     await msgFijado.pin();
     // Enviar el mensaje de reglas justo después del sorteo
     await canalSorteo.send(mensajeReglas);
-    msg.reply("✅ Sorteo creado y anunciado.");
+    // Enviar aviso de sorteo creado a todos los canales menos el de sorteos
+    const aviso = `✅ ¡Se ha creado un nuevo sorteo VIP! Participa en el canal <#${canalId}> usando !sorteo.`;
+    const canales = msg.guild.channels.cache.filter(c => c.isTextBased() && c.id !== canalId);
+    for (const canal of canales.values()) {
+      try {
+        const avisoMsg = await canal.send(aviso);
+        setTimeout(() => avisoMsg.delete().catch(() => {}), 5000);
+      } catch {}
+    }
     setTimeout(async () => {
       if (!sorteoActual) return;
       const participantes = Array.from(sorteoActual.participantes);
@@ -333,11 +368,13 @@ client.on("messageCreate", async (msg) => {
   if (command === "sorteo" && sorteoActual && msg.channelId === sorteoActual.canalParticipacion) {
     const userId = msg.author.id;
     if (sorteoActual.participantes.has(userId)) {
-      msg.reply('🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos');
+      const replyMsg = await msg.reply('🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos');
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
     }
     sorteoActual.participantes.add(userId);
-    msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
+    const replyMsg = await msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
+    setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
     return;
   }
 
