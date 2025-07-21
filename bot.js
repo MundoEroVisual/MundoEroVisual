@@ -61,7 +61,6 @@ const {
 if (!DISCORD_TOKEN) throw new Error("Falta DISCORD_TOKEN en .env");
 if (!YOUTUBE_API_KEY) throw new Error("Falta YOUTUBE_API_KEY en .env");
 if (!YOUTUBE_CHANNEL_ID) throw new Error("Falta YOUTUBE_CHANNEL_ID en .env");
-if (!DISCORD_CHANNEL_NEW_VIDEOS) throw new Error("Falta DISCORD_CHANNEL_NEW_VIDEOS en .env");
 
 // --- Cliente Discord ---
 const client = new Client({
@@ -341,10 +340,10 @@ client.on("messageCreate", async (msg) => {
     await msgFijado.pin();
     // Enviar el mensaje de reglas justo después del sorteo
     await canalSorteo.send(mensajeReglas);
-    // Enviar aviso de sorteo creado solo al canal de avisos de nuevos videos
+    // Enviar aviso de sorteo creado solo al canal de anuncios
     const aviso = `✅ ¡Se ha creado un nuevo sorteo VIP! Participa en el canal <#${canalId}> usando !sorteo.`;
     try {
-      const canalAviso = await client.channels.fetch(DISCORD_CHANNEL_NEW_VIDEOS);
+      const canalAviso = await client.channels.fetch(CANAL_ANUNCIOS_ID);
       if (canalAviso) {
         const avisoMsg = await canalAviso.send(aviso);
         setTimeout(() => avisoMsg.delete().catch(() => {}), 5000);
