@@ -4,7 +4,7 @@
     "password": "$2b$10$DVfPV3dX1jO2V/cxCj/RtOK1IfJLQmhOg5uGJnby9hyFq0DTGpadO",
     "admin": true,
     "premium": true,
-    "premium_expira": "2025-08-21T03:30:20.869Z",
+    "premium_expira": "2099-12-31T23:59:59.000Z",
     "discordId": "1030923635646529637"
   },
   {
