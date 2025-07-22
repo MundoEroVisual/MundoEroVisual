@@ -50,8 +50,9 @@
     "admin": false,
     "avatar": "Diablito con queso",
     "apodo": "Diablo",
-    "premium": false,
-    "premium_expira": "2025-08-21T04:31:02.943Z"
+    "premium": true,
+    "premium_expira": "2025-08-21T03:52:19.984Z",
+    "discordId": "1209298890394701855"
   },
   {
     "usuario": "Tvwpollo",
@@ -61,5 +62,28 @@
     "apodo": "Bro",
     "premium": false,
     "premium_expira": null
+  },
+  {
+    "usuario": "",
+    "password": "",
+    "admin": false,
+    "premium": true,
+    "premium_expira": "2099-12-31T23:59:59.000Z",
+    "discordId": "1030923635646529637"
+  },
+  {
+    "usuario": "",
+    "password": "",
+    "admin": false,
+    "premium": true,
+    "premium_expira": "3000-01-01T00:00:00.000Z"
+  },
+  {
+    "usuario": "",
+    "password": "",
+    "admin": false,
+    "premium": true,
+    "premium_expira": "2025-08-20T15:24:30.510Z",
+    "discordId": "1175925603292172299"
   }
 ]
