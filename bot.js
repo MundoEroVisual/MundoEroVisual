@@ -1475,3 +1475,34 @@ async function guardarSorteoEnGitHub(sorteo, eliminar = false) {
     console.error("❌ Error al guardar/eliminar sorteo en GitHub:", error.message);
   }
 }
+
+// Comando para terminar el sorteo y anunciar ganador
+client.on("messageCreate", async (msg) => {
+  if (msg.author.bot || !msg.guild) return;
+  if (!msg.content.startsWith("!terminarsorteo")) return;
+  const args = msg.content.slice("!terminarsorteo".length).trim().split(/ +/);
+  const isAdmin = msg.member.permissions.has(PermissionFlagsBits.Administrator);
+  if (!isAdmin) {
+    msg.reply("Solo administradores pueden terminar el sorteo.");
+    return;
+  }
+  if (!sorteoActual) {
+    msg.reply("No hay sorteo activo.");
+    return;
+  }
+  const canalSorteo = await client.channels.fetch(sorteoActual.canalParticipacion).catch(() => null);
+  if (!canalSorteo) {
+    msg.reply("No se encontró el canal de sorteos.");
+    return;
+  }
+  const participantes = Array.from(sorteoActual.participantes);
+  if (participantes.length === 0) {
+    await canalSorteo.send("⏰ Sorteo finalizado. No hubo participantes.");
+  } else {
+    const ganador = participantes[Math.floor(Math.random() * participantes.length)];
+    await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
+  }
+  sorteoActual = null;
+  msg.reply("✅ Sorteo finalizado.");
+  return;
+});
