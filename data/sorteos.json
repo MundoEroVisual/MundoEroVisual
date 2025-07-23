@@ -22,8 +22,8 @@
     "ganadores": 1,
     "termina": 1753253963824,
     "canalParticipacion": "1396642489464520776",
-    "fechaCreacion": "2025-07-23T06:54:23.824Z",
-    "creador": "1030923635646529637",
-    "participantes": []
+    "participantes": [
+      "1030923635646529637"
+    ]
   }
 ]
