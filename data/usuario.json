@@ -85,5 +85,14 @@
     "premium": true,
     "premium_expira": "2025-08-20T15:24:30.510Z",
     "discordId": "1175925603292172299"
+  },
+  {
+    "usuario": "Jg",
+    "password": "$2b$10$JAr2YccRVvp7k.Q9mkx4T.75NAeXVhGUJYIXti4lYCfib3G4IQ0J.",
+    "admin": false,
+    "avatar": "Yu",
+    "apodo": "Azul",
+    "premium": false,
+    "premium_expira": null
   }
 ]
