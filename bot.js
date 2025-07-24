@@ -223,7 +223,7 @@ client.on("interactionCreate", async (interaction) => {
       participantes: new Set()
     };
     // Guardar sorteo en GitHub
-    guardarSorteoEnGitHub({
+    await guardarSorteoEnGitHub({
       tipo,
       premio: "VIP Gratis",
       ganadores: 1,
@@ -305,6 +305,7 @@ client.on("messageCreate", async (msg) => {
       "`!sorteo` — Participa en el sorteo VIP.",
       "`!sorteo + @usuario` — Añade manualmente a un usuario al sorteo (solo admins).",
       "`!sorteocantidad` — Muestra la cantidad y lista de usuarios participando en el sorteo VIP.",
+      "`!terminarsorteo`.",
       "`!ultimanovela` — Vuelve a anunciar la última novela subida.",
       "`!vipnovelas` — Anuncia todas las novelas en el canal VIP de descargas.",
       "`!clear <n>` — Borra los últimos n mensajes del canal.",
@@ -396,7 +397,7 @@ client.on("messageCreate", async (msg) => {
       participantes: new Set()
     };
     // Guardar sorteo en GitHub (incluye participantes)
-    await guardarSorteoEnGitHub({
+    sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
       tipo,
       premio: "VIP Gratis",
       ganadores: 1,
@@ -405,7 +406,7 @@ client.on("messageCreate", async (msg) => {
       fechaCreacion: new Date().toISOString(),
       creador: msg.author ? msg.author.id : null,
       participantes: []
-    });
+    }));
     const mensajeReglas = `⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`;
     const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${duracionTexto} (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **!sorteo** en el canal <#${canalId}>`;
     // Enviar y fijar el mensaje en el canal de sorteos
@@ -432,7 +433,7 @@ client.on("messageCreate", async (msg) => {
         await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
       }
       // Eliminar sorteo del archivo
-      await guardarSorteoEnGitHub({
+      sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
         tipo: sorteoActual.tipo,
         premio: sorteoActual.premio,
         ganadores: sorteoActual.ganadores,
@@ -441,7 +442,7 @@ client.on("messageCreate", async (msg) => {
         fechaCreacion: sorteoActual.fechaCreacion,
         creador: sorteoActual.creador,
         participantes: Array.from(sorteoActual.participantes)
-      }, true);
+      }, true));
       sorteoActual = null;
     }, msDuracion);
     return;
@@ -478,7 +479,7 @@ client.on("messageCreate", async (msg) => {
       }
       sorteoActual.participantes.add(userId);
       // Guardar participantes en GitHub
-      await guardarSorteoEnGitHub({
+      sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
         tipo: sorteoActual.tipo,
         premio: sorteoActual.premio,
         ganadores: sorteoActual.ganadores,
@@ -487,7 +488,7 @@ client.on("messageCreate", async (msg) => {
         fechaCreacion: sorteoActual.fechaCreacion,
         creador: sorteoActual.creador,
         participantes: Array.from(sorteoActual.participantes)
-      });
+      }));
       const miembro = await msg.guild.members.fetch(userId).catch(() => null);
       const nombre = miembro ? miembro.user.tag : userId;
       const replyMsg = await msg.reply(`✅ El usuario ${nombre} ha sido añadido al sorteo.`);
@@ -504,7 +505,7 @@ client.on("messageCreate", async (msg) => {
       }
       sorteoActual.participantes.add(userId);
       // Guardar participantes en GitHub
-      await guardarSorteoEnGitHub({
+      sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
         tipo: sorteoActual.tipo,
         premio: sorteoActual.premio,
         ganadores: sorteoActual.ganadores,
@@ -513,7 +514,7 @@ client.on("messageCreate", async (msg) => {
         fechaCreacion: sorteoActual.fechaCreacion,
         creador: sorteoActual.creador,
         participantes: Array.from(sorteoActual.participantes)
-      });
+      }));
       const replyMsg = await msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
       setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
