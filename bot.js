@@ -1430,11 +1430,22 @@ async function cargarSorteoActivo() {
     const ahora = Date.now();
     const activo = sorteos.find(s => s.termina > ahora);
     if (activo) {
+      let participantes = activo.participantes;
+      if (!Array.isArray(participantes)) {
+        participantes = Object.values(participantes || {});
+      }
       sorteoActual = {
         ...activo,
-        participantes: new Set(activo.participantes || [])
+        participantes: new Set(participantes)
       };
       console.log("✅ Sorteo activo cargado desde GitHub");
+      // Programar finalización automática
+      const msRestante = sorteoActual.termina - Date.now();
+      if (msRestante <= 0) {
+        finalizarSorteo();
+      } else {
+        setTimeout(finalizarSorteo, msRestante);
+      }
     }
   } catch (error) {
     console.error("❌ Error al cargar sorteo activo:", error.message);
@@ -1519,3 +1530,24 @@ client.on("messageCreate", async (msg) => {
   msg.reply("✅ Sorteo finalizado.");
   return;
 });
+
+// --- Función para finalizar el sorteo y anunciar ganador ---
+async function finalizarSorteo() {
+  if (!sorteoActual) return;
+  const canalSorteo = await client.channels.fetch(sorteoActual.canalParticipacion).catch(() => null);
+  const participantes = Array.from(sorteoActual.participantes);
+  if (canalSorteo) {
+    if (participantes.length === 0) {
+      await canalSorteo.send("⏰ Sorteo finalizado. No hubo participantes.");
+    } else {
+      const ganador = participantes[Math.floor(Math.random() * participantes.length)];
+      await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
+    }
+  }
+  // Eliminar sorteo del archivo
+  await sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
+    ...sorteoActual,
+    participantes: Array.from(sorteoActual.participantes)
+  }, true));
+  sorteoActual = null;
+}
