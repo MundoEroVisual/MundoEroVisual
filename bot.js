@@ -3,6 +3,18 @@ const fs = require("fs");
 const RSSParser = require("rss-parser");
 // Si usas Node.js v18+, fetch es global. Si no, descomenta la siguiente línea:
 // const fetch = require("node-fetch");
+
+// --- Cola de promesas para guardar participantes del sorteo ---
+class PromiseQueue {
+  constructor() {
+    this.queue = Promise.resolve();
+  }
+  add(fn) {
+    this.queue = this.queue.then(() => fn()).catch(() => {});
+    return this.queue;
+  }
+}
+const sorteoGitHubQueue = new PromiseQueue();
 const {
   Client,
   GatewayIntentBits,
