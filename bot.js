@@ -303,393 +303,516 @@ client.on("messageCreate", async (msg) => {
   if (msg.author.bot || !msg.guild) return;
   if (!msg.content.startsWith("!")) return;
 
-  // --- Comandos de administración y sorteo ---
   const args = msg.content.slice(1).trim().split(/ +/);
   const command = args.shift().toLowerCase();
   const isAdmin = msg.member.permissions.has(PermissionFlagsBits.Administrator);
 
-  // --- VIP ---
-  if (command === "vip") {
-    if (!isAdmin) {
-      msg.reply("Solo administradores pueden gestionar VIPs.");
+  // Solo admins pueden usar estos comandos, excepto !anuncio y !sorteo
+  if (!isAdmin && !["anuncio", "sorteo"].includes(command)) return;
+
+  // !comandos para mostrar todos los comandos disponibles
+  if (command === "comandos") {
+    const comandos = [
+      "`!crearsorteo tipo: VIP duracion: 1m canal: #sorteo` — Crea un sorteo VIP.",
+      "`!sorteo` — Participa en el sorteo VIP.",
+      "`!sorteo + @usuario` — Añade manualmente a un usuario al sorteo (solo admins).",
+      "`!sorteocantidad` — Muestra la cantidad y lista de usuarios participando en el sorteo VIP.",
+      "`!terminarsorteo`.",
+      "`!ultimanovela` — Vuelve a anunciar la última novela subida.",
+      "`!vipnovelas` — Anuncia todas las novelas en el canal VIP de descargas.",
+      "`!clear <n>` — Borra los últimos n mensajes del canal.",
+      "`!clearall` — Borra todos los mensajes del canal actual.",
+      "`!vip + @usuario nombreEnWeb` — Añade un usuario como VIP (Discord y web, asigna rol VIP).",
+      "`!vip - @usuario [nombreEnWeb]` — Elimina el VIP de un usuario (Discord y web, quita rol VIP).",
+      "`!vip lista` — Muestra la lista de usuarios VIP.",
+      "`!reanunciar-novelas` — Vuelve a anunciar todas las novelas (resetea la lista).",
+      "`!refrescar-novelas` — Fuerza la relectura del JSON y reanuncia novelas nuevas.",
+      "`!ping` — Prueba de latencia/respuesta del bot.",
+      "`!ban @usuario <motivo>` — Banea a un usuario.",
+      "`!kick @usuario <motivo>` — Expulsa a un usuario.",
+      "`!anuncio <mensaje>` — Envía un anuncio a todos los canales configurados.",
+      "`!userinfo [@usuario]` — Muestra información de un usuario.",
+      "`!serverinfo` — Muestra información del servidor."
+    ];
+    msg.reply({ content: comandos.join("\n") });
+    return;
+  }
+  // !sorteocantidad para mostrar participantes del sorteo
+  if (command === "sorteocantidad") {
+    if (!sorteoActual) {
+      const replyMsg = await msg.reply("No hay sorteo activo.");
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
     }
-    // !vip + @usuario nombreEnWeb
-    if (args[0] === "+" && args[1]) {
-      const userMention = args[1];
-      const webUser = args[2] || null;
-      const userIdMatch = userMention.match(/^<@!?([0-9]+)>$/);
-      let discordId = null;
-      if (userIdMatch) {
-        discordId = userIdMatch[1];
-      } else {
-        const miembro = msg.guild.members.cache.find(m => m.user.tag === userMention || m.user.username === userMention);
-        if (miembro) discordId = miembro.id;
-      }
-      if (!discordId) {
-        msg.reply("Usuario no válido o no encontrado.");
-        return;
-      }
-      let vips = await cargarVipsDesdeGitHub();
-      if (vips.some(v => v.discordId === discordId || (webUser && v.usuario === webUser))) {
-        msg.reply("Ese usuario ya es VIP.");
-        return;
-      }
-      // Por defecto, VIP 30 días si no se especifica fecha
-      let premium_expira = new Date();
-      premium_expira.setDate(premium_expira.getDate() + 30);
-      let actualizado = false;
-      for (let vip of vips) {
-        if (vip.discordId === discordId || (webUser && vip.webUser === webUser)) {
-          vip.premium_expira = premium_expira.toISOString();
-          vip.discordId = discordId;
-          if (webUser) vip.webUser = webUser;
-          vip.premium = true;
-          actualizado = true;
-        }
-      }
-      if (!actualizado) {
-        vips.push({ discordId, webUser, premium_expira: premium_expira.toISOString(), premium: true });
-      }
-      await guardarVipsEnGitHub(vips);
-      // Asignar rol VIP en Discord
+    const participantes = Array.from(sorteoActual.participantes);
+    if (participantes.length === 0) {
+      const replyMsg = await msg.reply("No hay usuarios participando en el sorteo.");
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+      return;
+    }
+    // Obtener los nombres de usuario
+    const nombres = await Promise.all(participantes.map(async id => {
       try {
-        const VIP_ROLE_ID = "1372074678692216842";
-        const miembro = await msg.guild.members.fetch(discordId);
-        if (miembro && !miembro.roles.cache.has(VIP_ROLE_ID)) {
-          await miembro.roles.add(VIP_ROLE_ID);
-        }
-      } catch (e) {
-        console.error("Error asignando rol VIP:", e);
+        const miembro = await msg.guild.members.fetch(id);
+        return miembro.user.tag;
+      } catch {
+        return id;
       }
-      msg.reply(`✅ Usuario <@${discordId}> añadido/renovado como VIP${webUser ? ` (web: ${webUser})` : ''} y rol VIP asignado hasta ${premium_expira.toISOString().slice(0,10)}.`);
+    }));
+    const replyMsg = await msg.reply(`👥 Participantes en el sorteo (${participantes.length}):\n${nombres.join("\n")}`);
+    setTimeout(() => replyMsg.delete().catch(() => {}), 10000);
+    return;
+  }
+
+  // !crearsorteo tipo: VIP duracion: 1m canal: #sorteos
+  if (isAdmin && command === "crearsorteo") {
+    // Impedir crear un sorteo si hay uno activo
+    if (sorteoActual && Date.now() < sorteoActual.termina) {
+      const replyMsg = await msg.reply("Ya hay un sorteo activo. Espera a que termine antes de crear otro.");
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
     }
-    // !vip - @usuario
-    if (args[0] === "-" && args[1]) {
-      const userMention = args[1];
-      const webUser = args[2] || null;
-      const userIdMatch = userMention.match(/^<@!?([0-9]+)>$/);
-      let discordId = null;
-      if (userIdMatch) {
-        discordId = userIdMatch[1];
+    const tipoMatch = msg.content.match(/tipo:\s*(\w+)/i);
+    const duracionMatch = msg.content.match(/duracion:\s*(\d+[mhd])/i);
+    const canalMatch = msg.content.match(/canal:\s*#?(\w+)/i);
+    const tipo = tipoMatch ? tipoMatch[1] : "VIP";
+    const duracion = duracionMatch ? duracionMatch[1] : "45m";
+    let msDuracion = 45 * 60 * 1000;
+    let duracionTexto = "45 minutos";
+    if (duracionMatch) {
+      const valor = parseInt(duracion.match(/(\d+)/)[1]);
+      const unidad = duracion.match(/([mhd])/i)[1].toLowerCase();
+      if (unidad === "m") {
+        msDuracion = valor * 60 * 1000;
+        duracionTexto = `${valor} minuto${valor === 1 ? '' : 's'}`;
+      } else if (unidad === "h") {
+        msDuracion = valor * 60 * 60 * 1000;
+        duracionTexto = `${valor} hora${valor === 1 ? '' : 's'}`;
+      } else if (unidad === "d") {
+        msDuracion = valor * 24 * 60 * 60 * 1000;
+        duracionTexto = `${valor} día${valor === 1 ? '' : 's'}`;
+      }
+    }
+    let canalId = CANAL_SORTEO_ID;
+    if (canalMatch) {
+      // Buscar canal por nombre
+      const canalObj = msg.guild.channels.cache.find(c => c.name === canalMatch[1]);
+      if (canalObj) canalId = canalObj.id;
+    }
+    const termina = Date.now() + msDuracion;
+    sorteoActual = {
+      tipo,
+      premio: "VIP Gratis",
+      ganadores: 1,
+      termina,
+      canalParticipacion: canalId,
+      participantes: new Set()
+    };
+    // Guardar sorteo en GitHub (incluye participantes)
+    sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
+      tipo,
+      premio: "VIP Gratis",
+      ganadores: 1,
+      termina,
+      canalParticipacion: canalId,
+      fechaCreacion: new Date().toISOString(),
+      creador: msg.author ? msg.author.id : null,
+      participantes: []
+    }));
+    const mensajeReglas = `⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.`;
+    const mensajeSorteo = `🎉 ¡SORTEO ACTIVO! 🎉\n¿Quieres ganar VIP Gratis?\n\n🎁 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ${duracionTexto} (hora estimada)\n\n📌 Requisitos para ganar:\n🔴 Seguirme en YouTube\n💬 Comentar "SORTEO" con tu nombre de Discord en mi último video\n👍 Darle like al video\n\n✨ Beneficios del VIP:\n🔗 Enlaces directos sin publicidad\n🎧 Soporte prioritario\n📥 Actualizaciones anticipadas\n🎁 ¡Y mucho más!\n\n📢 ¿Cómo participar?\nEscribe **!sorteo** en el canal <#${canalId}>`;
+    // Enviar y fijar el mensaje en el canal de sorteos
+    const canalSorteo = await msg.guild.channels.fetch(canalId);
+    const msgFijado = await canalSorteo.send(mensajeSorteo);
+    await msgFijado.pin();
+    // Enviar el mensaje de reglas justo después del sorteo
+    await canalSorteo.send(mensajeReglas);
+    // Enviar aviso de sorteo creado solo al canal de anuncios (NO se elimina)
+    const aviso = `✅ ¡Se ha creado un nuevo sorteo VIP! Participa en el canal <#${canalId}> usando !sorteo.`;
+    try {
+      const canalAviso = await client.channels.fetch(CANAL_ANUNCIOS_ID);
+      if (canalAviso) {
+        await canalAviso.send(aviso);
+      }
+    } catch {}
+    setTimeout(async () => {
+      if (!sorteoActual) return;
+      const participantes = Array.from(sorteoActual.participantes);
+      if (participantes.length === 0) {
+        await canalSorteo.send("⏰ Sorteo finalizado. No hubo participantes.");
       } else {
-        const miembro = msg.guild.members.cache.find(m => m.user.tag === userMention || m.user.username === userMention);
-        if (miembro) discordId = miembro.id;
+        const ganador = participantes[Math.floor(Math.random() * participantes.length)];
+        await canalSorteo.send('🎊 ¡SORTEO FINALIZADO!\n\n🏆 Ganador del VIP Gratis: <@' + ganador + '>\n🎉 ¡Felicidades!');
       }
-      let vips = await cargarVipsDesdeGitHub();
-      const antes = vips.length;
-      vips = vips.filter(v => {
-        if (discordId && v.discordId === discordId) return false;
-        if (webUser && v.webUser === webUser) return false;
-        return true;
-      });
-      if (vips.length === antes) {
-        msg.reply("No se encontró ese VIP.");
+      // Eliminar sorteo del archivo
+      sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
+        tipo: sorteoActual.tipo,
+        premio: sorteoActual.premio,
+        ganadores: sorteoActual.ganadores,
+        termina: sorteoActual.termina,
+        canalParticipacion: sorteoActual.canalParticipacion,
+        fechaCreacion: sorteoActual.fechaCreacion,
+        creador: sorteoActual.creador,
+        participantes: Array.from(sorteoActual.participantes)
+      }, true));
+      sorteoActual = null;
+    }, msDuracion);
+    return;
+  }
+
+  // !sorteo para participar
+  if (command === "sorteo") {
+    // Si el admin usa !sorteo + @usuario para añadir manualmente
+    if (isAdmin && args[0] === "+" && args[1]) {
+      const userMention = args[1];
+      const userIdMatch = userMention.match(/^<@!?([0-9]+)>$/);
+      let userId = null;
+      if (userIdMatch) {
+        userId = userIdMatch[1];
+      } else {
+        // Si no es mención, intentar buscar por nombre
+        const miembro = msg.guild.members.cache.find(m => m.user.tag === userMention || m.user.username === userMention);
+        if (miembro) userId = miembro.id;
+      }
+      if (!userId) {
+        const replyMsg = await msg.reply("Usuario no válido o no encontrado.");
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
         return;
       }
-      await guardarVipsEnGitHub(vips);
-      msg.reply("✅ VIP eliminado.");
+      if (!sorteoActual) {
+        const replyMsg = await msg.reply("No hay sorteo activo.");
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+      if (sorteoActual.participantes.has(userId)) {
+        const replyMsg = await msg.reply(`El usuario ya está participando en el sorteo.`);
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+      sorteoActual.participantes.add(userId);
+      // Guardar participantes en GitHub
+      sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
+        tipo: sorteoActual.tipo,
+        premio: sorteoActual.premio,
+        ganadores: sorteoActual.ganadores,
+        termina: sorteoActual.termina,
+        canalParticipacion: sorteoActual.canalParticipacion,
+        fechaCreacion: sorteoActual.fechaCreacion,
+        creador: sorteoActual.creador,
+        participantes: Array.from(sorteoActual.participantes)
+      }));
+      const miembro = await msg.guild.members.fetch(userId).catch(() => null);
+      const nombre = miembro ? miembro.user.tag : userId;
+      const replyMsg = await msg.reply(`✅ El usuario ${nombre} ha sido añadido al sorteo.`);
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
     }
-    // !vip lista
-    if (args[0] === "lista") {
-      let vips = await cargarVipsDesdeGitHub();
-      if (!vips.length) {
-        msg.reply("No hay usuarios VIP.");
+    // Participación normal
+    if (sorteoActual && msg.channelId === sorteoActual.canalParticipacion) {
+      const userId = msg.author.id;
+      if (sorteoActual.participantes.has(userId)) {
+        const replyMsg = await msg.reply('🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos');
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
         return;
       }
-      const lines = vips.map(v => `Discord: <@${v.discordId}>${v.usuario ? ` | Web: ${v.usuario}` : ''}`);
-      msg.reply(`👑 Lista de VIPs:\n${lines.join('\n')}`);
+      sorteoActual.participantes.add(userId);
+      // Guardar participantes en GitHub
+      sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
+        tipo: sorteoActual.tipo,
+        premio: sorteoActual.premio,
+        ganadores: sorteoActual.ganadores,
+        termina: sorteoActual.termina,
+        canalParticipacion: sorteoActual.canalParticipacion,
+        fechaCreacion: sorteoActual.fechaCreacion,
+        creador: sorteoActual.creador,
+        participantes: Array.from(sorteoActual.participantes)
+      }));
+      const replyMsg = await msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
+      setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
+    }
+  }
+
+  // Moderación en canal de sorteos: solo !sorteo permitido para no admins
+  if (
+    msg.channelId === CANAL_SORTEO_ID &&
+    !msg.author.bot &&
+    !msg.content.startsWith("!sorteo") &&
+    !msg.member.permissions.has(PermissionFlagsBits.Administrator)
+  ) {
+    await msg.delete();
+    const reglasMsg = await msg.channel.send("⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.");
+    setTimeout(() => reglasMsg.delete().catch(() => {}), 5000);
+    return;
+  }
+
+  // --- Comandos de administración ---
+  if (command === "refrescar-novelas") {
+    try {
+      await checkNovelas();
+      msg.reply("✅ Lista de novelas refrescada y anunciadas si hay novedades.");
+    } catch (e) {
+      msg.reply("Error al refrescar novelas.");
     }
     return;
   }
 
-  // --- Comandos de sorteo y otros comandos existentes aquí (sin cambios) ---
-  // ... (pega aquí el resto de la lógica de comandos de sorteo, administración, etc. del listener principal)
-});
-
-// Moderación en canal de sorteos: solo !sorteo permitido para no admins
-if (
-  msg.channelId === CANAL_SORTEO_ID &&
-  !msg.author.bot &&
-  !msg.content.startsWith("!sorteo") &&
-  !msg.member.permissions.has(PermissionFlagsBits.Administrator)
-) {
-  await msg.delete();
-  const reglasMsg = await msg.channel.send("⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.");
-  setTimeout(() => reglasMsg.delete().catch(() => {}), 5000);
-  return;
-}
-
-// --- Comandos de administración ---
-if (command === "refrescar-novelas") {
-  try {
-    await checkNovelas();
-    msg.reply("✅ Lista de novelas refrescada y anunciadas si hay novedades.");
-  } catch (e) {
-    msg.reply("Error al refrescar novelas.");
-  }
-  return;
-}
-
-// !ultimanovela para volver a anunciar la última novela subida
-if (command === "ultimanovela") {
-  try {
-    // Leer el JSON de novelas
-    const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/novelas-1.json');
-    const data = await res.json();
-    if (!Array.isArray(data) || !data.length) {
-      msg.reply("No hay novelas disponibles.");
-      return;
-    }
-    const novela = data[data.length - 1];
-    if (!novela) {
-      msg.reply("No se encontró la última novela.");
-      return;
-    }
-    // Canal original
-    const channel = await client.channels.fetch(DISCORD_CHANNEL_JUEGOS_NOPOR);
-    // Canal VIP
-    const canalVipId = "1396729794325905479";
-    const channelVip = await client.channels.fetch(canalVipId).catch(() => null);
-
-    // Enlace público
-    const novelaId = novela._id || novela.id;
-    const urlNovela = `https://eroverse.onrender.com/novela.html?id=${novelaId}`;
-    // Enlace VIP (android_vip)
-    const urlVip = novela.android_vip || urlNovela;
-
-    // Embed para canal público
-    const embed = new EmbedBuilder()
-      .setTitle(novela.titulo || "Nueva novela")
-      .addFields(
-        { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
-        { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
-        { name: 'Peso', value: novela.peso || 'N/A', inline: true }
-      )
-      .setColor(0x00bfff)
-      .setDescription((novela.desc || '') + `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!`);
-    embed.setURL(urlNovela);
-    if (novela.portada && novela.portada.trim() !== '') {
-      embed.setImage(novela.portada);
-    }
-    // Adjuntar imágenes de spoiler si existen
-    let filesPublico = [];
-    if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
-      filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
-    }
-    await channel.send({ embeds: [embed], files: filesPublico });
-
-    // Embed para canal VIP
-    if (channelVip) {
-      const embedVip = new EmbedBuilder()
-        .setTitle(novela.titulo || "Nueva novela VIP")
-        .addFields(
-          { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
-          { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
-          { name: 'Peso', value: novela.peso || 'N/A', inline: true },
-          { name: 'Enlace VIP', value: `[Descargar VIP](${urlVip})`, inline: false }
-        )
-        .setColor(0xffd700)
-        .setDescription((novela.desc || '') + `\n¡Nueva novela subida para VIP!`);
-      embedVip.setURL(urlVip);
-      if (novela.portada && novela.portada.trim() !== '') {
-        embedVip.setImage(novela.portada);
-      }
-      // Adjuntar imágenes de spoiler si existen
-      let files = [];
-      if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
-        files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
-      }
-      await channelVip.send({ embeds: [embedVip], files });
-    }
-    msg.reply("✅ Última novela anunciada en ambos canales.");
-  } catch (e) {
-    msg.reply("Error al anunciar la última novela.");
-  }
-  return;
-}
-
-if (command === "userinfo") {
-  const user = msg.mentions.users.first() || msg.author;
-  const member = msg.guild.members.cache.get(user.id);
-  const embed = new EmbedBuilder()
-    .setTitle(`Información de ${user.tag}`)
-    .setThumbnail(user.displayAvatarURL())
-    .addFields(
-      { name: "ID", value: user.id, inline: true },
-      {
-        name: "Cuenta creada",
-        value: `<t:${Math.floor(user.createdTimestamp / 1000)}:F>`,
-        inline: true,
-      },
-      {
-        name: "Se unió",
-        value: member ? `<t:${Math.floor(member.joinedTimestamp / 1000)}:F>` : "N/A",
-        inline: true,
-      },
-      { name: "Roles", value: member ? member.roles.cache.map((r) => r.name).join(", ") : "N/A", inline: false }
-    )
-    .setColor(0x00bfff);
-  const adminMsg = await msg.reply({ embeds: [embed] });
-  setTimeout(() => adminMsg.delete().catch(() => {}), 10000);
-  return;
-}
-
-if (command === "serverinfo") {
-  const { guild } = msg;
-  const embed = new EmbedBuilder()
-    .setTitle(`Información del servidor: ${guild.name}`)
-    .setThumbnail(guild.iconURL())
-    .addFields(
-      { name: "ID", value: guild.id, inline: true },
-      { name: "Miembros", value: `${guild.memberCount}`, inline: true },
-      { name: "Creado", value: `<t:${Math.floor(guild.createdTimestamp / 1000)}:F>`, inline: true },
-      { name: "Dueño", value: `<@${guild.ownerId}>`, inline: true }
-    )
-    .setColor(0x00bfff);
-  const adminMsg = await msg.reply({ embeds: [embed] });
-  setTimeout(() => adminMsg.delete().catch(() => {}), 10000);
-  return;
-}
-
-if (command === "clear" || command === "purge") {
-  const amount = parseInt(args[0], 10);
-  if (isNaN(amount) || amount < 1 || amount > 100) {
-    return msg.reply("Debes especificar un número entre 1 y 100. Ejemplo: !clear 10");
-  }
-  try {
-    await msg.channel.bulkDelete(amount, true);
-    const m = await msg.channel.send(`🧹 Se han borrado ${amount} mensajes.`);
-    setTimeout(() => m.delete().catch(() => {}), 3000);
-  } catch (err) {
-    msg.reply("No pude borrar los mensajes. ¿Tengo permisos suficientes?");
-  }
-  return;
-}
-
-if (command === "clearall") {
-  let deleted = 0;
-  let lastId;
-  try {
-    while (true) {
-      const messages = await msg.channel.messages.fetch({ limit: 100, ...(lastId && { before: lastId }) });
-      if (messages.size === 0) break;
-      await msg.channel.bulkDelete(messages, true);
-      deleted += messages.size;
-      lastId = messages.last().id;
-      if (messages.size < 100) break;
-    }
-    const m = await msg.channel.send(`🧹 Se han borrado todos los mensajes del canal (${deleted}).`);
-    setTimeout(() => m.delete().catch(() => {}), 3000);
-  } catch (err) {
-    msg.reply("No pude borrar todos los mensajes. ¿Tengo permisos suficientes?");
-  }
-  return;
-}
-
-if (command === "ban") {
-  if (args.length < 1) return msg.reply("Debes mencionar a un usuario para banear.");
-  const userToBan = msg.mentions.members.first();
-  const motivo = args.slice(1).join(" ") || "Sin motivo";
-  if (!userToBan) return msg.reply("Usuario no encontrado.");
-  if (!userToBan.bannable) return msg.reply("No puedo banear a ese usuario.");
-  try {
-    await userToBan.ban({ reason: motivo });
-    msg.channel.send(`🔨 Usuario ${userToBan.user.tag} baneado. Motivo: ${motivo}`);
-  } catch (e) {
-    msg.reply("No se pudo banear al usuario.");
-  }
-  return;
-}
-
-if (command === "kick") {
-  if (args.length < 1) return msg.reply("Debes mencionar a un usuario para expulsar.");
-  const userToKick = msg.mentions.members.first();
-  const motivo = args.slice(1).join(" ") || "Sin motivo";
-  if (!userToKick) return msg.reply("Usuario no encontrado.");
-  if (!userToKick.kickable) return msg.reply("No puedo expulsar a ese usuario.");
-  try {
-    await userToKick.kick(motivo);
-    msg.channel.send(`👢 Usuario ${userToKick.user.tag} expulsado. Motivo: ${motivo}`);
-  } catch (e) {
-    msg.reply("No se pudo expulsar al usuario.");
-  }
-  return;
-}
-
-if (command === "anuncio") {
-  const mensaje = args.join(" ");
-  if (!mensaje) return msg.reply("Debes escribir el mensaje del anuncio.");
-  const canales = [
-    DISCORD_CHANNEL_WELCOME,
-    DISCORD_CHANNEL_MEMES,
-    DISCORD_CHANNEL_JUEGOS_NOPOR,
-  ].filter(Boolean);
-  for (const canalId of canales) {
+  // !ultimanovela para volver a anunciar la última novela subida
+  if (command === "ultimanovela") {
     try {
-      const canal = await client.channels.fetch(canalId);
-      if (canal) await canal.send(`📢 **ANUNCIO:** ${mensaje}`);
-    } catch {}
-  }
-  msg.reply("Anuncio enviado.");
-  return;
-}
+      // Leer el JSON de novelas
+      const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/novelas-1.json');
+      const data = await res.json();
+      if (!Array.isArray(data) || !data.length) {
+        msg.reply("No hay novelas disponibles.");
+        return;
+      }
+      const novela = data[data.length - 1];
+      if (!novela) {
+        msg.reply("No se encontró la última novela.");
+        return;
+      }
+      // Canal original
+      const channel = await client.channels.fetch(DISCORD_CHANNEL_JUEGOS_NOPOR);
+      // Canal VIP
+      const canalVipId = "1396729794325905479";
+      const channelVip = await client.channels.fetch(canalVipId).catch(() => null);
 
-// Otros comandos aquí...
-// !vipnovelas — Anuncia todas las novelas en el canal VIP de descargas
-if (command === "vipnovelas") {
-  try {
-    // Leer el JSON de novelas
-    const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/novelas-1.json');
-    const data = await res.json();
-    if (!Array.isArray(data) || !data.length) {
-      msg.reply("No hay novelas disponibles.");
-      return;
-    }
-    // Canal VIP
-    const canalVipId = "1396729794325905479";
-    const channelVip = await client.channels.fetch(canalVipId).catch(() => null);
-    if (!channelVip) {
-      msg.reply("No se encontró el canal VIP.");
-      return;
-    }
-    let enviados = 0;
-    for (const novela of data) {
-      // Enlace VIP (android_vip)
+      // Enlace público
       const novelaId = novela._id || novela.id;
-      const urlVip = novela.android_vip || `https://eroverse.onrender.com/novela.html?id=${novelaId}`;
-      // Embed para canal VIP
-      const embedVip = new EmbedBuilder()
-        .setTitle(novela.titulo || "Nueva novela VIP")
+      const urlNovela = `https://eroverse.onrender.com/novela.html?id=${novelaId}`;
+      // Enlace VIP (android_vip)
+      const urlVip = novela.android_vip || urlNovela;
+
+      // Embed para canal público
+      const embed = new EmbedBuilder()
+        .setTitle(novela.titulo || "Nueva novela")
         .addFields(
           { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
           { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
-          { name: 'Peso', value: novela.peso || 'N/A', inline: true },
-          { name: 'Enlace VIP', value: `[Descargar VIP](${urlVip})`, inline: false }
+          { name: 'Peso', value: novela.peso || 'N/A', inline: true }
         )
-        .setColor(0xffd700)
-        .setDescription((novela.desc || '') + `\n¡Nueva novela subida para VIP!`);
-      embedVip.setURL(urlVip);
+        .setColor(0x00bfff)
+        .setDescription((novela.desc || '') + `\n[Enlace a la novela](${urlNovela})\n¡Nueva novela subida!`);
+      embed.setURL(urlNovela);
       if (novela.portada && novela.portada.trim() !== '') {
-        embedVip.setImage(novela.portada);
+        embed.setImage(novela.portada);
       }
       // Adjuntar imágenes de spoiler si existen
-      let files = [];
+      let filesPublico = [];
       if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
-        files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+        filesPublico = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
       }
-      await channelVip.send({ embeds: [embedVip], files });
-      enviados++;
+      await channel.send({ embeds: [embed], files: filesPublico });
+
+      // Embed para canal VIP
+      if (channelVip) {
+        const embedVip = new EmbedBuilder()
+          .setTitle(novela.titulo || "Nueva novela VIP")
+          .addFields(
+            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+            { name: 'Peso', value: novela.peso || 'N/A', inline: true },
+            { name: 'Enlace VIP', value: `[Descargar VIP](${urlVip})`, inline: false }
+          )
+          .setColor(0xffd700)
+          .setDescription((novela.desc || '') + `\n¡Nueva novela subida para VIP!`);
+        embedVip.setURL(urlVip);
+        if (novela.portada && novela.portada.trim() !== '') {
+          embedVip.setImage(novela.portada);
+        }
+        // Adjuntar imágenes de spoiler si existen
+        let files = [];
+        if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
+          files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+        }
+        await channelVip.send({ embeds: [embedVip], files });
+      }
+      msg.reply("✅ Última novela anunciada en ambos canales.");
+    } catch (e) {
+      msg.reply("Error al anunciar la última novela.");
     }
-    msg.reply(`✅ Se han anunciado ${enviados} novelas en el canal VIP.`);
-  } catch (e) {
-    msg.reply("Error al anunciar las novelas VIP.");
+    return;
   }
-  return;
-}
+
+  if (command === "userinfo") {
+    const user = msg.mentions.users.first() || msg.author;
+    const member = msg.guild.members.cache.get(user.id);
+    const embed = new EmbedBuilder()
+      .setTitle(`Información de ${user.tag}`)
+      .setThumbnail(user.displayAvatarURL())
+      .addFields(
+        { name: "ID", value: user.id, inline: true },
+        {
+          name: "Cuenta creada",
+          value: `<t:${Math.floor(user.createdTimestamp / 1000)}:F>`,
+          inline: true,
+        },
+        {
+          name: "Se unió",
+          value: member ? `<t:${Math.floor(member.joinedTimestamp / 1000)}:F>` : "N/A",
+          inline: true,
+        },
+        { name: "Roles", value: member ? member.roles.cache.map((r) => r.name).join(", ") : "N/A", inline: false }
+      )
+      .setColor(0x00bfff);
+    const adminMsg = await msg.reply({ embeds: [embed] });
+    setTimeout(() => adminMsg.delete().catch(() => {}), 10000);
+    return;
+  }
+
+  if (command === "serverinfo") {
+    const { guild } = msg;
+    const embed = new EmbedBuilder()
+      .setTitle(`Información del servidor: ${guild.name}`)
+      .setThumbnail(guild.iconURL())
+      .addFields(
+        { name: "ID", value: guild.id, inline: true },
+        { name: "Miembros", value: `${guild.memberCount}`, inline: true },
+        { name: "Creado", value: `<t:${Math.floor(guild.createdTimestamp / 1000)}:F>`, inline: true },
+        { name: "Dueño", value: `<@${guild.ownerId}>`, inline: true }
+      )
+      .setColor(0x00bfff);
+    const adminMsg = await msg.reply({ embeds: [embed] });
+    setTimeout(() => adminMsg.delete().catch(() => {}), 10000);
+    return;
+  }
+
+  if (command === "clear" || command === "purge") {
+    const amount = parseInt(args[0], 10);
+    if (isNaN(amount) || amount < 1 || amount > 100) {
+      return msg.reply("Debes especificar un número entre 1 y 100. Ejemplo: !clear 10");
+    }
+    try {
+      await msg.channel.bulkDelete(amount, true);
+      const m = await msg.channel.send(`🧹 Se han borrado ${amount} mensajes.`);
+      setTimeout(() => m.delete().catch(() => {}), 3000);
+    } catch (err) {
+      msg.reply("No pude borrar los mensajes. ¿Tengo permisos suficientes?");
+    }
+    return;
+  }
+
+  if (command === "clearall") {
+    let deleted = 0;
+    let lastId;
+    try {
+      while (true) {
+        const messages = await msg.channel.messages.fetch({ limit: 100, ...(lastId && { before: lastId }) });
+        if (messages.size === 0) break;
+        await msg.channel.bulkDelete(messages, true);
+        deleted += messages.size;
+        lastId = messages.last().id;
+        if (messages.size < 100) break;
+      }
+      const m = await msg.channel.send(`🧹 Se han borrado todos los mensajes del canal (${deleted}).`);
+      setTimeout(() => m.delete().catch(() => {}), 3000);
+    } catch (err) {
+      msg.reply("No pude borrar todos los mensajes. ¿Tengo permisos suficientes?");
+    }
+    return;
+  }
+
+  if (command === "ban") {
+    if (args.length < 1) return msg.reply("Debes mencionar a un usuario para banear.");
+    const userToBan = msg.mentions.members.first();
+    const motivo = args.slice(1).join(" ") || "Sin motivo";
+    if (!userToBan) return msg.reply("Usuario no encontrado.");
+    if (!userToBan.bannable) return msg.reply("No puedo banear a ese usuario.");
+    try {
+      await userToBan.ban({ reason: motivo });
+      msg.channel.send(`🔨 Usuario ${userToBan.user.tag} baneado. Motivo: ${motivo}`);
+    } catch (e) {
+      msg.reply("No se pudo banear al usuario.");
+    }
+    return;
+  }
+
+  if (command === "kick") {
+    if (args.length < 1) return msg.reply("Debes mencionar a un usuario para expulsar.");
+    const userToKick = msg.mentions.members.first();
+    const motivo = args.slice(1).join(" ") || "Sin motivo";
+    if (!userToKick) return msg.reply("Usuario no encontrado.");
+    if (!userToKick.kickable) return msg.reply("No puedo expulsar a ese usuario.");
+    try {
+      await userToKick.kick(motivo);
+      msg.channel.send(`👢 Usuario ${userToKick.user.tag} expulsado. Motivo: ${motivo}`);
+    } catch (e) {
+      msg.reply("No se pudo expulsar al usuario.");
+    }
+    return;
+  }
+
+  if (command === "anuncio") {
+    const mensaje = args.join(" ");
+    if (!mensaje) return msg.reply("Debes escribir el mensaje del anuncio.");
+    const canales = [
+      DISCORD_CHANNEL_WELCOME,
+      DISCORD_CHANNEL_MEMES,
+      DISCORD_CHANNEL_JUEGOS_NOPOR,
+    ].filter(Boolean);
+    for (const canalId of canales) {
+      try {
+        const canal = await client.channels.fetch(canalId);
+        if (canal) await canal.send(`📢 **ANUNCIO:** ${mensaje}`);
+      } catch {}
+    }
+    msg.reply("Anuncio enviado.");
+    return;
+  }
+
+  // Otros comandos aquí...
+  // !vipnovelas — Anuncia todas las novelas en el canal VIP de descargas
+  if (command === "vipnovelas") {
+    try {
+      // Leer el JSON de novelas
+      const res = await fetch('https://raw.githubusercontent.com/MundoEroVisual/MundoEroVisual/main/data/novelas-1.json');
+      const data = await res.json();
+      if (!Array.isArray(data) || !data.length) {
+        msg.reply("No hay novelas disponibles.");
+        return;
+      }
+      // Canal VIP
+      const canalVipId = "1396729794325905479";
+      const channelVip = await client.channels.fetch(canalVipId).catch(() => null);
+      if (!channelVip) {
+        msg.reply("No se encontró el canal VIP.");
+        return;
+      }
+      let enviados = 0;
+      for (const novela of data) {
+        // Enlace VIP (android_vip)
+        const novelaId = novela._id || novela.id;
+        const urlVip = novela.android_vip || `https://eroverse.onrender.com/novela.html?id=${novelaId}`;
+        // Embed para canal VIP
+        const embedVip = new EmbedBuilder()
+          .setTitle(novela.titulo || "Nueva novela VIP")
+          .addFields(
+            { name: 'Géneros', value: (novela.generos || []).join(', ') || 'N/A', inline: false },
+            { name: 'Estado', value: novela.estado || 'Desconocido', inline: true },
+            { name: 'Peso', value: novela.peso || 'N/A', inline: true },
+            { name: 'Enlace VIP', value: `[Descargar VIP](${urlVip})`, inline: false }
+          )
+          .setColor(0xffd700)
+          .setDescription((novela.desc || '') + `\n¡Nueva novela subida para VIP!`);
+        embedVip.setURL(urlVip);
+        if (novela.portada && novela.portada.trim() !== '') {
+          embedVip.setImage(novela.portada);
+        }
+        // Adjuntar imágenes de spoiler si existen
+        let files = [];
+        if (Array.isArray(novela.spoiler_imgs) && novela.spoiler_imgs.length) {
+          files = novela.spoiler_imgs.filter(img => typeof img === 'string' && img.trim() !== '');
+        }
+        await channelVip.send({ embeds: [embedVip], files });
+        enviados++;
+      }
+      msg.reply(`✅ Se han anunciado ${enviados} novelas en el canal VIP.`);
+    } catch (e) {
+      msg.reply("Error al anunciar las novelas VIP.");
+    }
+    return;
+  }
 // --- SISTEMA VIP DISCORD-WEB ---
 async function cargarVipsDesdeGitHub() {
   try {
@@ -779,6 +902,151 @@ async function guardarVipsEnGitHub(vips) {
     console.error("❌ Error al guardar VIPs:", error.message);
   }
 }
+
+client.on("messageCreate", async (msg) => {
+  if (msg.author.bot || !msg.guild) return;
+  if (!msg.content.startsWith("!vip")) return;
+  const args = msg.content.slice(4).trim().split(/ +/);
+  const isAdmin = msg.member.permissions.has(PermissionFlagsBits.Administrator);
+  if (!isAdmin) {
+    msg.reply("Solo administradores pueden gestionar VIPs.");
+    return;
+  }
+  // !vip + @usuario nombreEnWeb
+  if (args[0] === "+" && args[1]) {
+    const userMention = args[1];
+    const webUser = args[2] || null;
+    const userIdMatch = userMention.match(/^<@!?([0-9]+)>$/);
+    let discordId = null;
+    if (userIdMatch) {
+      discordId = userIdMatch[1];
+    } else {
+      const miembro = msg.guild.members.cache.find(m => m.user.tag === userMention || m.user.username === userMention);
+      if (miembro) discordId = miembro.id;
+    }
+    if (!discordId) {
+      msg.reply("Usuario no válido o no encontrado.");
+      return;
+    }
+    let vips = await cargarVipsDesdeGitHub();
+    if (vips.some(v => v.discordId === discordId || (webUser && v.usuario === webUser))) {
+      msg.reply("Ese usuario ya es VIP.");
+      return;
+    }
+    // Por defecto, VIP 30 días si no se especifica fecha
+    let premium_expira = new Date();
+    premium_expira.setDate(premium_expira.getDate() + 30);
+    let actualizado = false;
+    // Buscar si ya existe el usuario por discordId o webUser
+    for (let vip of vips) {
+      if (vip.discordId === discordId || (webUser && vip.webUser === webUser)) {
+        vip.premium_expira = premium_expira.toISOString();
+        vip.discordId = discordId;
+        if (webUser) vip.webUser = webUser;
+        vip.premium = true;
+        actualizado = true;
+      }
+    }
+    if (!actualizado) {
+      vips.push({ discordId, webUser, premium_expira: premium_expira.toISOString(), premium: true });
+    }
+    await guardarVipsEnGitHub(vips);
+    // Asignar rol VIP en Discord
+    try {
+      const VIP_ROLE_ID = "1372074678692216842";
+      const miembro = await msg.guild.members.fetch(discordId);
+      if (miembro && !miembro.roles.cache.has(VIP_ROLE_ID)) {
+        await miembro.roles.add(VIP_ROLE_ID);
+      }
+    } catch (e) {
+      // Si ves un error de permisos aquí, asegúrate de que el bot tenga el rol más alto que el rol VIP y permisos de Gestionar roles.
+      console.error("Error asignando rol VIP:", e);
+    }
+    msg.reply(`✅ Usuario <@${discordId}> añadido/renovado como VIP${webUser ? ` (web: ${webUser})` : ''} y rol VIP asignado hasta ${premium_expira.toISOString().slice(0,10)}.`);
+    return;
+// Tarea periódica para quitar el rol VIP si expiró la membresía
+const VIP_ROLE_ID = "1372074678692216842";
+setInterval(async () => {
+  try {
+    const vips = await cargarVipsDesdeGitHub();
+    const ahora = new Date();
+    for (const guild of client.guilds.cache.values()) {
+      for (const vip of vips) {
+        if (!vip.discordId || !vip.premium_expira) continue;
+        const expira = new Date(vip.premium_expira);
+        if (expira < ahora) {
+          // Quitar rol VIP si lo tiene
+          try {
+            const miembro = await guild.members.fetch(vip.discordId).catch(() => null);
+            if (miembro && miembro.roles.cache.has(VIP_ROLE_ID)) {
+              await miembro.roles.remove(VIP_ROLE_ID);
+              console.log(`Rol VIP removido a ${miembro.user.tag} por expiración.`);
+            }
+          } catch (e) {
+            // Puede que el usuario no esté en el servidor
+          }
+        } else {
+          // Si aún es VIP y no tiene el rol, asignarlo
+          try {
+            const miembro = await guild.members.fetch(vip.discordId).catch(() => null);
+            if (miembro && !miembro.roles.cache.has(VIP_ROLE_ID)) {
+              await miembro.roles.add(VIP_ROLE_ID);
+              console.log(`Rol VIP asignado a ${miembro.user.tag} (verificación periódica).`);
+            }
+          } catch (e) {}
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Error en la verificación de expiración de VIPs:", e);
+  }
+}, 60 * 1000); // Cada minuto
+  }
+  // !vip - @usuario
+  if (args[0] === "-" && args[1]) {
+    const userMention = args[1];
+    const webUser = args[2] || null;
+    const userIdMatch = userMention.match(/^<@!?([0-9]+)>$/);
+    let discordId = null;
+    if (userIdMatch) {
+      discordId = userIdMatch[1];
+    } else {
+      const miembro = msg.guild.members.cache.find(m => m.user.tag === userMention || m.user.username === userMention);
+      if (miembro) discordId = miembro.id;
+    }
+    let vips = await cargarVipsDesdeGitHub();
+    const antes = vips.length;
+    vips = vips.filter(v => {
+      if (discordId && v.discordId === discordId) return false;
+      if (webUser && v.webUser === webUser) return false;
+      return true;
+    });
+    if (vips.length === antes) {
+      msg.reply("No se encontró ese VIP.");
+      return;
+    }
+    await guardarVipsEnGitHub(vips);
+    msg.reply("✅ VIP eliminado.");
+    return;
+  }
+  // !vip lista
+  if (args[0] === "lista") {
+    let vips = await cargarVipsDesdeGitHub();
+    if (!vips.length) {
+      msg.reply("No hay usuarios VIP.");
+      return;
+    }
+    const lines = vips.map(v => `Discord: <@${v.discordId}>${v.usuario ? ` | Web: ${v.usuario}` : ''}`);
+    msg.reply(`👑 Lista de VIPs:\n${lines.join('\n')}`);
+    return;
+  }
+});
+});
+// 2. COMANDOS DE ADMINISTRACIÓN
+// --------------------------------
+
+// --- El bloque de comandos de texto ha sido eliminado. Usa solo comandos slash (/).
+// --- El bloque de comandos de texto ha sido eliminado. Usa solo comandos slash (/).
 
 // --------------------
 // 3. MENSAJE DE BIENVENIDA Y ROL
@@ -1283,3 +1551,25 @@ async function finalizarSorteo() {
   }, true));
   sorteoActual = null;
 }
+
+const VIP_ROLE_ID = "1372074678692216842";
+const CANAL_EMOJIS_ID = "ID_DEL_CANAL"; // <-- Cambia esto por el ID real del canal donde quieres la restricción
+
+client.on("messageCreate", async (msg) => {
+  if (msg.author.bot || !msg.guild) return;
+
+  // --- Moderación en canal de sorteos: solo !sorteo permitido para no admins ---
+  if (
+    msg.channelId === CANAL_SORTEO_ID &&
+    !msg.author.bot &&
+    !msg.content.startsWith("!sorteo") &&
+    !msg.member.permissions.has(PermissionFlagsBits.Administrator)
+  ) {
+    await msg.delete();
+    const reglasMsg = await msg.channel.send("⚠️ En este canal solo se permite escribir !sorteo. Si escribes cualquier otra cosa serás sancionado. Si necesitas ayuda abre un ticket en el canal de ayuda.");
+    setTimeout(() => reglasMsg.delete().catch(() => {}), 5000);
+    return;
+  }
+
+  // ... (resto de tu lógica de comandos)
+});
