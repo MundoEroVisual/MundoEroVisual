@@ -64,38 +64,6 @@
     "premium_expira": null
   },
   {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2099-12-31T23:59:59.000Z",
-    "discordId": "1030923635646529637"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "3000-01-01T00:00:00.000Z"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2025-08-20T15:24:30.510Z",
-    "discordId": "1175925603292172299"
-  },
-  {
-    "usuario": "Jg",
-    "password": "$2b$10$JAr2YccRVvp7k.Q9mkx4T.75NAeXVhGUJYIXti4lYCfib3G4IQ0J.",
-    "admin": false,
-    "avatar": "Yu",
-    "apodo": "Azul",
-    "premium": false,
-    "premium_expira": null
-  },
-  {
     "usuario": "Jgg",
     "password": "$2b$10$10X8fhr.tp3ZENDMfeeKI.5.cMX/NVh7u6M3kKJ7HkZRZaoeAvhfG",
     "admin": false,
@@ -104,59 +72,5 @@
     "premium": true,
     "premium_expira": "2025-08-23T22:18:42.661Z",
     "discordId": "407006173611556870"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2099-12-31T23:59:59.000Z",
-    "discordId": "1030923635646529637"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "3000-01-01T00:00:00.000Z"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2025-08-20T15:24:30.510Z",
-    "discordId": "1175925603292172299"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2025-08-21T03:52:19.984Z",
-    "discordId": "1209298890394701855"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2099-12-31T23:59:59.000Z",
-    "discordId": "1030923635646529637"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "3000-01-01T00:00:00.000Z"
-  },
-  {
-    "usuario": "",
-    "password": "",
-    "admin": false,
-    "premium": true,
-    "premium_expira": "2025-08-20T15:24:30.510Z",
-    "discordId": "1175925603292172299"
   }
 ]
