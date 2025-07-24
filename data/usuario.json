@@ -94,5 +94,14 @@
     "apodo": "Azul",
     "premium": false,
     "premium_expira": null
+  },
+  {
+    "usuario": "Jgg",
+    "password": "$2b$10$10X8fhr.tp3ZENDMfeeKI.5.cMX/NVh7u6M3kKJ7HkZRZaoeAvhfG",
+    "admin": false,
+    "avatar": "Yu",
+    "apodo": "Azul",
+    "premium": false,
+    "premium_expira": null
   }
 ]
