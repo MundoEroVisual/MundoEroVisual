@@ -8,5 +8,15 @@
     "fechaCreacion": "2025-07-24T04:03:15.778Z",
     "creador": "1030923635646529637",
     "participantes": []
+  },
+  {
+    "tipo": "VIP",
+    "premio": "VIP Gratis",
+    "ganadores": 1,
+    "termina": 1753330095790,
+    "canalParticipacion": "1396642489464520776",
+    "participantes": [
+      "1030923635646529637"
+    ]
   }
 ]
