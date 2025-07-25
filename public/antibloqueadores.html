@@ -257,17 +257,16 @@
       document.body.appendChild(div);
       setTimeout(focusMessage, 100);
     }
-    // Detección robusta de AdBlock
-    function detectAdBlock(callback) {
-      // Lista de IDs de los baits
+    // Detección combinada: señuelos + backend
+    function checkAdBlock(callback) {
+      // 1. Señuelos en el DOM
       const baitIds = [
         'ad-bait-1','ad-bait-2','ad-bait-3','ad-bait-4','ad-bait-5','ad-bait-6','ad-bait-7','ad-bait-8','ad-bait-9','ad-bait-10','ad-bait-11','ad-bait-12','ad-bait-13'
       ];
-      setTimeout(() => {
-        let blocked = false;
+      function baitCheck() {
         for (const id of baitIds) {
           const bait = document.getElementById(id);
-          if (!bait) { blocked = true; break; }
+          if (!bait) return true;
           const style = window.getComputedStyle(bait);
           if (
             bait.offsetParent === null ||
@@ -277,12 +276,23 @@
             style.visibility === 'hidden' ||
             style.opacity === '0'
           ) {
-            blocked = true;
-            break;
+            return true;
           }
         }
-        callback(blocked);
-      }, 300);
+        return false;
+      }
+      // 2. Backend check
+      fetch('/adcheck/ads.js', { method: 'GET', cache: 'no-store' })
+        .then(resp => {
+          if (!resp.ok) {
+            callback(true); // Bloqueado por AdBlock
+          } else {
+            // Si el bait también está bloqueado, es AdBlock
+            if (baitCheck()) callback(true);
+            else callback(false);
+          }
+        })
+        .catch(() => callback(true));
     }
     // Lógica principal
     function main() {
@@ -293,7 +303,7 @@
         return;
       }
       // Detectar AdBlock antes de redirigir
-      detectAdBlock(function(isBlocked) {
+      checkAdBlock(function(isBlocked) {
         if (isBlocked) {
           showMessage({
             msg: t.adblock,
@@ -330,4 +340,5 @@
     window.addEventListener('DOMContentLoaded', main);
   </script>
 </body>
+</html> 
 </html> 
