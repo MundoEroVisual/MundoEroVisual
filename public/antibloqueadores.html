@@ -233,9 +233,10 @@
       document.body.appendChild(div);
       setTimeout(focusMessage, 100);
     }
-    // Detección solo por backend
+    // Detección solo por backend, usando URL aleatoria para evitar caché de AdBlock
     function checkAdBlock(callback) {
-      fetch('https://eroverse.onrender.com/adcheck/ads.js', { method: 'GET', cache: 'no-store' })
+      const url = 'https://eroverse.onrender.com/adcheck/ads.js?r=' + Math.random();
+      fetch(url, { method: 'GET', cache: 'no-store' })
         .then(resp => {
           if (!resp.ok) {
             callback(true); // Bloqueado por AdBlock
