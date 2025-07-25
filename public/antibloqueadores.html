@@ -120,34 +120,10 @@
         height: 56px;
       }
     }
-    /* Señuelos para AdBlock robusto */
-    .ad-banner, .adsbygoogle, .ad-container, .ad-slot, .adbox, .ad, .ads, .sponsor, .publi, .google-ad, .banner-ads, .ad-placeholder, .ad-leaderboard {
-      width: 1px;
-      height: 1px;
-      position: absolute;
-      left: -9999px;
-      top: -9999px;
-      pointer-events: none;
-      opacity: 0;
-    }
   </style>
 </head>
 <body>
   <!-- Logo y mensajes se insertan dinámicamente -->
-  <!-- Múltiples señuelos para detectar AdBlock y variantes -->
-  <div id="ad-bait-1" class="ad-banner"></div>
-  <div id="ad-bait-2" class="adsbygoogle"></div>
-  <div id="ad-bait-3" class="ad-container"></div>
-  <div id="ad-bait-4" class="ad-slot"></div>
-  <div id="ad-bait-5" class="adbox"></div>
-  <div id="ad-bait-6" class="ad"></div>
-  <div id="ad-bait-7" class="ads"></div>
-  <div id="ad-bait-8" class="sponsor"></div>
-  <div id="ad-bait-9" class="publi"></div>
-  <div id="ad-bait-10" class="google-ad"></div>
-  <div id="ad-bait-11" class="banner-ads"></div>
-  <div id="ad-bait-12" class="ad-placeholder"></div>
-  <div id="ad-bait-13" class="ad-leaderboard"></div>
   <script>
     // Traducciones para español e inglés
     const translations = {
@@ -257,39 +233,14 @@
       document.body.appendChild(div);
       setTimeout(focusMessage, 100);
     }
-    // Detección combinada: señuelos + backend
+    // Detección solo por backend
     function checkAdBlock(callback) {
-      // 1. Señuelos en el DOM
-      const baitIds = [
-        'ad-bait-1','ad-bait-2','ad-bait-3','ad-bait-4','ad-bait-5','ad-bait-6','ad-bait-7','ad-bait-8','ad-bait-9','ad-bait-10','ad-bait-11','ad-bait-12','ad-bait-13'
-      ];
-      function baitCheck() {
-        for (const id of baitIds) {
-          const bait = document.getElementById(id);
-          if (!bait) return true;
-          const style = window.getComputedStyle(bait);
-          if (
-            bait.offsetParent === null ||
-            bait.offsetHeight === 0 ||
-            bait.offsetWidth === 0 ||
-            style.display === 'none' ||
-            style.visibility === 'hidden' ||
-            style.opacity === '0'
-          ) {
-            return true;
-          }
-        }
-        return false;
-      }
-      // 2. Backend check
       fetch('https://eroverse.onrender.com/adcheck/ads.js', { method: 'GET', cache: 'no-store' })
         .then(resp => {
           if (!resp.ok) {
             callback(true); // Bloqueado por AdBlock
           } else {
-            // Si el bait también está bloqueado, es AdBlock
-            if (baitCheck()) callback(true);
-            else callback(false);
+            callback(false); // No hay AdBlock
           }
         })
         .catch(() => callback(true));
