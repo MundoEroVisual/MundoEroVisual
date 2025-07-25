@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eroverse - Protección Anti-AdBlock</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #181828;
+      color: #f2f2f2;
+    }
+    .centered-message {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.97);
+      z-index: 9999;
+      min-height: 100vh;
+      min-width: 100vw;
+      animation: fadeIn 0.7s;
+      transition: background 0.3s;
+    }
+    body.dark .centered-message {
+      background: rgba(24,24,40,0.97);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .centered-message span, .centered-message .domain {
+      color: #d32f2f;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      background: #fff;
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 2px 16px 0 rgba(0,0,0,0.07);
+      max-width: 90vw;
+      line-height: 1.4;
+      word-break: break-word;
+      margin-bottom: 1.2rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark .centered-message span, body.dark .centered-message .domain {
+      background: #23233a;
+      color: #ff5252;
+    }
+    .centered-message .domain {
+      color: #1976d2;
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      background: transparent;
+      box-shadow: none;
+      padding: 0;
+    }
+    .centered-message img.logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+      background: #fff;
+      object-fit: cover;
+      border: 3px solid #d32f2f;
+      transition: border 0.3s;
+    }
+    body.dark .centered-message img.logo {
+      background: #23233a;
+      border: 3px solid #ff5252;
+    }
+    .centered-message button {
+      margin-top: 1.2rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #d32f2f;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 1px 6px 0 rgba(0,0,0,0.08);
+      transition: background 0.2s;
+    }
+    .centered-message button:active {
+      background: #b71c1c;
+    }
+    .countdown {
+      color: #1976d2;
+      font-size: 1.2rem;
+      margin-top: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+    }
+    body.dark .countdown {
+      color: #90caf9;
+    }
+    @media (max-width: 600px) {
+      .centered-message span, .centered-message .domain {
+        font-size: 1.1rem;
+        padding: 1.2rem 0.7rem;
+      }
+      .centered-message img.logo {
+        width: 56px;
+        height: 56px;
+      }
+    }
+    /* Señuelos para AdBlock robusto */
+    .ad-banner, .adsbygoogle, .ad-container, .ad-slot, .adbox, .ad, .ads, .sponsor, .publi, .google-ad, .banner-ads, .ad-placeholder, .ad-leaderboard {
+      width: 1px;
+      height: 1px;
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      pointer-events: none;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo y mensajes se insertan dinámicamente -->
+  <!-- Múltiples señuelos para detectar AdBlock y variantes -->
+  <div id="ad-bait-1" class="ad-banner"></div>
+  <div id="ad-bait-2" class="adsbygoogle"></div>
+  <div id="ad-bait-3" class="ad-container"></div>
+  <div id="ad-bait-4" class="ad-slot"></div>
+  <div id="ad-bait-5" class="adbox"></div>
+  <div id="ad-bait-6" class="ad"></div>
+  <div id="ad-bait-7" class="ads"></div>
+  <div id="ad-bait-8" class="sponsor"></div>
+  <div id="ad-bait-9" class="publi"></div>
+  <div id="ad-bait-10" class="google-ad"></div>
+  <div id="ad-bait-11" class="banner-ads"></div>
+  <div id="ad-bait-12" class="ad-placeholder"></div>
+  <div id="ad-bait-13" class="ad-leaderboard"></div>
+  <script>
+    // Traducciones para español e inglés
+    const translations = {
+      es: {
+        adblock: '🚫 ¡Desactiva AdBlock para continuar! Esta descarga está protegida.',
+        invalid: '❌ Enlace no válido o faltante.',
+        retry: 'Reintentar',
+        redirecting: 'Redirigiendo en {n}…',
+        to: 'Vas a ser redirigido a:',
+        site: 'Eroverse',
+      },
+      en: {
+        adblock: '🚫 Please disable AdBlock to continue! This download is protected.',
+        invalid: '❌ Invalid or missing link.',
+        retry: 'Retry',
+        redirecting: 'Redirecting in {n}…',
+        to: 'You will be redirected to:',
+        site: 'Eroverse',
+      }
+    };
+    // Detectar idioma del navegador
+    function getLang() {
+      const lang = navigator.language || navigator.userLanguage || 'es';
+      return lang.startsWith('en') ? 'en' : 'es';
+    }
+    const lang = getLang();
+    const t = translations[lang];
+
+    // Modo oscuro automático
+    function setDarkMode() {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+    }
+    setDarkMode();
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (e.matches) document.body.classList.add('dark');
+      else document.body.classList.remove('dark');
+    });
+
+    // Accesibilidad: foco automático en el mensaje
+    function focusMessage() {
+      const msg = document.querySelector('.centered-message span, .centered-message .domain');
+      if (msg) msg.setAttribute('tabindex', '-1'), msg.focus();
+    }
+
+    // Obtener parámetro 'url' sin requerir codificación
+    function getRawUrlParam() {
+      const search = window.location.search;
+      if (!search) return null;
+      const match = search.match(/[?&]url=([^&]*)/i);
+      if (!match) return null;
+      let value = match[1];
+      try { value = decodeURIComponent(value); } catch (e) {}
+      return value.trim();
+    }
+    // Validar enlace http(s)
+    function isValidUrl(url) {
+      if (!url) return false;
+      return /^(https?:\/\/)[^\s]+$/i.test(url);
+    }
+    // Extraer dominio de un enlace
+    function getDomain(url) {
+      try { return new URL(url).hostname; } catch { return ''; }
+    }
+    // Mostrar mensaje centrado con logo, dominio, botón, etc.
+    function showMessage({msg, domain, showRetry, onRetry, countdown, logoUrl}) {
+      // Eliminar mensajes previos
+      document.querySelectorAll('.centered-message').forEach(e => e.remove());
+      const div = document.createElement('div');
+      div.className = 'centered-message';
+      div.setAttribute('role', 'alert');
+      div.setAttribute('aria-live', 'assertive');
+      // Logo de Eroverse
+      if (logoUrl) {
+        const img = document.createElement('img');
+        img.src = logoUrl;
+        img.alt = t.site + ' logo';
+        img.className = 'logo';
+        div.appendChild(img);
+      }
+      // Dominio de destino
+      if (domain) {
+        const dom = document.createElement('div');
+        dom.className = 'domain';
+        dom.textContent = t.to + ' ' + domain;
+        div.appendChild(dom);
+      }
+      // Mensaje principal
+      const span = document.createElement('span');
+      span.textContent = msg;
+      div.appendChild(span);
+      // Contador regresivo
+      if (typeof countdown === 'number') {
+        const cd = document.createElement('div');
+        cd.className = 'countdown';
+        cd.textContent = t.redirecting.replace('{n}', countdown);
+        div.appendChild(cd);
+      }
+      // Botón de reintentar
+      if (showRetry) {
+        const btn = document.createElement('button');
+        btn.textContent = t.retry;
+        btn.onclick = onRetry;
+        div.appendChild(btn);
+      }
+      document.body.appendChild(div);
+      setTimeout(focusMessage, 100);
+    }
+    // Detección robusta de AdBlock
+    function detectAdBlock(callback) {
+      // Lista de IDs de los baits
+      const baitIds = [
+        'ad-bait-1','ad-bait-2','ad-bait-3','ad-bait-4','ad-bait-5','ad-bait-6','ad-bait-7','ad-bait-8','ad-bait-9','ad-bait-10','ad-bait-11','ad-bait-12','ad-bait-13'
+      ];
+      setTimeout(() => {
+        let blocked = false;
+        for (const id of baitIds) {
+          const bait = document.getElementById(id);
+          if (!bait) { blocked = true; break; }
+          const style = window.getComputedStyle(bait);
+          if (
+            bait.offsetParent === null ||
+            bait.offsetHeight === 0 ||
+            bait.offsetWidth === 0 ||
+            style.display === 'none' ||
+            style.visibility === 'hidden' ||
+            style.opacity === '0'
+          ) {
+            blocked = true;
+            break;
+          }
+        }
+        callback(blocked);
+      }, 300);
+    }
+    // Lógica principal
+    function main() {
+      const url = getRawUrlParam();
+      const logo = 'https://yt3.googleusercontent.com/bE3q5DSLFVjZcITEIuKuxavE8OcOcYOOVRV0WHiHu6rs7cwIaR4tPCCZikBrVuPc-dpCecnqig=s160-c-k-c0x00ffffff-no-rj';
+      if (!isValidUrl(url)) {
+        showMessage({msg: t.invalid, showRetry: false, logoUrl: logo});
+        return;
+      }
+      // Detectar AdBlock antes de redirigir
+      detectAdBlock(function(isBlocked) {
+        if (isBlocked) {
+          showMessage({
+            msg: t.adblock,
+            showRetry: true,
+            onRetry: () => main(),
+            logoUrl: logo
+          });
+        } else {
+          // Mostrar dominio y contador antes de redirigir
+          let count = 3;
+          showMessage({
+            msg: '',
+            domain: getDomain(url),
+            countdown: count,
+            logoUrl: logo
+          });
+          const interval = setInterval(() => {
+            count--;
+            if (count > 0) {
+              showMessage({
+                msg: '',
+                domain: getDomain(url),
+                countdown: count,
+                logoUrl: logo
+              });
+            } else {
+              clearInterval(interval);
+              window.location.href = url;
+            }
+          }, 1000);
+        }
+      });
+    }
+    window.addEventListener('DOMContentLoaded', main);
+  </script>
+</body>
+</html> 
