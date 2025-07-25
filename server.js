@@ -824,7 +824,6 @@ app.post('/api/descargar-imagenes', express.json(), async (req, res) => {
   }
 });
 
-// Endpoint para detección de AdBlock (ruta más bloqueada)
-app.get('/ads.js', (req, res) => {
-  res.type('application/javascript').send('// ok');
-});
+app.get('/adcheck/ads.js', (req, res) => {
+    res.type('application/javascript').send('// ok');
+  });
