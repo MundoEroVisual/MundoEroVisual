@@ -282,7 +282,7 @@
         return false;
       }
       // 2. Backend check
-      fetch('/adcheck/ads.js', { method: 'GET', cache: 'no-store' })
+      fetch('https://eroverse.onrender.com/adcheck/ads.js', { method: 'GET', cache: 'no-store' })
         .then(resp => {
           if (!resp.ok) {
             callback(true); // Bloqueado por AdBlock
@@ -340,5 +340,4 @@
     window.addEventListener('DOMContentLoaded', main);
   </script>
 </body>
-</html> 
 </html> 
