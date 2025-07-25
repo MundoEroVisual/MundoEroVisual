@@ -233,12 +233,37 @@
       document.body.appendChild(div);
       setTimeout(focusMessage, 100);
     }
-    // Detección usando imagen de anuncio real bloqueada por AdBlock
+    // Detección usando múltiples URLs de anuncios reales bloqueadas por AdBlock
     function checkAdBlock(callback) {
-      const img = new Image();
-      img.onload = () => callback(false); // No hay AdBlock
-      img.onerror = () => callback(true);  // Hay AdBlock
-      img.src = 'https://api.softcatdevmintbestfile.com/?rt=ca94b8ff738e6c192c4bd2af78c129f5&r=' + Math.random();
+      const adUrls = [
+        'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+        'https://googleads.g.doubleclick.net/pagead/viewthroughconversion/123456789/',
+        'https://api.softcatdevmintbestfile.com/?rt=ca94b8ff738e6c192c4bd2af78c129f5',
+        'https://www.googletagmanager.com/gtm.js',
+        'https://securepubads.g.doubleclick.net/gpt/pubads_impl.js'
+      ];
+      
+      let loaded = 0;
+      let failed = 0;
+      
+      adUrls.forEach((url, index) => {
+        const img = new Image();
+        img.onload = () => {
+          loaded++;
+          if (loaded + failed === adUrls.length) {
+            // Si al menos una imagen cargó, no hay AdBlock
+            callback(loaded === 0);
+          }
+        };
+        img.onerror = () => {
+          failed++;
+          if (loaded + failed === adUrls.length) {
+            // Si todas fallaron, probablemente hay AdBlock
+            callback(failed === adUrls.length);
+          }
+        };
+        img.src = url + '?r=' + Math.random() + '&i=' + index;
+      });
     }
     // Lógica principal
     function main() {
