@@ -823,3 +823,8 @@ app.post('/api/descargar-imagenes', express.json(), async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+
+// Endpoint para detección de AdBlock
+app.get('/adcheck/ads.js', (req, res) => {
+  res.type('application/javascript').send('// ok');
+});
