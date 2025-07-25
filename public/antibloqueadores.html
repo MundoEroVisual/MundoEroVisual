@@ -233,18 +233,12 @@
       document.body.appendChild(div);
       setTimeout(focusMessage, 100);
     }
-    // Detección usando URL de anuncio real bloqueada por AdBlock
+    // Detección usando imagen de anuncio real bloqueada por AdBlock
     function checkAdBlock(callback) {
-      const url = 'https://api.softcatdevmintbestfile.com/?rt=ca94b8ff738e6c192c4bd2af78c129f5&r=' + Math.random();
-      fetch(url, { method: 'GET', cache: 'no-store' })
-        .then(resp => {
-          if (!resp.ok) {
-            callback(true); // Bloqueado por AdBlock
-          } else {
-            callback(false); // No hay AdBlock
-          }
-        })
-        .catch(() => callback(true));
+      const img = new Image();
+      img.onload = () => callback(false); // No hay AdBlock
+      img.onerror = () => callback(true);  // Hay AdBlock
+      img.src = 'https://api.softcatdevmintbestfile.com/?rt=ca94b8ff738e6c192c4bd2af78c129f5&r=' + Math.random();
     }
     // Lógica principal
     function main() {
