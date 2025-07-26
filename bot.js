@@ -282,8 +282,8 @@ client.on("interactionCreate", async (interaction) => {
       await interaction.reply({ content: "No hay sorteo activo.", ephemeral: true });
       return;
     }
-    if (interaction.channelId !== sorteoActual.canalParticipacion) {
-      await interaction.reply({ content: `Debes participar en el canal <#${sorteoActual.canalParticipacion}>.`, ephemeral: true });
+    if (interaction.channelId !== sorteoActual.canalParticipacion && interaction.channelId !== "1398492671470997640") {
+      await interaction.reply({ content: `Debes participar en el canal <#${sorteoActual.canalParticipacion}> o <#1398492671470997640>.`, ephemeral: true });
       return;
     }
     const userId = interaction.user.id;
@@ -348,6 +348,7 @@ client.on("messageCreate", async (msg) => {
       "`!sorteo + @usuario` — Añade manualmente a un usuario al sorteo (solo admins).",
       "`!sorteocantidad` — Muestra la cantidad y lista de usuarios participando en el sorteo VIP.",
       "`!terminarsorteo`.",
+      "`!actualizarsorteo` — Actualiza el sorteo actual para funcionar en ambos canales.",
       "`!ultimanovela` — Vuelve a anunciar la última novela subida.",
       "`!vipnovelas` — Anuncia todas las novelas en el canal VIP de descargas.",
       "`!clear <n>` — Borra los últimos n mensajes del canal.",
@@ -492,6 +493,14 @@ client.on("messageCreate", async (msg) => {
 
   // !sorteo para participar
   if (command === "sorteo") {
+    console.log(`🔍 Comando !sorteo detectado por ${msg.author.tag} en canal ${msg.channelId}`);
+    console.log(`📊 Estado del sorteo: ${sorteoActual ? 'ACTIVO' : 'INACTIVO'}`);
+    if (sorteoActual) {
+      console.log(`📅 Sorteo termina: ${new Date(sorteoActual.termina).toLocaleString()}`);
+      console.log(`🎯 Canal participación: ${sorteoActual.canalParticipacion}`);
+      console.log(`👥 Participantes actuales: ${sorteoActual.participantes.size}`);
+    }
+    
     // Si el admin usa !sorteo + @usuario para añadir manualmente
     if (isAdmin && args[0] === "+" && args[1]) {
       const userMention = args[1];
@@ -537,16 +546,21 @@ client.on("messageCreate", async (msg) => {
       setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
     }
+    
     // Participación normal - Procesamiento secuencial para evitar conflictos
-    if (sorteoActual && msg.channelId === sorteoActual.canalParticipacion) {
+    if (sorteoActual && (msg.channelId === sorteoActual.canalParticipacion || msg.channelId === "1398492671470997640")) {
+      console.log(`✅ Usuario ${msg.author.tag} participando en canal correcto`);
       const userId = msg.author.id;
       
       // Verificar si ya está participando
       if (sorteoActual.participantes.has(userId)) {
+        console.log(`🛑 Usuario ${msg.author.tag} ya está participando`);
         const replyMsg = await msg.reply('🛑 Ya estás participando en el sorteo actual.\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos');
         setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
         return;
       }
+      
+      console.log(`🎯 Procesando inscripción para ${msg.author.tag}`);
       
       // Procesar inscripción de forma secuencial
       sorteoGitHubQueue.add(async () => {
@@ -579,6 +593,28 @@ client.on("messageCreate", async (msg) => {
       const replyMsg = await msg.reply('🎉 ¡Te has registrado en el sorteo!\n\n🧧 Premio: VIP Gratis\n🏆 Ganadores: 1\n⏳ Termina en: ' + Math.ceil((sorteoActual.termina - Date.now())/60000) + ' minutos\n\n📌 REQUISITOS:\nSeguirme en YouTube\nComentar "SORTEO" con tu usuario de Discord en el último video\nDarle like\n\n✨ Beneficios:\nAcceso a enlaces directos de descarga de todas las novelas\nSin publicidad\nSoporte prioritario\nActualizaciones anticipadas\n¡Y mucho más!');
       setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
       return;
+    } else {
+      console.log(`❌ Condiciones no cumplidas:`);
+      console.log(`   - Sorteo activo: ${!!sorteoActual}`);
+      console.log(`   - Canal correcto: ${msg.channelId === sorteoActual?.canalParticipacion}`);
+      if (sorteoActual) {
+        console.log(`   - Canal esperado: ${sorteoActual.canalParticipacion}`);
+        console.log(`   - Canal actual: ${msg.channelId}`);
+      }
+      
+      // Si no hay sorteo activo, informar al usuario
+      if (!sorteoActual) {
+        const replyMsg = await msg.reply("❌ No hay sorteo activo en este momento. Espera a que se cree uno nuevo.");
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+      
+      // Si el canal no es correcto, informar al usuario
+      if (msg.channelId !== sorteoActual.canalParticipacion && msg.channelId !== "1398492671470997640") {
+        const replyMsg = await msg.reply(`❌ Debes participar en el canal <#${sorteoActual.canalParticipacion}> o <#1398492671470997640> para este sorteo.`);
+        setTimeout(() => replyMsg.delete().catch(() => {}), 5000);
+        return;
+      }
     }
   }
 
@@ -1548,6 +1584,39 @@ async function guardarSorteoEnGitHub(sorteo, eliminar = false) {
     console.error("❌ Error al guardar/eliminar sorteo en GitHub:", error.message);
   }
 }
+
+// Comando para actualizar el sorteo actual
+client.on("messageCreate", async (msg) => {
+  if (msg.author.bot || !msg.guild) return;
+  if (!msg.content.startsWith("!actualizarsorteo")) return;
+  const isAdmin = msg.member.permissions.has(PermissionFlagsBits.Administrator);
+  if (!isAdmin) {
+    msg.reply("Solo administradores pueden actualizar el sorteo.");
+    return;
+  }
+  if (!sorteoActual) {
+    msg.reply("No hay sorteo activo para actualizar.");
+    return;
+  }
+  
+  // Actualizar el sorteo para que funcione en ambos canales
+  sorteoActual.canalParticipacion = "1396642489464520776"; // Mantener el canal original
+  
+  // Guardar en GitHub
+  sorteoGitHubQueue.add(() => guardarSorteoEnGitHub({
+    tipo: sorteoActual.tipo,
+    premio: sorteoActual.premio,
+    ganadores: sorteoActual.ganadores,
+    termina: sorteoActual.termina,
+    canalParticipacion: sorteoActual.canalParticipacion,
+    fechaCreacion: sorteoActual.fechaCreacion,
+    creador: sorteoActual.creador,
+    participantes: Array.from(sorteoActual.participantes)
+  }));
+  
+  msg.reply("✅ Sorteo actualizado. Ahora funciona en ambos canales de sorteos.");
+  return;
+});
 
 // Comando para terminar el sorteo y anunciar ganador
 client.on("messageCreate", async (msg) => {
