@@ -1,22 +1,2 @@
 [
-  {
-    "tipo": "VIP",
-    "premio": "VIP Gratis",
-    "ganadores": 1,
-    "termina": 1753330095790,
-    "canalParticipacion": "1396642489464520776",
-    "participantes": [
-      "1030923635646529637"
-    ]
-  },
-  {
-    "tipo": "VIP",
-    "premio": "VIP Gratis",
-    "ganadores": 1,
-    "termina": 1754102763911,
-    "canalParticipacion": "1396642489464520776",
-    "fechaCreacion": "2025-07-26T02:46:03.914Z",
-    "creador": "1030923635646529637",
-    "participantes": []
-  }
 ]
