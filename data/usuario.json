@@ -5,7 +5,11 @@
     "admin": true,
     "premium": true,
     "premium_expira": "2099-12-31T23:59:59.000Z",
-    "discordId": "1030923635646529637"
+    "discordId": "1030923635646529637",
+    "favoritos": [
+      "hard-to-love-v0-26-espa-ol-android-qori-gaming-1753488590529"
+    ],
+    "descargas": []
   },
   {
     "usuario": "alex",
