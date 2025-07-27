@@ -20,7 +20,12 @@
       }
     ],
     "apodo": "Admin",
-    "avatar": "https://yt3.ggpht.com/bE3q5DSLFVjZcITEIuKuxavE8OcOcYOOVRV0WHiHu6rs7cwIaR4tPCCZikBrVuPc-dpCecnqig=s176-c-k-c0x00ffffff-no-rj"
+    "avatar": "https://yt3.ggpht.com/bE3q5DSLFVjZcITEIuKuxavE8OcOcYOOVRV0WHiHu6rs7cwIaR4tPCCZikBrVuPc-dpCecnqig=s176-c-k-c0x00ffffff-no-rj",
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   },
   {
     "usuario": "alex",
@@ -29,7 +34,12 @@
     "avatar": "https://yt3.ggpht.com/N4k2pjvTzZUovv1I7Amoo-caLofdcNb3qgjMfiW25VaGA1v-0BeBjhR2p-YiHlsK8V4FEs17lw=s108-c-k-c0x00ffffff-no-rj",
     "apodo": "alex",
     "premium": true,
-    "premium_expira": "3000-01-01T00:00:00.000Z"
+    "premium_expira": "3000-01-01T00:00:00.000Z",
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   },
   {
     "usuario": "s",
@@ -39,7 +49,12 @@
     "apodo": "mmg",
     "premium": true,
     "premium_expira": "2025-08-20T15:24:30.510Z",
-    "discordId": "1175925603292172299"
+    "discordId": "1175925603292172299",
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   },
   {
     "usuario": "Junior panta",
@@ -48,7 +63,12 @@
     "avatar": "Nose que poner",
     "apodo": "Xamqui",
     "premium": false,
-    "premium_expira": null
+    "premium_expira": null,
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   },
   {
     "usuario": "kfalt75",
@@ -57,7 +77,12 @@
     "avatar": "Diablito con queso",
     "apodo": "Decx",
     "premium": false,
-    "premium_expira": null
+    "premium_expira": null,
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   },
   {
     "usuario": "kfalt",
@@ -67,7 +92,12 @@
     "apodo": "Diablo",
     "premium": true,
     "premium_expira": "2025-08-21T03:52:19.984Z",
-    "discordId": "1209298890394701855"
+    "discordId": "1209298890394701855",
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   },
   {
     "usuario": "Tvwpollo",
@@ -76,7 +106,12 @@
     "avatar": "https://img.pikbest.com/ai/illus_our/20230422/32f04686973e03ff9dbaaea86984a9fe.jpg",
     "apodo": "Bro",
     "premium": false,
-    "premium_expira": null
+    "premium_expira": null,
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   },
   {
     "usuario": "Jgg",
@@ -86,7 +121,12 @@
     "apodo": "Azul",
     "premium": true,
     "premium_expira": "2025-08-23T22:18:42.661Z",
-    "discordId": "407006173611556870"
+    "discordId": "407006173611556870",
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   },
   {
     "usuario": "hhachee",
@@ -95,6 +135,11 @@
     "avatar": "asd",
     "apodo": "hache",
     "premium": false,
-    "premium_expira": null
+    "premium_expira": null,
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   }
 ]
