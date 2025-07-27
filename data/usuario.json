@@ -50,7 +50,7 @@
     "premium": false,
     "premium_expira": null,
     "discordId": null,
-    "erogems": 1000,
+    "erogems": 975,
     "eropoints": 50,
     "level": 1,
     "beneficios": {},
@@ -58,7 +58,8 @@
     "email": "albersonquezada@gmail.com",
     "favoritos": [],
     "descargas": [],
-    "lastDiscordSync": "2025-07-27T04:23:25.787Z"
+    "lastDiscordSync": "2025-07-27T04:18:34.261Z",
+    "sinAnuncios": 1753676637148
   },
   {
     "usuario": "Junior panta",
