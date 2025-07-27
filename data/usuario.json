@@ -53,9 +53,14 @@
     "erogems": 1105,
     "eropoints": 50,
     "level": 11,
-    "beneficios": {},
+    "beneficios": {
+      "descargasExtra": 10,
+      "sinAnuncios": true,
+      "contenidoExclusivo": true
+    },
     "lastDailyReward": "Sun Jul 27 2025",
-    "email": "albersonquezada@gmail.com"
+    "email": "albersonquezada@gmail.com",
+    "lastDiscordSync": "2025-07-27T04:00:21.855Z"
   },
   {
     "usuario": "Junior panta",
