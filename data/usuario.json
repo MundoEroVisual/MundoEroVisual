@@ -25,7 +25,8 @@
     "eropoints": 0,
     "level": 1,
     "beneficios": {},
-    "lastDailyReward": null
+    "lastDailyReward": "Sun Jul 27 2025",
+    "nivel": 1
   },
   {
     "usuario": "alex",
@@ -187,20 +188,6 @@
   {
     "usuario": "test_diagnostico_1753600354815",
     "password": "$2b$10$CZzmkmLBbAqjYX676l8PleR8fk/6cS5bf2QgNbDBlrJ9GdNZjWjbW",
-    "admin": false,
-    "avatar": "",
-    "apodo": "",
-    "premium": false,
-    "premium_expira": null,
-    "erogems": 0,
-    "eropoints": 0,
-    "level": 1,
-    "beneficios": {},
-    "lastDailyReward": null
-  },
-  {
-    "usuario": "test_diagnostico_1753600493383",
-    "password": "$2b$10$5idVhquQfANLN5tQUKqXTeasjqFHlYhinCjP51edahrPHk89RuwDC",
     "admin": false,
     "avatar": "",
     "apodo": "",
