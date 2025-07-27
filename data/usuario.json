@@ -197,5 +197,19 @@
     "level": 1,
     "beneficios": {},
     "lastDailyReward": null
+  },
+  {
+    "usuario": "test_diagnostico_1753600493383",
+    "password": "$2b$10$5idVhquQfANLN5tQUKqXTeasjqFHlYhinCjP51edahrPHk89RuwDC",
+    "admin": false,
+    "avatar": "",
+    "apodo": "",
+    "premium": false,
+    "premium_expira": null,
+    "erogems": 0,
+    "eropoints": 0,
+    "level": 1,
+    "beneficios": {},
+    "lastDailyReward": null
   }
 ]
