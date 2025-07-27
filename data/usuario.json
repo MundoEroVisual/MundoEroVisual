@@ -47,16 +47,15 @@
     "admin": false,
     "avatar": "https://avatars.githubusercontent.com/u/195238951?s=64&v=4",
     "apodo": "mmg",
-    "premium": true,
-    "premium_expira": "2025-08-20T15:24:30.510Z",
+    "premium": false,
+    "premium_expira": null,
     "discordId": null,
-    "erogems": 950,
+    "erogems": 1000,
     "eropoints": 50,
     "level": 1,
     "beneficios": {},
-    "lastDailyReward": "Sat Jul 26 2025",
-    "email": "albersonquezada@gmail.com",
-    "lastDiscordSync": "2025-07-27T03:50:22.817Z"
+    "lastDailyReward": null,
+    "email": "albersonquezada@gmail.com"
   },
   {
     "usuario": "Junior panta",
