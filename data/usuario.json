@@ -49,12 +49,13 @@
     "apodo": "mmg",
     "premium": true,
     "premium_expira": "2025-08-20T15:24:30.510Z",
-    "discordId": "1175925603292172299",
-    "erogems": 0,
-    "eropoints": 0,
+    "discordId": null,
+    "erogems": 1000,
+    "eropoints": 50,
     "level": 1,
     "beneficios": {},
-    "lastDailyReward": null
+    "lastDailyReward": null,
+    "email": "albersonquezada@gmail.com"
   },
   {
     "usuario": "Junior panta",
