@@ -247,11 +247,11 @@
     "lastDailyReward": null
   },
   {
-    "usuario": "test_user_1753670521476",
-    "password": "$2b$10$SYFSk5DqTuQbBFyIWySrT.r7ks/Dw7c9IQmCEn1v0tXw8L7/G99Ii",
+    "usuario": "test_complete_1753670527272",
+    "password": "$2b$10$vBtzrLP0ezKK1biuItFwgOXv2ehSyVFDt/UlGVRlhqGWU8oFWeteq",
     "admin": false,
     "avatar": "",
-    "apodo": "Usuario de Prueba",
+    "apodo": "Usuario Completo de Prueba",
     "premium": false,
     "premium_expira": null,
     "beneficios": {},
