@@ -256,16 +256,5 @@
     "premium_expira": null,
     "beneficios": {},
     "lastDailyReward": null
-  },
-  {
-    "usuario": "test_complete_1753670527272",
-    "password": "$2b$10$vBtzrLP0ezKK1biuItFwgOXv2ehSyVFDt/UlGVRlhqGWU8oFWeteq",
-    "admin": false,
-    "avatar": "",
-    "apodo": "Usuario Completo de Prueba",
-    "premium": false,
-    "premium_expira": null,
-    "beneficios": {},
-    "lastDailyReward": null
   }
 ]
