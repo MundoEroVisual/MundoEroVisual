@@ -247,11 +247,33 @@
     "lastDailyReward": null
   },
   {
+    "usuario": "test_user_1753670521476",
+    "password": "$2b$10$SYFSk5DqTuQbBFyIWySrT.r7ks/Dw7c9IQmCEn1v0tXw8L7/G99Ii",
+    "admin": false,
+    "avatar": "",
+    "apodo": "Usuario de Prueba",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
     "usuario": "test_complete_1753670527272",
     "password": "$2b$10$vBtzrLP0ezKK1biuItFwgOXv2ehSyVFDt/UlGVRlhqGWU8oFWeteq",
     "admin": false,
     "avatar": "",
     "apodo": "Usuario Completo de Prueba",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "test_user_1753670568654",
+    "password": "$2b$10$d.NzLnqtVoq6UY6nLUVT5OaPVzA8SBte5CzCfjDkKG2g8PVvN9b6a",
+    "admin": false,
+    "avatar": "",
+    "apodo": "Usuario de Prueba",
     "premium": false,
     "premium_expira": null,
     "beneficios": {},
