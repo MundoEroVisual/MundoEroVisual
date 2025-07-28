@@ -278,5 +278,14 @@
     "premium_expira": null,
     "beneficios": {},
     "lastDailyReward": null
+  },
+  {
+    "usuario": "Alucard",
+    "password": "$2b$10$8RHyj06t.Qxl9zRSQArA1uzwOiFrflUZzT43Ns9tm.PLBTWeLcVkq",
+    "admin": false,
+    "avatar": "2jzAlucard",
+    "apodo": "Alucard",
+    "premium": false,
+    "premium_expira": null
   }
 ]
