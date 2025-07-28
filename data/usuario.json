@@ -102,5 +102,148 @@
     "premium_expira": null,
     "beneficios": {},
     "lastDailyReward": null
+  },
+  {
+    "usuario": "user1",
+    "password": "$2b$10$user1",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/111111111?s=64&v=4",
+    "apodo": "User One",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user2",
+    "password": "$2b$10$user2",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/222222222?s=64&v=4",
+    "apodo": "User Two",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user3",
+    "password": "$2b$10$user3",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/333333333?s=64&v=4",
+    "apodo": "User Three",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user4",
+    "password": "$2b$10$user4",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/444444444?s=64&v=4",
+    "apodo": "User Four",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user5",
+    "password": "$2b$10$user5",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/555555555?s=64&v=4",
+    "apodo": "User Five",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user6",
+    "password": "$2b$10$user6",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/666666666?s=64&v=4",
+    "apodo": "User Six",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user7",
+    "password": "$2b$10$user7",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/777777777?s=64&v=4",
+    "apodo": "User Seven",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user8",
+    "password": "$2b$10$user8",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/888888888?s=64&v=4",
+    "apodo": "User Eight",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user9",
+    "password": "$2b$10$user9",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/999999999?s=64&v=4",
+    "apodo": "User Nine",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "user10",
+    "password": "$2b$10$user10",
+    "admin": false,
+    "avatar": "https://avatars.githubusercontent.com/u/101010101?s=64&v=4",
+    "apodo": "User Ten",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "test_complete_1753669805769",
+    "password": "$2b$10$rEaZ97M4.oAyfhq6R2YTUOF7zAFve31IPGJDNoH8q5yETFOcA/Ol6",
+    "admin": false,
+    "avatar": "",
+    "apodo": "Usuario Completo de Prueba",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "test_complete_1753670252699",
+    "password": "$2b$10$VHu0fW7ABn.HOm.JFwC/aOWpgDwStMB6e4/8sBvtHW.D4n8oWmm32",
+    "admin": false,
+    "avatar": "",
+    "apodo": "Usuario Completo de Prueba",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "test_complete_1753670495861",
+    "password": "$2b$10$ab8sJ4LuGy/THcKClpM5EugVj/47seSAXfI4d9IAko8fEc69BbL8C",
+    "admin": false,
+    "avatar": "",
+    "apodo": "Usuario Completo de Prueba",
+    "premium": false,
+    "premium_expira": null,
+    "beneficios": {},
+    "lastDailyReward": null
   }
 ]
