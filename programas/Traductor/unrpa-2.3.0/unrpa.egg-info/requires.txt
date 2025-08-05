@@ -1,3 +1,0 @@
-
-[ZiX]
-uncompyle6>=3.5.0
