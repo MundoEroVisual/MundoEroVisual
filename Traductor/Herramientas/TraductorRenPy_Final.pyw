@@ -227,7 +227,9 @@ class TraductorThread(QThread):
                                     lineas_traducidas.append(linea)
                                     
                                     # Reemplazar la línea vacía con la traducción
-                                    linea_traducida = f'    {personaje} "{texto_trad}"\n'
+                                    # Mantener etiquetas de texto en minúsculas
+                                    texto_trad_limpio = texto_trad.replace('{I}', '{i}').replace('{/I}', '{/i}')
+                                    linea_traducida = f'    {personaje} "{texto_trad_limpio}"\n'
                                     lineas_traducidas.append(linea_traducida)
                                     
                                     traducciones_realizadas += 1
@@ -264,7 +266,9 @@ class TraductorThread(QThread):
                                     lineas_traducidas.append(linea)
                                     
                                     # Reemplazar la línea vacía con la traducción
-                                    linea_traducida = f'    "{texto_trad}"\n'
+                                    # Mantener etiquetas de texto en minúsculas
+                                    texto_trad_limpio = texto_trad.replace('{I}', '{i}').replace('{/I}', '{/i}')
+                                    linea_traducida = f'    "{texto_trad_limpio}"\n'
                                     lineas_traducidas.append(linea_traducida)
                                     
                                     traducciones_realizadas += 1
@@ -289,7 +293,9 @@ class TraductorThread(QThread):
                             texto_trad = self.traducir_texto(texto_original)
                             
                             # AGREGAR la línea "new" con la traducción (SIN líneas vacías)
-                            linea_traducida = f'    new "{texto_trad}"\n'
+                            # Mantener etiquetas de texto en minúsculas
+                            texto_trad_limpio = texto_trad.replace('{I}', '{i}').replace('{/I}', '{/i}')
+                            linea_traducida = f'    new "{texto_trad_limpio}"\n'
                             lineas_traducidas.append(linea_traducida)
                             
                             traducciones_realizadas += 1
@@ -309,7 +315,9 @@ class TraductorThread(QThread):
                         
                         if texto_original and self.debe_traducir(texto_original):
                             texto_trad = self.traducir_texto(texto_original)
-                            linea_traducida = f'    "{texto_trad}"\n'
+                            # Mantener etiquetas de texto en minúsculas
+                            texto_trad_limpio = texto_trad.replace('{I}', '{i}').replace('{/I}', '{/i}')
+                            linea_traducida = f'    "{texto_trad_limpio}"\n'
                             lineas_traducidas.append(linea_traducida)
                             traducciones_realizadas += 1
                             self.log.emit(f"🔄 Traducido string vacío: '{texto_original}' → '{texto_trad}'")
@@ -326,7 +334,9 @@ class TraductorThread(QThread):
                         
                         if texto and self.debe_traducir(texto):
                             texto_trad = self.traducir_texto(texto)
-                            linea_traducida = f'    {personaje} "{texto_trad}"\n'
+                            # Mantener etiquetas de texto en minúsculas
+                            texto_trad_limpio = texto_trad.replace('{I}', '{i}').replace('{/I}', '{/i}')
+                            linea_traducida = f'    {personaje} "{texto_trad_limpio}"\n'
                             lineas_traducidas.append(linea_traducida)
                             traducciones_realizadas += 1
                         else:
