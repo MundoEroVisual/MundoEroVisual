@@ -4,5 +4,12 @@
     "novelas": 345,
     "total": 493
   },
-  "ultima_actualizacion": "2025-08-08T00:13:19.633Z"
+  "visitas_por_dia": {
+    "2025-08-08": {
+      "index": 0,
+      "novelas": 0,
+      "total": 0
+    }
+  },
+  "ultima_actualizacion": "2025-08-08T01:27:26.466Z"
 }
