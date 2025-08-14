@@ -1,45 +1,15 @@
 {
   "visitas": {
-    "index": 571,
-    "novelas": 1402,
-    "total": 1973
+    "index": 0,
+    "novelas": 1,
+    "total": 1
   },
   "visitas_por_dia": {
-    "2025-08-08": {
-      "index": 61,
-      "novelas": 136,
-      "total": 197
-    },
-    "2025-08-09": {
-      "index": 80,
-      "novelas": 245,
-      "total": 325
-    },
-    "2025-08-10": {
-      "index": 113,
-      "novelas": 295,
-      "total": 408
-    },
-    "2025-08-11": {
-      "index": 95,
-      "novelas": 243,
-      "total": 338
-    },
-    "2025-08-12": {
-      "index": 77,
-      "novelas": 169,
-      "total": 246
-    },
-    "2025-08-13": {
-      "index": 95,
-      "novelas": 243,
-      "total": 338
-    },
     "2025-08-14": {
-      "index": 50,
-      "novelas": 71,
-      "total": 121
+      "index": 0,
+      "novelas": 1,
+      "total": 1
     }
   },
-  "ultima_actualizacion": "2025-08-14T02:57:34.835Z"
+  "ultima_actualizacion": "2025-08-14T03:04:19.508Z"
 }
