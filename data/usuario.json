@@ -149,5 +149,16 @@
     "avatar": "https://avatars.githubusercontent.com/u/123456789?s=64&v=4",
     "beneficios": {},
     "lastDailyReward": null
+  },
+  {
+    "usuario": "alexander",
+    "password": "2332",
+    "apodo": "ale",
+    "avatar": "https://yt3.ggpht.com/N4k2pjvTzZUovv1I7Amoo-caLofdcNb3qgjMfiW25VaGA1v-0BeBjhR2p-YiHlsK8V4FEs17lw=s108-c-k-c0x00ffffff-no-rj",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
