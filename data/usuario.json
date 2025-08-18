@@ -224,5 +224,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Andrade",
+    "password": "0707Ae90",
+    "apodo": "Diablo",
+    "avatar": "😈",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
