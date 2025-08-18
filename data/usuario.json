@@ -171,5 +171,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Ismaelbrice ",
+    "password": "2193zuleyka",
+    "apodo": "Mayko",
+    "avatar": "Ismaelbrice ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
