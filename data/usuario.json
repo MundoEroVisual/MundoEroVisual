@@ -213,5 +213,16 @@
         "date": "2025-08-18T01:27:45.344Z"
       }
     ]
+  },
+  {
+    "usuario": "Andresxxxxx",
+    "password": "andresvaldez2007",
+    "apodo": "Andrés ",
+    "avatar": "Ninguno ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
