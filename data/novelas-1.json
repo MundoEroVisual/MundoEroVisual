@@ -3474,5 +3474,26 @@
     "estado": "completada",
     "peso": "111 MB",
     "fecha": "2025-08-20T06:01:57.267Z"
+  },
+  {
+    "id": "prueba-7d-1755670258934",
+    "titulo": "prueba 7d",
+    "desc": "wadawdaw",
+    "generos": [
+      "2D"
+    ],
+    "portada": "https://img.hotzone18.com/4989223_Screenshot3.png",
+    "spoilers": [
+      "https://img.hotzone18.com/4980023_er32.jpg"
+    ],
+    "android": "https://cuty.io/w6UKcUf",
+    "android_vip": "https://www.mediafire.com/file/9z0z379mh1wanpk/guiltypleasure.hotzone18.com-release.apk/file",
+    "pc": "",
+    "pc_traduccion": "",
+    "pc_vip": "",
+    "pc_traduccion_vip": "",
+    "estado": "en desarrollo",
+    "peso": "12 MB",
+    "fecha": "2025-08-20T06:10:58.934Z"
   }
 ]
