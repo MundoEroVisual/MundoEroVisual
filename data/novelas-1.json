@@ -3433,5 +3433,27 @@
     "estado": "en desarrollo",
     "peso": "122 MB",
     "fecha": "2025-08-20T04:54:30.383Z"
+  },
+  {
+    "id": "mejixr4gz5btt",
+    "titulo": "prueba 5",
+    "desc": "afaefaefa",
+    "generos": [
+      "2D",
+      "harem"
+    ],
+    "portada": "https://img.hotzone18.com/4989223_Screenshot3.png",
+    "spoilers": [
+      "https://img.hotzone18.com/4989223_Screenshot3.png"
+    ],
+    "android": "https://cuty.io/w6UKcUf",
+    "android_vip": "https://www.mediafire.com/file_premium/sm389r2vgm0crh2/thiefofheartsparte2.hotzone18.com-release.apk/file",
+    "pc": "",
+    "pc_traduccion": "",
+    "pc_vip": "",
+    "pc_traduccion_vip": "",
+    "estado": "completada",
+    "peso": "1 GB",
+    "fecha": "2025-08-20T05:20:28.809Z"
   }
 ]
