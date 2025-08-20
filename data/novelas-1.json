@@ -3395,5 +3395,24 @@
     "estado": "completada",
     "peso": "700 MB",
     "fecha": "2025-08-11T03:51:06.880Z"
+  },
+  {
+    "id": "mejfdlufeloha",
+    "titulo": "prueba de panel",
+    "desc": "tyuiop",
+    "generos": [
+      null
+    ],
+    "portada": "https://img.hotzone18.com/4980023_er32.jpg",
+    "spoilers": [],
+    "android": "https://cuty.io/w6UKcUf",
+    "android_vip": "https://www.mediafire.com/file/k8lktti8932gj0f/shutupanddance.hotzone18.com-release.apk/file",
+    "pc": "",
+    "pc_traduccion": "",
+    "pc_vip": "",
+    "pc_traduccion_vip": "",
+    "estado": "completada",
+    "peso": "123 MB",
+    "fecha": "2025-08-20T03:40:50.028Z"
   }
 ]
