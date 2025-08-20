@@ -3401,10 +3401,10 @@
     "titulo": "prueba de panel",
     "desc": "tyuiop",
     "generos": [
-      null
+     "Juego nopor"
     ],
     "portada": "https://img.hotzone18.com/4980023_er32.jpg",
-    "spoilers": [],
+    "spoilers": ["https://img.hotzone18.com/4980023_er32.jpg"],
     "android": "https://cuty.io/w6UKcUf",
     "android_vip": "https://www.mediafire.com/file/k8lktti8932gj0f/shutupanddance.hotzone18.com-release.apk/file",
     "pc": "",
