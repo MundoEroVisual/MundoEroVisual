@@ -3401,10 +3401,12 @@
     "titulo": "prueba de panel",
     "desc": "tyuiop",
     "generos": [
-     "Juego nopor"
+      "Juego nopor"
     ],
     "portada": "https://img.hotzone18.com/4980023_er32.jpg",
-    "spoilers": ["https://img.hotzone18.com/4980023_er32.jpg"],
+    "spoilers": [
+      "https://img.hotzone18.com/4980023_er32.jpg"
+    ],
     "android": "https://cuty.io/w6UKcUf",
     "android_vip": "https://www.mediafire.com/file/k8lktti8932gj0f/shutupanddance.hotzone18.com-release.apk/file",
     "pc": "",
@@ -3414,5 +3416,22 @@
     "estado": "completada",
     "peso": "123 MB",
     "fecha": "2025-08-20T03:40:50.028Z"
+  },
+  {
+    "id": "meji0d4hemya5",
+    "titulo": "prueba 2",
+    "desc": "jmkomok",
+    "generos": [],
+    "portada": "https://www.hotzone18.com/wp-content/uploads/ss-5-4.webp",
+    "spoilers": [],
+    "android": "https://cuty.io/w6UKcUf",
+    "android_vip": "https://www.mediafire.com/file/k8lktti8932gj0f/shutupanddance.hotzone18.com-release.apk/file",
+    "pc": "",
+    "pc_traduccion": "",
+    "pc_vip": "",
+    "pc_traduccion_vip": "",
+    "estado": "en desarrollo",
+    "peso": "122 MB",
+    "fecha": "2025-08-20T04:54:30.383Z"
   }
 ]
