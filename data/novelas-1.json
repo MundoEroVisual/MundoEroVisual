@@ -3455,5 +3455,24 @@
     "estado": "completada",
     "peso": "1 GB",
     "fecha": "2025-08-20T05:20:28.809Z"
+  },
+  {
+    "id": "prueba-6-1755669717267",
+    "titulo": "prueba 6",
+    "desc": "dawdawdw",
+    "generos": [
+      "2D"
+    ],
+    "portada": "https://img.hotzone18.com/4989223_Screenshot3.png",
+    "spoilers": [],
+    "android": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjaRJCt2187o1ZxbG1EYWe9S_ETO9ftCCx8vchnVPAJjsDyRf1yEGPiJJAOZqlmSFSDrCOUdzvzKHjl6NMwlt5zMBKtlfCR8mGQ6-Cja-wudEaP2IedFcXuyVRZuur7a0H-w9_zd6xIO58rUZcPyRnhuJrBVfClA1XFDT-g0w7yf_mOdmUCmPK06ydvOg/s1600/ch1panel83_3_t.png",
+    "android_vip": "https://www.mediafire.com/file_premium/sm389r2vgm0crh2/thiefofheartsparte2.hotzone18.com-release.apk/file",
+    "pc": "",
+    "pc_traduccion": "",
+    "pc_vip": "",
+    "pc_traduccion_vip": "",
+    "estado": "completada",
+    "peso": "111 MB",
+    "fecha": "2025-08-20T06:01:57.267Z"
   }
 ]
