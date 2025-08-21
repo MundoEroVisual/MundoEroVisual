@@ -1,8 +1,8 @@
 {
   "visitas": {
-    "index": 476,
+    "index": 477,
     "novelas": 1880,
-    "total": 2356
+    "total": 2357
   },
   "visitas_por_dia": {
     "2025-08-14": {
@@ -41,10 +41,10 @@
       "total": 276
     },
     "2025-08-21": {
-      "index": 17,
+      "index": 18,
       "novelas": 78,
-      "total": 95
+      "total": 96
     }
   },
-  "ultima_actualizacion": "2025-08-21T03:53:57.937Z"
+  "ultima_actualizacion": "2025-08-21T03:54:46.999Z"
 }
