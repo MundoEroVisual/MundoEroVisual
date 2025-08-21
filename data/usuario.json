@@ -260,5 +260,16 @@
         "date": "2025-08-21T04:57:16.878Z"
       }
     ]
+  },
+  {
+    "usuario": "Jonathan ",
+    "password": "3834551995m",
+    "apodo": "Jony",
+    "avatar": "J",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
