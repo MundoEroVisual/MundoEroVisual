@@ -3743,5 +3743,38 @@
     "estado": "completada",
     "peso": "240 MB",
     "fecha": "2025-08-21T20:30:22.362Z"
+  },
+  {
+    "id": "melv3aha0q2cx",
+    "titulo": "Playing with Fire [v1.0.4] Español Android",
+    "desc": "Playing With Fire es una novela visual que te permite tomar decisiones significativas sobre cómo debe progresar la historia. El protagonista es un joven alemán de diecinueve años que cursa el último año de carrera. Este juego cuenta la historia de la mejor semana de su vida, que casualmente comienza con un chantaje. Durante esta semana, tendrá que resolver algunos problemas, pero sobre todo, vivir su vida a su antojo.",
+    "generos": [
+      "Dominación masculina",
+      "Escolar",
+      "Finalizado",
+      "Incesto",
+      "Protagonista masculino",
+      "Romance",
+      "Virgen",
+      "Dominación masculina Escolar Finalizado Incesto Protagonista masculino Romance Virgen"
+    ],
+    "portada": "https://www.hotzone18.com/wp-content/uploads/2078045_Banner_08-1024x256.webp",
+    "spoilers": [
+      "https://img.hotzone18.com/2078055_d7_park_02_02.png",
+      "https://img.hotzone18.com/2078056_d7_prom_jenny_01.png",
+      "https://img.hotzone18.com/1754101_d6_evening_dom_16_01.png",
+      "https://img.hotzone18.com/2078053_d7_interrogation_76.png",
+      "https://img.hotzone18.com/1754102_d6_evening_rom_30.png",
+      "https://img.hotzone18.com/1754103_d6_marie_jenny_13.png"
+    ],
+    "android": "https://cuty.io/h76IE4PKuzC",
+    "android_vip": "https://www.mediafire.com/file/0q520wqi64d6sgu/playingwithfire.hotzone18.com-release.apk/file",
+    "pc": "",
+    "pc_traduccion": "",
+    "pc_vip": "",
+    "pc_traduccion_vip": "",
+    "estado": "completada",
+    "peso": "600 MB",
+    "fecha": "2025-08-21T20:36:14.100Z"
   }
 ]
