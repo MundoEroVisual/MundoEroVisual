@@ -242,5 +242,16 @@
         "date": "2025-08-18T21:57:58.155Z"
       }
     ]
+  },
+  {
+    "usuario": "Leynad ",
+    "password": "1Moe2moe",
+    "apodo": "Gantzo ",
+    "avatar": "Gantzo ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
