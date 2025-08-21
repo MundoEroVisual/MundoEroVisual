@@ -252,6 +252,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "pineapple-express-2-v0-1-sadpepper-espa-ol-android-pc-1754018631262",
+        "title": "Pineapple Express 2 [v0.1] [SadPepper] Español Android/PC",
+        "type": "normal",
+        "date": "2025-08-21T04:57:16.878Z"
+      }
+    ]
   }
 ]
