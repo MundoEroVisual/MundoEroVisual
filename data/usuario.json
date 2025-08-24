@@ -357,5 +357,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Osvaldo ",
+    "password": "Gprillaz01",
+    "apodo": "KingOvaldo14",
+    "avatar": "King",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
