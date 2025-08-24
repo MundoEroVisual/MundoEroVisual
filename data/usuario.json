@@ -346,5 +346,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Ahero",
+    "password": "49106602",
+    "apodo": "Ahoro",
+    "avatar": "Gbyfhc",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
