@@ -392,5 +392,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "lalo",
+    "password": "Angel2006*",
+    "apodo": "abel",
+    "avatar": "https://share.google/images/Bqgk4FjSLjKXoaqNq",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
