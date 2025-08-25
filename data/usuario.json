@@ -449,5 +449,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Bazz",
+    "password": "Messigoat23",
+    "apodo": "Ox",
+    "avatar": "Messi",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
