@@ -449,5 +449,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Cris000007",
+    "password": "201922",
+    "apodo": "Cris",
+    "avatar": "C",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
