@@ -68,7 +68,14 @@
     "premium_expira": "3000-01-01T00:00:00.000Z",
     "discordId": null,
     "favoritos": [],
-    "descargas": [],
+    "descargas": [
+      {
+        "id": "mergrb8x9d1wv",
+        "title": "Bright Lord [v1.14.0 Steam] [KissKiss Studio] Español Android",
+        "type": "normal",
+        "date": "2025-08-27T20:56:51.153Z"
+      }
+    ],
     "apodo": "alex",
     "avatar": "https://yt3.ggpht.com/N4k2pjvTzZUovv1I7Amoo-caLofdcNb3qgjMfiW25VaGA1v-0BeBjhR2p-YiHlsK8V4FEs17lw=s108-c-k-c0x00ffffff-no-rj",
     "beneficios": {},
