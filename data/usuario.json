@@ -63,8 +63,8 @@
   {
     "usuario": "alex",
     "password": "$2b$10$wy5q157UXabvKnDrmnkUzOBnp0EH4H4xi1znv.P0nK/XQ2ViIkBl.",
-    "admin": true,
-    "premium": true,
+    "admin": false,
+    "premium": false,
     "premium_expira": "3000-01-01T00:00:00.000Z",
     "discordId": null,
     "favoritos": [],
