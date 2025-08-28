@@ -478,5 +478,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Luis ",
+    "password": "0123456789",
+    "apodo": "Axxxel69",
+    "avatar": "angeldelinfierno8@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
