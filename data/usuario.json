@@ -500,5 +500,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Mrm",
+    "password": "mavanu2009",
+    "apodo": "Mrm",
+    "avatar": "mav",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
