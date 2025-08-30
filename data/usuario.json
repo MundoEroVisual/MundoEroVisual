@@ -555,5 +555,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Sergio ",
+    "password": "M2A2R2...",
+    "apodo": "XYXYXY",
+    "avatar": "😃",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
