@@ -615,5 +615,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "jesus",
+    "password": "Minato123",
+    "apodo": "zoldycklolo",
+    "avatar": "lololl",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
