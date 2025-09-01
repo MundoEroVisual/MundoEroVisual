@@ -633,5 +633,16 @@
         "date": "2025-08-31T11:47:24.681Z"
       }
     ]
+  },
+  {
+    "usuario": "Richard Ramirez ",
+    "password": "86867905",
+    "apodo": "Ramirez ",
+    "avatar": "Ramirez ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
