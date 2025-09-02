@@ -656,5 +656,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Sara",
+    "password": "federicoivan10",
+    "apodo": "Mara",
+    "avatar": "Ciego",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
