@@ -11,12 +11,6 @@
     ],
     "descargas": [
       {
-        "id": "red-cloak-v1-0-alexzeroone-espa-ol-android-pc-1754802650618",
-        "title": "Red Cloak [v1.0] [AlexZeroOne] Español Android/Pc",
-        "type": "vip",
-        "date": "2025-09-02T00:52:51.909Z"
-      },
-      {
         "id": "meqe7lxzjns5g",
         "title": "Summer with Mia [S1 v1.5.4 Steam] [Inceton Games] Español Android",
         "type": "vip",
@@ -665,9 +659,9 @@
   },
   {
     "usuario": "Sara",
-    "password": "federicoivan10",
+    "password": "mariela10",
     "apodo": "Mara",
-    "avatar": "Ciego",
+    "avatar": "Gato",
     "admin": false,
     "premium": false,
     "premium_expira": null,
