@@ -701,5 +701,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Claudio Martinelli ",
+    "password": "Zapican471",
+    "apodo": "Claudiño",
+    "avatar": "claudiomartinelli009@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
