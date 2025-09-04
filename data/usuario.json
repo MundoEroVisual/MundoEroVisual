@@ -710,7 +710,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "mez16drb4zdr3"
+    ],
     "descargas": []
   }
 ]
