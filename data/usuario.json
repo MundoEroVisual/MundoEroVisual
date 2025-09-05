@@ -675,7 +675,14 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "bad-hero-ep-2-v3-4-4-espa-ol-1751691055019",
+        "title": "Bad Hero Ep.2 v3.4.4 Español",
+        "type": "normal",
+        "date": "2025-09-05T03:24:06.548Z"
+      }
+    ]
   },
   {
     "usuario": "Sara",
