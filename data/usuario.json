@@ -808,5 +808,16 @@
         "date": "2025-09-05T19:30:46.762Z"
       }
     ]
+  },
+  {
+    "usuario": "manuelherreraorellana@gmail.com",
+    "password": "theo_912",
+    "apodo": "Tatantatann",
+    "avatar": "Hsjsjxbbsjjs",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
