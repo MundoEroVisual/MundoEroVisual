@@ -764,5 +764,16 @@
         "date": "2025-09-05T12:33:01.732Z"
       }
     ]
+  },
+  {
+    "usuario": "Edderjose",
+    "password": "01058355666",
+    "apodo": "Edderjose",
+    "avatar": "Edder55666@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
