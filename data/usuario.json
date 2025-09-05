@@ -773,7 +773,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "melvo1h3fn914"
+    ],
     "descargas": []
   }
 ]
