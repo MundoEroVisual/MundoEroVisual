@@ -888,5 +888,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Pepe",
+    "password": "@123456@",
+    "apodo": "Loco",
+    "avatar": "Pepeloco",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
