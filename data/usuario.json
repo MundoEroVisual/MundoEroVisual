@@ -955,5 +955,16 @@
         "date": "2025-09-07T01:40:19.247Z"
       }
     ]
+  },
+  {
+    "usuario": "Jhon",
+    "password": "1661844850",
+    "apodo": "Garvi",
+    "avatar": "Nosé ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
