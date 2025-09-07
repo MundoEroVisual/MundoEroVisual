@@ -912,5 +912,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Victor ",
+    "password": "Dominga809@",
+    "apodo": "Rodriguez",
+    "avatar": "Tego",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
