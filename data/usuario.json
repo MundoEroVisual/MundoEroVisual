@@ -1013,5 +1013,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Felioe",
+    "password": "Sastoquecru1",
+    "apodo": "Sastoque ",
+    "avatar": "Goku",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
