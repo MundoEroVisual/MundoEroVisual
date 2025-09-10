@@ -1057,5 +1057,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "leon",
+    "password": "19931005",
+    "apodo": "Grolen",
+    "avatar": "@leonguevara",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
