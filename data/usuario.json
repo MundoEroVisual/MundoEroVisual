@@ -1046,5 +1046,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "theclownwoh@gmail.com",
+    "password": "gdragon20",
+    "apodo": "Qwerty21",
+    "avatar": "Jfjdje",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
