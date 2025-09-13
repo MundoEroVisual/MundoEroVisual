@@ -850,5 +850,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Luiso",
+    "password": "crzgoat",
+    "apodo": "Totaila",
+    "avatar": "☠️",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
