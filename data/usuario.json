@@ -935,14 +935,10 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
-    "descargas": [
-      {
-        "id": "mez2opj248alu",
-        "title": "FR34KS [v0.5] [Bliss] Español",
-        "type": "normal",
-        "date": "2025-09-14T05:08:45.634Z"
-      }
-    ]
+    "favoritos": [
+      "beneath-the-surface-v0-38-espa-ol-ava-interactive-android-1753229440956",
+      "mez2opj248alu"
+    ],
+    "descargas": []
   }
 ]
