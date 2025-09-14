@@ -926,5 +926,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "fernandobosquezdiaz2@gmail.com",
+    "password": "e2uBerFtWDBqRBG",
+    "apodo": "El ver gaston ",
+    "avatar": "Fbdfbd ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
