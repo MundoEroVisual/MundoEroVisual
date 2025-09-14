@@ -199,7 +199,14 @@
     "premium_expira": null,
     "discordId": null,
     "favoritos": [],
-    "descargas": [],
+    "descargas": [
+      {
+        "id": "mevuuya3ublii",
+        "title": "Bad Memories v0.9.5 Español",
+        "type": "normal",
+        "date": "2025-09-14T03:28:45.392Z"
+      }
+    ],
     "apodo": "Alucard",
     "avatar": "https://avatars.githubusercontent.com/u/123456789?s=64&v=4",
     "beneficios": {},
