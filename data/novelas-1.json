@@ -4944,5 +4944,35 @@
     "estado": "en desarrollo",
     "peso": "220 MB",
     "fecha": "2025-09-15T18:34:51.864Z"
+  },
+  {
+    "id": "mflhav8xlifrv",
+    "titulo": "SWe1: The Warrior’s Heart [v1.1] [Mortze] Español",
+    "desc": "Una novela visual de fan-fiction ambientada en Star Wars.\n\nEn ella seguirás a un joven (Kaylan es el nombre por defecto) que se embarcará en una gran aventura llena de acción, drama y, por supuesto, sexo.\n\nHe intentado mantenerme fiel al sentimiento, la temática y el tono originales de SW.",
+    "generos": [
+      "Ciencia ficción",
+      "Finalizado",
+      "Parodia",
+      "Protagonista masculino",
+      "Virgen"
+    ],
+    "portada": "https://www.hotzone18.com/wp-content/uploads/575223_575149_e1title.webp",
+    "spoilers": [
+      "https://img.hotzone18.com/575107_swe1_bay2.jpg",
+      "https://img.hotzone18.com/575109_swe1_mop16.jpg",
+      "https://img.hotzone18.com/575111_swe1_on48.jpg",
+      "https://img.hotzone18.com/575110_swe1_on15.jpg",
+      "https://img.hotzone18.com/575112_swe1_on55b.jpg",
+      "https://img.hotzone18.com/575106_swe1_bath33.jpg"
+    ],
+    "android": "https://cuty.io/Me3XKxZhii",
+    "android_vip": "https://www.mediafire.com/file/ntwf5ovvritil09/swm.hotzone18.com-release.apk/file",
+    "pc": "",
+    "pc_traduccion": "",
+    "pc_vip": "",
+    "pc_traduccion_vip": "",
+    "estado": "completada",
+    "peso": "700 MB",
+    "fecha": "2025-09-15T18:49:52.840Z"
   }
 ]
