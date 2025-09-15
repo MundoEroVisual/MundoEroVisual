@@ -940,5 +940,16 @@
       "mez2opj248alu"
     ],
     "descargas": []
+  },
+  {
+    "usuario": "Enrique",
+    "password": "vamp1r0l0c0",
+    "apodo": "Elknuncaesta",
+    "avatar": "😈",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
