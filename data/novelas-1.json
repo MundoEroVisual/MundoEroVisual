@@ -4889,5 +4889,31 @@
     "estado": "en desarrollo",
     "peso": "600 MB",
     "fecha": "2025-09-12T14:03:16.248Z"
+  },
+  {
+    "id": "mflghdjfedbqa",
+    "titulo": "Power [Ch.1] [KrownGames] Español",
+    "desc": "Power es un juego de suspense narrativo que sigue la vida de nuestro protagonista, un joven prodigio de la música que saltó a la fama a una edad temprana. Mientras lucha por mantener su carrera, se ve arrastrado a un mundo de poder, corrupción y secretos que amenazan con consumirle. Entre la presión de la industria, las relaciones complicadas y un pasado que nunca desaparece del todo, nuestro protagonista debe decidir hasta dónde está dispuesto a llegar para proteger lo que de verdad importa.",
+    "generos": [
+      "Protagonista masculino",
+      "Juego nopor"
+    ],
+    "portada": "https://www.hotzone18.com/wp-content/uploads/5256210_Cover-1024x330.webp",
+    "spoilers": [
+      "https://img.hotzone18.com/5256201_ss-2.png",
+      "https://img.hotzone18.com/5256203_ss-4.png",
+      "https://img.hotzone18.com/5256204_ss-5.png",
+      "https://img.hotzone18.com/5256205_ss-6.png",
+      "https://img.hotzone18.com/5256200_ss-1.png"
+    ],
+    "android": "https://cuty.io/VZ9MT",
+    "android_vip": "https://www.mediafire.com/file/aifrc2cl2mvyw77/power.hotzone18.com-release.apk/file",
+    "pc": "",
+    "pc_traduccion": "",
+    "pc_vip": "",
+    "pc_traduccion_vip": "",
+    "estado": "en desarrollo",
+    "peso": "560 MB",
+    "fecha": "2025-09-15T18:26:57.023Z"
   }
 ]
