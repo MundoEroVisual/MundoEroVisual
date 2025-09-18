@@ -968,5 +968,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Richard ",
+    "password": "Abuelo30",
+    "apodo": "Tommy",
+    "avatar": "Lombra",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
