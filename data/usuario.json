@@ -979,5 +979,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "alberto",
+    "password": "+++5352452036",
+    "apodo": "blanco",
+    "avatar": "ronkyto",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
