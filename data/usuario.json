@@ -990,5 +990,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Torres",
+    "password": "Torres12345678",
+    "apodo": "Wis",
+    "avatar": "Dl",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
