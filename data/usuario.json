@@ -1001,5 +1001,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "oswaldo",
+    "password": "adrianita123456",
+    "apodo": "osito",
+    "avatar": "https://ibb.co/wFHSnPmy",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
