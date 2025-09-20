@@ -1030,5 +1030,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Ludy",
+    "password": "ludy2233",
+    "apodo": "Dylu",
+    "avatar": "Ludyalexis4@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
