@@ -1069,5 +1069,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Ernesto ",
+    "password": "chikishnnilcoco",
+    "apodo": "Delicioso ",
+    "avatar": "Medusa ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
