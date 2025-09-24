@@ -1080,5 +1080,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Diego ",
+    "password": "4192490d",
+    "apodo": "Alca",
+    "avatar": "diegoalcapo94@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
