@@ -1118,7 +1118,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "mflgrjza74vmm"
+    ],
     "descargas": []
   }
 ]
