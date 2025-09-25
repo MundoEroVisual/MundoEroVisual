@@ -1149,7 +1149,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "mfaempnot76bk"
+    ],
     "descargas": []
   }
 ]
