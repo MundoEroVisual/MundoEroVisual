@@ -1109,5 +1109,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Rasefb",
+    "password": "1w3r5y7i9p",
+    "apodo": "Sar",
+    "avatar": "Conejo",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
