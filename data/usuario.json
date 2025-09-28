@@ -1234,5 +1234,16 @@
         "date": "2025-09-25T23:15:58.775Z"
       }
     ]
+  },
+  {
+    "usuario": "Jkanime2025",
+    "password": "jkanimeflv285",
+    "apodo": "Tkj",
+    "avatar": "X ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
