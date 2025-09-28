@@ -1243,7 +1243,10 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "lucky-janitor-final-espa-ol-android-rean-1754864485282",
+      "mez16drb4zdr3"
+    ],
     "descargas": []
   }
 ]
