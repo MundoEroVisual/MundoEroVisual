@@ -1164,10 +1164,15 @@
     "favoritos": [
       "mfaempnot76bk",
       "lisa-total-investigation-p2-v0-63a-espa-ol-android-dragofinder-studio-1753233463686",
-      "family-faring-ep-8-espa-ol-royal-games-1753144404618",
-      "mez1y2tjd711o"
+      "family-faring-ep-8-espa-ol-royal-games-1753144404618"
     ],
     "descargas": [
+      {
+        "id": "mez1y2tjd711o",
+        "title": "S.H.E.L.T.E.R. – An Apocalyptic Tale [v1.0] [Winterlook] Español",
+        "type": "normal",
+        "date": "2025-09-28T03:21:38.921Z"
+      },
       {
         "id": "lisa-total-investigation-p2-v0-63a-espa-ol-android-dragofinder-studio-1753233463686",
         "title": "Lisa Total Investigation! [P2 v0.63a]  Español/Android [Dragofinder Studio]",
