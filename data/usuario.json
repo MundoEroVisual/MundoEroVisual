@@ -1291,5 +1291,16 @@
         "date": "2025-09-28T22:18:01.626Z"
       }
     ]
+  },
+  {
+    "usuario": "KAZ",
+    "password": "123456789",
+    "apodo": "Zack46",
+    "avatar": "https://static.wikia.nocookie.net/avatar/images/4/46/Toph_Beifong.png/revision/latest/scale-to-width/360?cb=20161127194510&path-prefix=es",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
