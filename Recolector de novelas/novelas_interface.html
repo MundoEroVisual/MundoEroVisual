@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Novelas Recientes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: #18181b;
+      margin: 0;
+      padding: 0;
+      color: #f3f4f6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #23232a;
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+      padding: 32px 24px;
+      border: 1px solid #333;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.2em;
+      margin-bottom: 24px;
+      color: #60a5fa;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px #000a;
+    }
+    .novela {
+      border-bottom: 1px solid #333;
+      padding: 18px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      background: #23232a;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px #000a;
+      margin-bottom: 18px;
+      transition: box-shadow 0.2s;
+    }
+    .novela:last-child {
+      border-bottom: none;
+    }
+    .portada {
+      width: 120px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px #000a;
+      background: #18181b;
+      border: 1px solid #333;
+    }
+    .info {
+      flex: 1;
+    }
+    .titulo {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: #60a5fa;
+      margin-bottom: 6px;
+      text-shadow: 0 1px 4px #000a;
+    }
+    .generos {
+      font-size: 0.95em;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+    .desc {
+      font-size: 0.98em;
+      color: #d1d5db;
+      margin-bottom: 8px;
+    }
+    .meta {
+      font-size: 0.92em;
+      color: #a1a1aa;
+      margin-bottom: 6px;
+    }
+    .spoilers {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .spoiler-img {
+      width: 60px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #333;
+      background: #18181b;
+      box-shadow: 0 1px 4px #000a;
+    }
+    .edit-btn {
+      background: #60a5fa;
+      color: #18181b;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 16px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-weight: bold;
+      box-shadow: 0 1px 4px #000a;
+    }
+    .edit-btn:hover {
+      background: #2563eb;
+      color: #fff;
+    }
+    .add-btn {
+      display: block;
+      margin: 24px auto 0 auto;
+      background: #38bdf8;
+      color: #18181b;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 24px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-weight: bold;
+      box-shadow: 0 1px 4px #000a;
+    }
+    .add-btn:hover {
+      background: #0ea5e9;
+      color: #fff;
+    }
+    input, textarea {
+      background: #18181b;
+      color: #f3f4f6;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 6px;
+      margin-bottom: 8px;
+      font-size: 1em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    label {
+      color: #60a5fa;
+      font-weight: 500;
+      margin-bottom: 4px;
+      display: block;
+    }
+    form button[type="submit"] {
+      background: #38bdf8;
+      color: #18181b;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 12px;
+      box-shadow: 0 1px 4px #000a;
+      margin-top: 8px;
+    }
+    form button[type="submit"]:hover {
+      background: #0ea5e9;
+      color: #fff;
+    }
+    form button[type="button"] {
+      background: #23232a;
+      color: #f3f4f6;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 8px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    form button[type="button"]:hover {
+      background: #18181b;
+      color: #60a5fa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h1>Gestor de Novelas Recientes</h1>
+  <button class="add-btn" onclick="buscarNovelas()">Buscar y cargar desde HotZone18</button>
+  <button class="add-btn" onclick="descargarTodasImagenes()">Descargar todas las imágenes</button>
+  <div id="descarga-status" style="margin-bottom:16px;color:#38bdf8;"></div>
+  <div id="novelas-list"></div>
+  <button class="add-btn" onclick="verMasNovelas()" id="ver-mas-btn" style="display:none;">Ver más</button>
+  <button class="add-btn" onclick="addNovela()">Añadir Nueva Novela</button>
+  <button class="add-btn" onclick="guardarNovelas()">Guardar cambios en archivo</button>
+  </div>
+  <script>
+    async function descargarTodasImagenes() {
+      document.getElementById('descarga-status').textContent = 'Descargando imágenes...';
+      try {
+        const res = await fetch('/api/descargar_imagenes');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('descarga-status').textContent = data.msg || 'Imágenes descargadas.';
+        } else {
+          const err = await res.json();
+          document.getElementById('descarga-status').textContent = 'Error: ' + (err.error || 'No se pudo descargar.');
+        }
+      } catch (e) {
+        document.getElementById('descarga-status').textContent = 'Error de conexión al servidor.';
+      }
+    }
+    async function subirGithub() {
+      const res = await fetch('/api/subir_github', { method: 'POST' });
+      if (res.ok) {
+        alert('Archivo subido a GitHub correctamente.');
+      } else {
+        const err = await res.json();
+        alert('Error al subir a GitHub: ' + err.error);
+      }
+    }
+    // Carga desde la API Express
+    let todasNovelas = [];
+    let hotzoneNovelas = [];
+    let paginaActual = 0;
+    const novelasPorPagina = 12;
+
+    async function loadNovelas() {
+      try {
+        const res = await fetch('/api/novelas');
+        todasNovelas = await res.json();
+        hotzoneNovelas = [];
+        paginaActual = 0;
+        renderNovelas();
+      } catch {
+        document.getElementById('novelas-list').innerHTML = '<p>No se pudo cargar el archivo de novelas.</p>';
+      }
+    }
+    // Buscar y cargar novelas desde la web HotZone18
+    async function buscarNovelas() {
+      document.getElementById('novelas-list').innerHTML = '<p>Buscando novelas en HotZone18...</p>';
+      const res = await fetch('/api/buscar_novelas');
+      hotzoneNovelas = await res.json();
+      paginaActual = 0;
+      renderNovelas();
+      window.novelasTemp = hotzoneNovelas;
+    }
+    // Guardar cambios en archivo local
+    async function guardarNovelas() {
+      let nuevas = window.novelasTemp;
+      if (!nuevas) { alert('Primero busca y edita las novelas.'); return; }
+      if (!Array.isArray(nuevas)) nuevas = [nuevas];
+      // Leer las novelas existentes antes de guardar
+      let existentes = [];
+      try {
+        const res = await fetch('/api/novelas');
+        existentes = await res.json();
+      } catch {}
+      // Combinar y guardar
+      const todas = [...existentes, ...nuevas];
+      await fetch('/api/guardar_novelas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(todas) });
+      alert('Novelas guardadas en el archivo local.');
+      loadNovelas();
+    }
+    function renderNovelas() {
+      const list = document.getElementById('novelas-list');
+      list.innerHTML = '';
+      let mostrar = [];
+      // Si hay novelas de HotZone18, mostrar esas primero
+      if (hotzoneNovelas.length > 0) {
+        mostrar = hotzoneNovelas;
+        document.getElementById('ver-mas-btn').style.display = todasNovelas.length > 0 ? 'block' : 'none';
+      } else {
+        // Si no, mostrar las guardadas paginadas
+        mostrar = todasNovelas.slice(paginaActual * novelasPorPagina, (paginaActual + 1) * novelasPorPagina);
+        document.getElementById('ver-mas-btn').style.display = ((paginaActual + 1) * novelasPorPagina < todasNovelas.length) ? 'block' : 'none';
+      }
+      mostrar.forEach(novela => {
+        let desc = novela.desc || '';
+        desc = desc.replace(/ADVERTENCIA:[\s\S]*?(Spoilers|Cambios|Juego Pc|Link de descarga ANDROID)/gi, '');
+        desc = desc.replace(/Spoilers[\s\S]*?(Cambios|Juego Pc|Link de descarga ANDROID)/gi, '');
+        desc = desc.replace(/Cambios[\s\S]*?(Juego Pc|Link de descarga ANDROID)/gi, '');
+        desc = desc.replace(/Juego Pc[\s\S]*?(Link de descarga ANDROID)/gi, '');
+        desc = desc.replace(/Link de descarga ANDROID[\s\S]*/gi, '');
+        desc = desc.replace(/\n{2,}/g, '\n');
+        desc = desc.trim();
+        list.innerHTML += `
+          <div class="novela">
+            <img class="portada" src="${novela.portada}" alt="Portada">
+            <div class="info">
+              <div class="titulo">${novela.titulo}</div>
+              <div class="generos">${novela.generos.join(', ')}</div>
+              <div class="desc">${desc}</div>
+              <div class="meta">Estado: ${novela.estado || '-'} | Fecha: ${novela.fecha || '-'} | Android: <a href="${novela.android}" target="_blank">Descargar</a>
+                ${novela.android_vip ? `| <span style='color:#f59e42'>Android VIP: <a href="${novela.android_vip}" target="_blank">Descarga directa</a></span>` : ''}
+              </div>
+              <div class="meta">ID: ${novela.id}</div>
+              <div class="spoilers">
+                ${novela.spoilers.map(img => `<img class="spoiler-img" src="${img}" alt="spoiler">`).join('')}
+              </div>
+              <button class="edit-btn" onclick="editNovela('${novela.id}')">Editar</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function verMasNovelas() {
+      // Si hay novelas de HotZone18, al presionar ver más, mostrar las guardadas paginadas
+      if (hotzoneNovelas.length > 0) {
+        hotzoneNovelas = [];
+        paginaActual = 0;
+        renderNovelas();
+      } else {
+        paginaActual++;
+        renderNovelas();
+      }
+    }
+    function addNovela() {
+      const nueva = {
+        id: '', titulo: '', desc: '', generos: [], portada: '', spoilers: [], android: '', estado: '', peso: '', fecha: ''
+      };
+      showForm(nueva, true);
+    }
+    function editNovela(id) {
+      fetch('/api/novelas').then(r => r.json()).then(novelas => {
+        const novela = novelas.find(n => n.id === id);
+        showForm(novela, false);
+      });
+    }
+    function showForm(novela, isNew) {
+      const list = document.getElementById('novelas-list');
+      list.innerHTML = `
+        <form id="novela-form" style="margin-bottom:32px; background:#23232a; border-radius:12px; box-shadow:0 2px 12px #000a; padding:24px; border:1px solid #333;">
+          <label>ID:<input name="id" value="${novela.id}" ${isNew ? '' : 'readonly'}></label>
+          <label>Título:<input name="titulo" value="${novela.titulo}"></label>
+          <label>Descripción:<textarea name="desc" rows="3">${novela.desc}</textarea></label>
+          <label>Géneros:<input name="generos" value="${novela.generos.join(', ')}"></label>
+          <label>Portada:<input name="portada" value="${novela.portada}"></label>
+          <label>Spoilers:<input name="spoilers" value="${novela.spoilers.join(', ')}"></label>
+          <label>Android:<input name="android" value="${novela.android}"></label>
+          <label>Android VIP:<input name="android_vip" value="${novela.android_vip || ''}"></label>
+          <label>Estado:<input name="estado" value="${novela.estado}"></label>
+          <label>Peso:<input name="peso" value="${novela.peso}"></label>
+          <label>Fecha:<input name="fecha" value="${novela.fecha}"></label>
+          <button type="submit">${isNew ? 'Añadir' : 'Guardar'}</button>
+          <button type="button" onclick="loadNovelas()">Cancelar</button>
+        </form>
+      `;
+      document.getElementById('novela-form').onsubmit = async function(e) {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const obj = {};
+        fd.forEach((v, k) => {
+          if (k === 'generos' || k === 'spoilers') obj[k] = v.split(',').map(x => x.trim());
+          else obj[k] = v;
+        });
+        // Actualiza en la lista temporal
+        if (window.novelasTemp) {
+          if (!Array.isArray(window.novelasTemp)) window.novelasTemp = [window.novelasTemp];
+          if (isNew) window.novelasTemp.push(obj);
+          else {
+            const idx = window.novelasTemp.findIndex(n => n.id === novela.id);
+            if (idx !== -1) window.novelasTemp[idx] = obj;
+          }
+          renderNovelas(window.novelasTemp);
+        } else {
+          // Si no hay lista temporal, usa API local
+          if (isNew) {
+            await fetch('/api/novela', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(obj) });
+          } else {
+            await fetch('/api/novela/' + novela.id, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(obj) });
+          }
+          loadNovelas();
+        }
+      };
+    }
+    loadNovelas();
+  </script>
+</body>
+</html>
