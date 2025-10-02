@@ -1325,5 +1325,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Pepe",
+    "password": "pepebotella",
+    "apodo": "Botella ",
+    "avatar": "Foshar",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
