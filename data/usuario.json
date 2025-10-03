@@ -1348,5 +1348,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Edgar ",
+    "password": "0405momo",
+    "apodo": "Choko09 ",
+    "avatar": "dropercamara@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
