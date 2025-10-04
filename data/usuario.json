@@ -1412,6 +1412,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "hidden-realities-v1-0-espa-ol-android-nine-tempos-1754865177611",
+        "title": "Hidden Realities [v1.0] Español Android [Nine-Tempos] ",
+        "type": "normal",
+        "date": "2025-10-04T07:05:23.954Z"
+      }
+    ]
   }
 ]
