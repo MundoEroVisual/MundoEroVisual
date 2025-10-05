@@ -1467,5 +1467,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Os",
+    "password": "tugfa503",
+    "apodo": "Kingmiler ",
+    "avatar": "Osvi",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
