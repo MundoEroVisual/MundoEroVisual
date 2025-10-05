@@ -1450,5 +1450,16 @@
         "date": "2025-10-04T07:05:23.954Z"
       }
     ]
+  },
+  {
+    "usuario": "crisgreirard@gmail.com",
+    "password": "42476322en",
+    "apodo": "Crimenycastigo",
+    "avatar": "Mitrasero",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
