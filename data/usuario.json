@@ -1493,5 +1493,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Edgar",
+    "password": "Edgarmendez",
+    "apodo": "Apolo",
+    "avatar": "Eree",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
