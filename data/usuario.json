@@ -1515,5 +1515,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Zoriel ",
+    "password": "SAMP700MM",
+    "apodo": "Zoriel wow",
+    "avatar": "Zinzc",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
