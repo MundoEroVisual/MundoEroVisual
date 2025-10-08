@@ -1504,5 +1504,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "SHADOW ",
+    "password": "Hola12345ju",
+    "apodo": "KING",
+    "avatar": "Xd",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
