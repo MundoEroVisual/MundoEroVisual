@@ -1579,5 +1579,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Ridick004",
+    "password": "Agente004",
+    "apodo": "Ridick004",
+    "avatar": "Ridick",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
