@@ -1601,5 +1601,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Cheto",
+    "password": "cheto1",
+    "apodo": "Cheto",
+    "avatar": "Cheto",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
