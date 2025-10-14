@@ -1630,5 +1630,16 @@
         "date": "2025-10-14T00:17:55.790Z"
       }
     ]
+  },
+  {
+    "usuario": "wilr900@Gmail.com",
+    "password": "Panocha123",
+    "apodo": "Wil",
+    "avatar": "..",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
