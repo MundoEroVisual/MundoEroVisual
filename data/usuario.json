@@ -1612,5 +1612,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Pedro ",
+    "password": "Uno2345",
+    "apodo": "ᶤ༺۞Sʀꦿ₲ʀɪṩ۞༻ᶤ",
+    "avatar": "ᶤ༺۞Sʀꦿ₲ʀɪṩ۞༻ᶤ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
