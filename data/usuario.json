@@ -1706,5 +1706,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Cuper ",
+    "password": "te amomichel",
+    "apodo": "Loco",
+    "avatar": "El locoloco",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
