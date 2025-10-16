@@ -1660,5 +1660,16 @@
         "date": "2025-10-14T08:22:12.905Z"
       }
     ]
+  },
+  {
+    "usuario": "Toves",
+    "password": "yonq",
+    "apodo": "Wis",
+    "avatar": "Plisajjs",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
