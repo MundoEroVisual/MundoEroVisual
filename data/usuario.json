@@ -1717,5 +1717,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Cuper234",
+    "password": "elfresa",
+    "apodo": "Locos ",
+    "avatar": "El locoloco",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
