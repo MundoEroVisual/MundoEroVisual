@@ -1762,5 +1762,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Charliew",
+    "password": "12345678car",
+    "apodo": "Charliew",
+    "avatar": "Ertuuhv",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
