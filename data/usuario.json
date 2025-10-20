@@ -1751,5 +1751,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Carlo1234",
+    "password": "26106549",
+    "apodo": "El socio com",
+    "avatar": "Diamon",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
