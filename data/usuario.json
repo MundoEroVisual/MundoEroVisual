@@ -1784,5 +1784,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Jr",
+    "password": "1771771A",
+    "apodo": "Jr",
+    "avatar": "Jjj",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
