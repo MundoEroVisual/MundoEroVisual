@@ -1795,5 +1795,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Tcarlos",
+    "password": "kathe1234",
+    "apodo": "Tryqui",
+    "avatar": "Xlp",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
