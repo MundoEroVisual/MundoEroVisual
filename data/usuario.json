@@ -1806,5 +1806,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Cocoro",
+    "password": "pablo301",
+    "apodo": "Cocoro",
+    "avatar": "Loki",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
