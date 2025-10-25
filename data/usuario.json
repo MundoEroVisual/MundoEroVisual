@@ -1571,7 +1571,14 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "mflghf7gx6byj",
+        "title": "Power [Ch.1] [KrownGames] Español",
+        "type": "normal",
+        "date": "2025-10-25T01:56:49.971Z"
+      }
+    ]
   },
   {
     "usuario": "Os",
@@ -1801,17 +1808,6 @@
     "password": "kathe1234",
     "apodo": "Tryqui",
     "avatar": "Xlp",
-    "admin": false,
-    "premium": false,
-    "premium_expira": null,
-    "favoritos": [],
-    "descargas": []
-  },
-  {
-    "usuario": "Cocoro",
-    "password": "pablo301",
-    "apodo": "Cocoro",
-    "avatar": "Loki",
     "admin": false,
     "premium": false,
     "premium_expira": null,
