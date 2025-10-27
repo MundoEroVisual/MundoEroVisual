@@ -679,5 +679,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Chen ",
+    "password": "isidropro",
+    "apodo": "Yuan",
+    "avatar": "Chenyuan ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
