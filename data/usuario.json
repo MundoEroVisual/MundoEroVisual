@@ -706,9 +706,14 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [
-      "mflghf7gx6byj"
-    ],
-    "descargas": []
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "aurora-protocol-v0-1-astghik-espa-ol-android-pc-1754168055956",
+        "title": "Aurora Protocol [v0.1] [Astghik] Español Android/PC",
+        "type": "normal",
+        "date": "2025-10-28T10:25:09.436Z"
+      }
+    ]
   }
 ]
