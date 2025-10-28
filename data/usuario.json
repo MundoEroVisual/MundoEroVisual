@@ -706,7 +706,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "mflghf7gx6byj"
+    ],
     "descargas": []
   }
 ]
