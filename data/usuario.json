@@ -760,5 +760,16 @@
         "date": "2025-10-28T10:25:09.436Z"
       }
     ]
+  },
+  {
+    "usuario": "Alex.com",
+    "password": "1082729191837731",
+    "apodo": "Alexánder ",
+    "avatar": "Bacom",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
