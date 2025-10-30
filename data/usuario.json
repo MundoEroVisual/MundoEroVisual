@@ -771,5 +771,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Alex.COM",
+    "password": "1082729191837731",
+    "apodo": "AlexándeR",
+    "avatar": "Bacom",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
