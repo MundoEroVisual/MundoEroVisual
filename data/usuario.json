@@ -795,5 +795,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Sebastián ",
+    "password": "1234567",
+    "apodo": "Sebas",
+    "avatar": "sebasjosenegrete@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
