@@ -819,5 +819,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Draun",
+    "password": "12345678",
+    "apodo": "Draun",
+    "avatar": "Wewe",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
