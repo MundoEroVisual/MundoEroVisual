@@ -196,24 +196,15 @@
     "premium": false,
     "premium_expira": null,
     "discordId": null,
-    "favoritos": [
-      "amnesia-v0-102-espa-ol-super-alex-1753028156410",
-      "love-and-temptation-s2-ep-8-espa-ol-gruboop-1753028548391",
-      "family-faring-ep-8-espa-ol-royal-games-1753144404618",
-      "her-heart-s-desire-remake-v1-99-espa-ol-android-big-chungus-productions-1753231367266",
-      "guilty-pleasure-v0-49-android-espa-ol-1751688078869",
-      "mevuuya3ublii",
-      "mez1y2tjd711o",
-      "mez16drb4zdr3",
-      "melib8iedpkfn",
-      "mflxaznvvidxhug",
-      "mflxaznvvidxhey",
-      "mflxaznvvidxhmz",
-      "mflxaznvvidxhck",
-      "mflxaznvvidxhyc",
-      "mflxaznvvidxhry"
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "mflxaznvvidxhry",
+        "title": "Reconnecting [v1.0] [SuperWriter] Español Android",
+        "type": "normal",
+        "date": "2025-11-01T02:34:19.836Z"
+      }
     ],
-    "descargas": [],
     "apodo": "Alucard",
     "avatar": "https://avatars.githubusercontent.com/u/123456789?s=64&v=4",
     "beneficios": {},
