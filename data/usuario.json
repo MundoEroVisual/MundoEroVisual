@@ -829,6 +829,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "mergrb8x9d1wv",
+        "title": "Bright Lord [v1.14.0 Steam] [KissKiss Studio] Español Android",
+        "type": "normal",
+        "date": "2025-11-01T07:39:19.548Z"
+      }
+    ]
   }
 ]
