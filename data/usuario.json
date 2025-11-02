@@ -843,5 +843,16 @@
         "date": "2025-11-01T07:41:39.580Z"
       }
     ]
+  },
+  {
+    "usuario": "Juan",
+    "password": "6969",
+    "apodo": "Chitaxo",
+    "avatar": "Anime",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
