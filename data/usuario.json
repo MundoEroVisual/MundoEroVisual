@@ -896,5 +896,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Wazkel ",
+    "password": "Dolores75.",
+    "apodo": "WK",
+    "avatar": "Wk",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
