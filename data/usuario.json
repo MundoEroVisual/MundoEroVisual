@@ -885,5 +885,16 @@
         "date": "2025-11-02T22:30:53.276Z"
       }
     ]
+  },
+  {
+    "usuario": "Erick",
+    "password": "320122011",
+    "apodo": "Erick2011",
+    "avatar": "Nose",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
