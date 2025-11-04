@@ -906,6 +906,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "mhb04e6pa39lt",
+        "title": "Deck of Hearts [v0.02a] [G28] en Español Android/Pc",
+        "type": "pc",
+        "date": "2025-11-04T23:11:22.703Z"
+      }
+    ]
   }
 ]
