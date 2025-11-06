@@ -1,0 +1,935 @@
+[
+  {
+    "usuario": "admin",
+    "password": "$2b$10$DVfPV3dX1jO2V/cxCj/RtOK1IfJLQmhOg5uGJnby9hyFq0DTGpadO",
+    "admin": true,
+    "premium": true,
+    "premium_expira": "2099-12-31T23:59:59.000Z",
+    "discordId": "1030923635646529637",
+    "favoritos": [
+      "mevuuya3ublii"
+    ],
+    "descargas": [
+      {
+        "id": "mhb04e6pa39lt",
+        "title": "Deck of Hearts [v0.02a] [G28] en Español Android/Pc",
+        "type": "pc",
+        "date": "2025-10-28T21:35:43.652Z"
+      },
+      {
+        "id": "meliqiqe8nq9w",
+        "title": "Whores of Thrones [S03 E09a] Español Android",
+        "type": "vip",
+        "date": "2025-08-30T06:44:04.027Z"
+      },
+      {
+        "id": "melv3aha0q2cx",
+        "title": "Playing with Fire [v1.0.4] Español Android",
+        "type": "normal",
+        "date": "2025-08-25T06:20:33.676Z"
+      },
+      {
+        "id": "melu7z2t0kefa",
+        "title": "Grandma’s House [Part 6 v0.85] Español Android",
+        "type": "vip",
+        "date": "2025-08-22T00:31:53.423Z"
+      },
+      {
+        "id": "meltt6ml9ats9",
+        "title": "Price of Power [Ep.29] Español Android",
+        "type": "vip",
+        "date": "2025-08-22T00:10:02.808Z"
+      },
+      {
+        "id": "melib8iedpkfn",
+        "title": "Simple Days [v0.19.7 Full] Español Android",
+        "type": "vip",
+        "date": "2025-08-21T23:57:55.788Z"
+      },
+      {
+        "id": "meliqiqe8nq9w",
+        "title": "Whores of Thrones [S03 E09a] Español Android",
+        "type": "normal",
+        "date": "2025-08-21T17:45:14.479Z"
+      },
+      {
+        "id": "happy-summer-v0-7-1r-espa-ol-caizer-games-1752805160727",
+        "title": "Happy Summer v0.7.1r  Español [Caizer Games]",
+        "type": "vip",
+        "date": "2025-08-21T15:05:18.334Z"
+      },
+      {
+        "id": "hard-to-love-v0-26-espa-ol-android-qori-gaming-1753488590529",
+        "title": "Hard to Love [v0.26] Español / Android  [Qori Gaming]",
+        "type": "vip",
+        "date": "2025-07-26T23:12:09.098Z"
+      }
+    ],
+    "apodo": "Admin",
+    "avatar": "https://yt3.ggpht.com/bE3q5DSLFVjZcITEIuKuxavE8OcOcYOOVRV0WHiHu6rs7cwIaR4tPCCZikBrVuPc-dpCecnqig=s176-c-k-c0x00ffffff-no-rj",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "alex",
+    "password": "$2b$10$wy5q157UXabvKnDrmnkUzOBnp0EH4H4xi1znv.P0nK/XQ2ViIkBl.",
+    "admin": false,
+    "premium": false,
+    "premium_expira": "3000-01-01T00:00:00.000Z",
+    "discordId": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "mergrb8x9d1wv",
+        "title": "Bright Lord [v1.14.0 Steam] [KissKiss Studio] Español Android",
+        "type": "normal",
+        "date": "2025-08-27T20:56:51.153Z"
+      }
+    ],
+    "apodo": "alex",
+    "avatar": "https://yt3.ggpht.com/N4k2pjvTzZUovv1I7Amoo-caLofdcNb3qgjMfiW25VaGA1v-0BeBjhR2p-YiHlsK8V4FEs17lw=s108-c-k-c0x00ffffff-no-rj",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "s",
+    "password": "$2b$10$f7aYY1/J3gWL8cIKQBn4/.pGeGOauitb13ti15kS8kx1OaBKxmJaO",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "discordId": "1175925603292172299",
+    "favoritos": [],
+    "descargas": [],
+    "apodo": "mmg",
+    "avatar": "https://avatars.githubusercontent.com/u/195238951?s=64&v=4",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "Junior panta",
+    "password": "$2b$10$wLVzP9cmx95jP7oxnodlG..EgGaDOGA4tWaMWQDYkccn2DsaSUFmm",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "discordId": null,
+    "favoritos": [],
+    "descargas": [],
+    "apodo": "Xamqui",
+    "avatar": "https://avatars.githubusercontent.com/u/123456789?s=64&v=4",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "kfalt75",
+    "password": "$2b$10$eHi.j61ru9SS4rIgVSRcHO3n7B7FsBoQjKl2XbGX016U4kEFRvN6i",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "discordId": null,
+    "favoritos": [],
+    "descargas": [],
+    "apodo": "Decx",
+    "avatar": "https://avatars.githubusercontent.com/u/987654321?s=64&v=4",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "kfalt",
+    "password": "$2b$10$bz5sqXOQw4UcNrPKDx18feKgWs/Y1R62uaSD5V.TKJWaE34SGUeta",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "discordId": "1209298890394701855",
+    "favoritos": [],
+    "descargas": [],
+    "apodo": "Diablo",
+    "avatar": "https://avatars.githubusercontent.com/u/123456789?s=64&v=4",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "test",
+    "password": "$2b$10$test",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "discordId": null,
+    "favoritos": [],
+    "descargas": [],
+    "apodo": "Test User",
+    "avatar": "https://avatars.githubusercontent.com/u/123456789?s=64&v=4",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "demo",
+    "password": "$2b$10$demo",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "discordId": null,
+    "favoritos": [],
+    "descargas": [],
+    "apodo": "Demo User",
+    "avatar": "https://avatars.githubusercontent.com/u/987654321?s=64&v=4",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "Jgg",
+    "password": "$2b$10$10X8fhr.tp3ZENDMfeeKI.5.cMX/NVh7u6M3kKJ7HkZRZaoeAvhfG",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "discordId": "407006173611556870",
+    "favoritos": [],
+    "descargas": [],
+    "apodo": "Azul",
+    "avatar": "https://media.discordapp.net/attachments/1397975920072982750/1398064092513570937/0f4a4954-4153-49f5-8959-b168f2388751.jpg?ex=68840026&is=6882aea6&hm=03e723ea6a2de0f283a03c4311de5a5813014eb91f62b486a88ea8ed896129a9&=&format=webp&width=499&height=535",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "Alucard",
+    "password": "$2b$10$8RHyj06t.Qxl9zRSQArA1uzwOiFrflUZzT43Ns9tm.PLBTWeLcVkq",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "discordId": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "mflxaznvvidxhry",
+        "title": "Reconnecting [v1.0] [SuperWriter] Español Android",
+        "type": "normal",
+        "date": "2025-11-01T02:34:19.836Z"
+      }
+    ],
+    "apodo": "Alucard",
+    "avatar": "https://avatars.githubusercontent.com/u/123456789?s=64&v=4",
+    "beneficios": {},
+    "lastDailyReward": null
+  },
+  {
+    "usuario": "alexander",
+    "password": "2332",
+    "apodo": "ale",
+    "avatar": "https://yt3.ggpht.com/N4k2pjvTzZUovv1I7Amoo-caLofdcNb3qgjMfiW25VaGA1v-0BeBjhR2p-YiHlsK8V4FEs17lw=s108-c-k-c0x00ffffff-no-rj",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Luisinsksjs",
+    "password": "lsksksskskkw",
+    "apodo": "Usus",
+    "avatar": "Jdusisisi",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Ismaelbrice ",
+    "password": "2193zuleyka",
+    "apodo": "Mayko",
+    "avatar": "Ismaelbrice ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [
+      "regressor-v0-12-piggy-games-espa-ol-android-1754865728726",
+      "hidden-realities-v1-0-espa-ol-android-nine-tempos-1754865177611",
+      "lucky-janitor-final-espa-ol-android-rean-1754864485282",
+      "red-cloak-v1-0-alexzeroone-espa-ol-android-pc-1754802650618",
+      "xs-crossing-fate-v1-0-xrus-studios-espa-ol-android-pc-1754621499219",
+      "kingdom-s-bane-v0-1-desire-lust-espa-ol-para-android-pc-1754620413101",
+      "aurora-protocol-v0-1-astghik-espa-ol-android-pc-1754168055956",
+      "brighton-city-empire-v0-08-espa-ol-fatality17-1752546059131",
+      "not-too-refined-prologue-aulantr-espa-ol-android-pc-1754170102519",
+      "the-pilgrimage-chapter-2-v0-5-1-beta-messman-espa-ol-pc-android-1753752870962",
+      "heritage-v0-7-1-geppettopossum-espa-ol-pc-android-1753752291074",
+      "the-lusanti-chronicles-ch-2-v1-02-grumpy-old-aussie-espa-ol-pc-android-1753751688105",
+      "pineapple-express-2-v0-1-sadpepper-espa-ol-android-pc-1754018631262",
+      "jocasta-restort-v0-2-m24metro-espa-ol-android-pc-1754169524078",
+      "island-of-desire-demo-ogre3d-espa-ol-android-pc-1754168922201",
+      "new-beginnings-in-japan-ch-2-v-0-6-8-espa-ol-shikharsfree-1752880558846",
+      "supermodel-defenders-of-desire-v1-5-0-espa-ol-belle-1752544850559",
+      "emi-new-beginning-v1-0-1751208671378",
+      "shadows-v0-7-espa-ol-android-vicxlose-1752034494916",
+      "being-a-wife-v1-190-espa-ol-android-1751500842811",
+      "d-legacy-v0-11-5-1-1750904713135",
+      "life-in-santa-county-espa-ol-1750383874018",
+      "tune-in-to-the-show-d-1750295514660",
+      "melvo1h3fn914",
+      "melv3aha0q2cx",
+      "meluvr9yh1zhp",
+      "melx4629knqh6",
+      "melu7z2t0kefa",
+      "melw920p5hpwx",
+      "melup4emazjcz",
+      "mekqvjnc4rty2",
+      "between-two-worlds-ch-10-espa-ol-android-1755742489199",
+      "between-duty-and-love-v1-2-android-espa-ol-digitaljplayground-1752281611795",
+      "merj2cdplhiwb",
+      "merhevr3rwt8q",
+      "mergrb8x9d1wv",
+      "meqe7lxzjns5g",
+      "merfstmdl0jem",
+      "meqd0gu1gh8x7",
+      "met3c5iieq9pv",
+      "mevv5r94hw7fo",
+      "mevvdwimw3tac",
+      "mevvm5sxn4ua8",
+      "mevuuya3ublii",
+      "met4qvpf05z95",
+      "melwpzaybyl75",
+      "meliqiqe8nq9w",
+      "meltt6ml9ats9",
+      "desire-frame-v1-0-aihman-en-espa-ol-para-android-pc-1754011299978",
+      "because-i-love-her-part-2-espa-ol-the-typist-1752881285552",
+      "bonds-between-v0-3-espa-ol-obsidian-fox-1752878977577",
+      "monkey-business-v1-0-espa-ol-lazy-monkey-1752727044658",
+      "toro-7-ep-7-espa-ol-tora-productions-1752720896399",
+      "grandma-s-house-part-6-v0-82-espa-ol-android-moonbox-1752446296463",
+      "the-shrink-r-r-2-v3-1-espa-ol-android-onemanvn-1752443549318",
+      "mflxaznvvidxhkz",
+      "mflxaznvvidxhck",
+      "mflxaznvvidxhfr",
+      "mflxaznvvidxhkn",
+      "mflxaznvvidxhad",
+      "mflxaznvvidxhgu",
+      "mflxaznvvidxhci",
+      "mflxaznvvidxhta",
+      "mflxaznvvidxhry",
+      "mflxaznvvidxhwp",
+      "mflxaznvvidxhsd",
+      "mflxaznvvidxhux",
+      "mflxaznvvidxhbv",
+      "mflxaznvvidxhof",
+      "mflxaznvvidxhff",
+      "mflxaznvvidxhjb",
+      "mflxaznvvidxhth",
+      "mflxaznvvidxhug",
+      "mflxaznvvidxhmb",
+      "mflxaznvvidxhoq",
+      "mflxaznvvidxhaw"
+    ],
+    "descargas": [
+      {
+        "id": "meltt6ml9ats9",
+        "title": "Price of Power [Ep.29] Español Android",
+        "type": "normal",
+        "date": "2025-09-01T01:07:15.009Z"
+      },
+      {
+        "id": "mekqvjnc4rty2",
+        "title": "The Lustful Touch [v1.0] Español Android",
+        "type": "normal",
+        "date": "2025-08-29T05:28:16.730Z"
+      },
+      {
+        "id": "meqd0gu1gh8x7",
+        "title": "The Wild Boy [v0.02] Español Android",
+        "type": "normal",
+        "date": "2025-08-29T05:17:43.700Z"
+      },
+      {
+        "id": "met3c5iieq9pv",
+        "title": "With Eyes Closed [S2 Ch.7] [Ker] Español Android",
+        "type": "normal",
+        "date": "2025-08-29T04:52:58.772Z"
+      },
+      {
+        "id": "meqe7lxzjns5g",
+        "title": "Summer with Mia [S1 v1.5.4 Steam] [Inceton Games] Español Android",
+        "type": "normal",
+        "date": "2025-08-29T04:49:47.579Z"
+      },
+      {
+        "id": "between-duty-and-love-v1-2-android-espa-ol-digitaljplayground-1752281611795",
+        "title": "Between Duty and Love [v1.2] Android Español DigitalJPlayground ",
+        "type": "normal",
+        "date": "2025-08-23T10:31:12.221Z"
+      },
+      {
+        "id": "between-two-worlds-ch-10-espa-ol-android-1755742489199",
+        "title": "Between Two Worlds [Ch. 10] Español Android",
+        "type": "normal",
+        "date": "2025-08-23T00:19:31.952Z"
+      },
+      {
+        "id": "meltt6ml9ats9",
+        "title": "Price of Power [Ep.29] Español Android",
+        "type": "normal",
+        "date": "2025-08-23T00:13:50.557Z"
+      },
+      {
+        "id": "meluvr9yh1zhp",
+        "title": "Outrun [v1.0] Español Android",
+        "type": "normal",
+        "date": "2025-08-22T06:32:39.729Z"
+      },
+      {
+        "id": "brighton-city-empire-v0-08-espa-ol-fatality17-1752546059131",
+        "title": "Brighton City Empire [v0.08] Español [Fatality17]",
+        "type": "normal",
+        "date": "2025-08-18T01:27:45.344Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Andresxxxxx",
+    "password": "andresvaldez2007",
+    "apodo": "Andrés ",
+    "avatar": "Ninguno ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Andrade",
+    "password": "0707Ae90",
+    "apodo": "Diablo",
+    "avatar": "😈",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "lucy-got-problems-v1-01-espa-ol-1751417215717",
+        "title": "Lucy Got Problems V1.01 Español",
+        "type": "normal",
+        "date": "2025-08-30T22:55:27.269Z"
+      },
+      {
+        "id": "nudist-olivia-v0-2-espa-ol-android-elsa-1752282106716",
+        "title": "Nudist Olivia v0.2 Español/Android [Elsa]",
+        "type": "normal",
+        "date": "2025-08-30T22:50:00.956Z"
+      },
+      {
+        "id": "happy-summer-v0-7-1r-espa-ol-caizer-games-1752805160727",
+        "title": "Happy Summer v0.7.1r  Español [Caizer Games]",
+        "type": "normal",
+        "date": "2025-08-30T22:42:40.936Z"
+      },
+      {
+        "id": "not-too-refined-prologue-aulantr-espa-ol-android-pc-1754170102519",
+        "title": "Not Too Refined [Prologue] [AulaNTR] Español Android/Pc",
+        "type": "normal",
+        "date": "2025-08-18T21:57:58.155Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Leynad ",
+    "password": "1Moe2moe",
+    "apodo": "Gantzo ",
+    "avatar": "Gantzo ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "mflxaznvvidxhry",
+        "title": "Reconnecting [v1.0] [SuperWriter] Español Android",
+        "type": "normal",
+        "date": "2025-11-01T01:22:13.839Z"
+      },
+      {
+        "id": "melvwbq8t1l3h",
+        "title": "Getting Inside Hentai Story [v1.0] Español Android",
+        "type": "normal",
+        "date": "2025-08-24T16:55:44.924Z"
+      },
+      {
+        "id": "pineapple-express-2-v0-1-sadpepper-espa-ol-android-pc-1754018631262",
+        "title": "Pineapple Express 2 [v0.1] [SadPepper] Español Android/PC",
+        "type": "normal",
+        "date": "2025-08-21T04:57:16.878Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Jonathan ",
+    "password": "3834551995m",
+    "apodo": "Jony",
+    "avatar": "J",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Aguillonresendizeduardo76@gmail.com ",
+    "password": "roko1206",
+    "apodo": "Elwerkoloko",
+    "avatar": "Hhhh",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Ahero",
+    "password": "49106602",
+    "apodo": "Ahoro",
+    "avatar": "Gbyfhc",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Osvaldo ",
+    "password": "Gprillaz01",
+    "apodo": "KingOvaldo14",
+    "avatar": "King",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "being-a-wife-v1-190-espa-ol-android-1751500842811",
+        "title": "Being a Wife v1.190 Español Android",
+        "type": "normal",
+        "date": "2025-08-24T05:46:53.630Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Ninguno ",
+    "password": "andresvaldez2007",
+    "apodo": "Andrés ",
+    "avatar": "Ninguno ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "lalo",
+    "password": "Angrl2006*",
+    "apodo": "abel",
+    "avatar": "https://share.google/images/Bqgk4FjSLjKXoaqNq",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "back-for-revenge-v0-1-espa-ol-ixemanin-1752545463862",
+        "title": "Back for Revenge [v0.1]  Español [IXEMANIN]",
+        "type": "normal",
+        "date": "2025-08-24T17:39:07.540Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Yolovicion ",
+    "password": "25522552",
+    "apodo": "Yolovicion",
+    "avatar": "Kf",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Alcawer",
+    "password": "KYLH260702040204",
+    "apodo": "Alca",
+    "avatar": "Kakkskdkd",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Luc",
+    "password": "juanis09",
+    "apodo": "Lucs",
+    "avatar": "https://share.google/BFbVV7q4KSlQeeGsY",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Cris000007",
+    "password": "201922",
+    "apodo": "Cris",
+    "avatar": "C",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Flemelke ",
+    "password": "Alianaza24",
+    "apodo": "Dfss24",
+    "avatar": "DF2493",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Luis ",
+    "password": "0123456789",
+    "apodo": "Axxxel69",
+    "avatar": "angeldelinfierno8@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "callisto-v1-00-1751208313059",
+        "title": "Callisto [v1.00] ",
+        "type": "normal",
+        "date": "2025-08-30T13:53:29.149Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Shadow ",
+    "password": "1401294.",
+    "apodo": "Men ",
+    "avatar": "Np066043@gamil.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Mrm",
+    "password": "mavanu2009",
+    "apodo": "Mrm",
+    "avatar": "mav",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Sergio ",
+    "password": "M2A2R2...",
+    "apodo": "XYXYXY",
+    "avatar": "😃",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "love-and-temptation-s2-ep-8-espa-ol-gruboop-1753028548391",
+        "title": "Love and Temptation [S2 Ep.8] Español [GruBoop]",
+        "type": "normal",
+        "date": "2025-08-30T04:48:02.452Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Javiuer ",
+    "password": "javier2008",
+    "apodo": "Caldo",
+    "avatar": "Nose",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "jesus",
+    "password": "Minato123",
+    "apodo": "zoldycklolo",
+    "avatar": "lololl",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "melwpzaybyl75",
+        "title": "Dead or Aroused 1 & 2 [Final] Español Android",
+        "type": "normal",
+        "date": "2025-08-31T11:47:24.681Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Richard Ramirez ",
+    "password": "86867905",
+    "apodo": "Ramirez ",
+    "avatar": "Ramirez ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Flaco81 ",
+    "password": "Velezsarfield81",
+    "apodo": "Flaco81 ",
+    "avatar": "Flaco81 ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "mflxaznvvidxhof",
+        "title": "Villain’s Legacy [v3.0.5] [Mad scientist lab] Español PC/Android",
+        "type": "normal",
+        "date": "2025-10-25T04:35:23.348Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Moises ",
+    "password": "moises31",
+    "apodo": "Moy",
+    "avatar": "M",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Chen ",
+    "password": "isidropro",
+    "apodo": "Yuan",
+    "avatar": "Chenyuan ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "grandma-s-house-part-6-v0-82-espa-ol-android-moonbox-1752446296463",
+        "title": "Grandma’s House Part 6 v0.82 Español / Android  [Moonbox]",
+        "type": "normal",
+        "date": "2025-10-27T04:16:06.635Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Jose",
+    "password": "santos503",
+    "apodo": "Nativo ",
+    "avatar": "https://www.google.com/search?q=Leatherface+animado&client=ms-android-xiaomi-terr1-rso2&sca_esv=2fb4accb1dc1e879&udm=2&sxsrf=AE3TifMEzBlbMdU74cQV-Wic5CGU7kBPyg%3A1761619101263&ei=nSwAafPvD5aIwbkP3drz2Qs&oq=Leatherface+animado&gs_lp=EhJtb2JpbGUtZ3dzLXdpei1pbWciE0xlYXRoZXJmYWNlIGFuaW1hZG8yBRAAGIAEMgYQABgIGB4yCBAAGIAEGKIEMggQABiABBiiBEi1GVC7BViIF3AAeACQAQCYAZMCoAGSDaoBBTAuNy4yuAEDyAEA-AEBmAIJoALMDsICBxAjGCcYyQLCAhAQLhiABBixAxhDGIMBGIoFwgIGEAAYBxgewgIKEC4YgAQYQxiKBcICChAAGIAEGEMYigXCAgUQLhiABMICBBAAGB6YAwCIBgGSBwcwLjYuMi4xoAfYJbIHBzAuNi4yLjG4B8wOwgcHMi0yLjEuNsgHsgE&sclient=mobile-gws-wiz-img#sv=CAMS_QQa3QQKjwIKuQEStgEKd0FMa3RfdkhYX2pmaTNrU3FRRUxiLTBURVVBV3lZQzB3eUZuZ2RBN3NYZjJGN0pRT29aRTYzODZQV0hXSkhnMFZjNDRuUlhHdTVWNlZUX3NrTFFNU0p0alh2VUxwaE1wejhXeFBxSVl5M2ZFN2xwVURYTV9EdlVFEhdwaXdBYWIyUUY3Q0d3YmtQLU1mbDhRcxoiQUZNQUdHb0RsYWlKY2JwWlZFdkMxR2drRVppVnRVQWtRZxIDODQ5GgEzIhgKAXESE0xlYXRoZXJmYWNlIGFuaW1hZG8iBwoDdGJzEgAiJgoEZXFsZBIeQ2dJSUFCQUFPZ1FJQUJBQVZWSThfVDV0RXNrUlB3ErYCCs8BEswBCowBQUxrdF92R0hnQ2kyRFJGNnBPNGFVUHFwUE1pUnVXYk5iSVRqZG15ckNrRVEwWlFnN1BSc3lyY2tHcjR2LXRKQlFXYTQzdG5nTXlaVjd5aENYVTd6eENEb2ZhRHo3WnRTYkpXRnhpd19Udkt2b0lNNDMzb1VrT3lUU3p4SUozdk02Z2g5OUVYbWpMcWgSF3Bpd0FhYjJRRjdDR3dia1AtTWZsOFFzGiJBRk1BR0dya3RMS2NENDllcmt4Mk1HZHFyY3ZEU3I0ZUpnEgQ0Njk4GgEzIhgKBmltZ2RpaRIOanZvVW1WV1FWRmVhcE0iFwoFZG9jaWQSDlVsa0kxM1JGZTR4VVJNIiYKBGVxbGQSHkNnSUlBQkFBT2dRSUFCQUFWVkk4X1Q1dEVza1JQdyoQZS1qdm9VbVZXUVZGZWFwTSAEKhcKAXMSEGUtanZvVW1WV1FWRmVhcE0YATABGAcgsLDcygIwAUoKCAIQAhgCIAIoAg",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "treasure-of-nadia-v1-0112-espa-ol-1751206960734",
+        "title": "Treasure of Nadia [v1.0112] Español",
+        "type": "normal",
+        "date": "2025-10-28T10:38:22.238Z"
+      },
+      {
+        "id": "red-cloak-v1-0-alexzeroone-espa-ol-android-pc-1754802650618",
+        "title": "Red Cloak [v1.0] [AlexZeroOne] Español Android/Pc",
+        "type": "normal",
+        "date": "2025-10-28T10:36:46.176Z"
+      },
+      {
+        "id": "apocalust-v0-09-espa-ol-psychodelusional-1753027457284",
+        "title": "Apocalust [v0.09] Español  [Psychodelusional]",
+        "type": "normal",
+        "date": "2025-10-28T10:28:17.203Z"
+      },
+      {
+        "id": "aurora-protocol-v0-1-astghik-espa-ol-android-pc-1754168055956",
+        "title": "Aurora Protocol [v0.1] [Astghik] Español Android/PC",
+        "type": "normal",
+        "date": "2025-10-28T10:25:09.436Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Alex.com",
+    "password": "1082729191837731",
+    "apodo": "Alexánder ",
+    "avatar": "Bacom",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Alex.COM",
+    "password": "1082729191837731",
+    "apodo": "AlexándeR",
+    "avatar": "Bacom",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [
+      "mflxaznvvidxhmz"
+    ],
+    "descargas": []
+  },
+  {
+    "usuario": "Juan ",
+    "password": "Valebtina2013",
+    "apodo": "Ja",
+    "avatar": "https://eroverse.onrender.com/",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Sebastián ",
+    "password": "1234567",
+    "apodo": "Sebas",
+    "avatar": "sebasjosenegrete@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Draun",
+    "password": "12345678",
+    "apodo": "Draun",
+    "avatar": "Wewe",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "mergrb8x9d1wv",
+        "title": "Bright Lord [v1.14.0 Steam] [KissKiss Studio] Español Android",
+        "type": "normal",
+        "date": "2025-11-01T07:47:16.200Z"
+      },
+      {
+        "id": "meqd0gu1gh8x7",
+        "title": "The Wild Boy [v0.02] Español Android",
+        "type": "normal",
+        "date": "2025-11-01T07:41:39.580Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Juan",
+    "password": "6969",
+    "apodo": "Chitaxo",
+    "avatar": "Anime",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "meqe7lxzjns5g",
+        "title": "Summer with Mia [S1 v1.5.4 Steam] [Inceton Games] Español Android",
+        "type": "normal",
+        "date": "2025-11-03T00:59:03.925Z"
+      },
+      {
+        "id": "mflxaznvvidxhkz",
+        "title": "The Power of Truth [v0.0.9.0 Ch.1 P3] [DogCat Studio] Español Android",
+        "type": "normal",
+        "date": "2025-11-02T23:54:18.041Z"
+      },
+      {
+        "id": "christmas-eve-v2-0-0-1749744811276",
+        "title": "Christmas Eve [v2.0.0]",
+        "type": "normal",
+        "date": "2025-11-02T23:49:35.075Z"
+      },
+      {
+        "id": "mflxaznvvidxhmb",
+        "title": "Astronomic Date [v1.0] [Astronomic Games] Español PC/Android",
+        "type": "normal",
+        "date": "2025-11-02T22:35:18.356Z"
+      },
+      {
+        "id": "mflxaznvvidxhry",
+        "title": "Reconnecting [v1.0] [SuperWriter] Español Android",
+        "type": "normal",
+        "date": "2025-11-02T22:30:53.276Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Erick",
+    "password": "320122011",
+    "apodo": "Erick2011",
+    "avatar": "Nose",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  },
+  {
+    "usuario": "Wazkel ",
+    "password": "Dolores75.",
+    "apodo": "WK",
+    "avatar": "Wk",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "mflxaznvvidxhta",
+        "title": "I Want Unlucky Men to Be Happy [v0.1 Demo] [Changzun] Español Android",
+        "type": "normal",
+        "date": "2025-11-04T23:24:59.433Z"
+      },
+      {
+        "id": "mflxaznvvidxhfr",
+        "title": "In Her Service [v0.89] [Blue Factory Games] Español Android",
+        "type": "normal",
+        "date": "2025-11-04T23:15:58.352Z"
+      }
+    ]
+  },
+  {
+    "usuario": "Mentos",
+    "password": "Libra2006",
+    "apodo": "Soa",
+    "avatar": "antoniotemos57@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
+  }
+]
