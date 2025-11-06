@@ -920,5 +920,16 @@
         "date": "2025-11-04T23:15:58.352Z"
       }
     ]
+  },
+  {
+    "usuario": "Mentos",
+    "password": "Libra2006",
+    "apodo": "Soa",
+    "avatar": "antoniotemos57@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
