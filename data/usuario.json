@@ -931,5 +931,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Jose2025",
+    "password": "29807990",
+    "apodo": "Jose2025",
+    "avatar": "Jose",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
