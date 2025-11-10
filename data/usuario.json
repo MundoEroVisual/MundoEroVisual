@@ -996,5 +996,16 @@
         "date": "2025-11-07T23:11:47.632Z"
       }
     ]
+  },
+  {
+    "usuario": "Torres",
+    "password": "plintonks",
+    "apodo": "Wis",
+    "avatar": "Plisajjs",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
