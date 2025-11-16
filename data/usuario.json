@@ -1045,7 +1045,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "tune-in-to-the-show-d-1750295514660"
+    ],
     "descargas": [
       {
         "id": "tune-in-to-the-show-d-1750295514660",
