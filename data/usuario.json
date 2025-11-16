@@ -1081,5 +1081,16 @@
         "date": "2025-11-16T05:59:16.621Z"
       }
     ]
+  },
+  {
+    "usuario": "Asd",
+    "password": "12345678",
+    "apodo": "Asd",
+    "avatar": "Asd",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
