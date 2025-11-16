@@ -1046,15 +1046,10 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [
-      "tune-in-to-the-show-d-1750295514660"
+      "tune-in-to-the-show-d-1750295514660",
+      "adored-by-the-devil-1750382820489"
     ],
     "descargas": [
-      {
-        "id": "tune-in-to-the-show-d-1750295514660",
-        "title": "Tune in to the Show D",
-        "type": "normal",
-        "date": "2025-11-16T10:01:10.898Z"
-      },
       {
         "id": "between-duty-and-love-v1-2-android-espa-ol-digitaljplayground-1752281611795",
         "title": "Between Duty and Love [v1.2] Android Español DigitalJPlayground ",
