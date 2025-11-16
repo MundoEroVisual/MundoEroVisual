@@ -1025,5 +1025,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "F1Rei",
+    "password": "Jean_304",
+    "apodo": "Rei",
+    "avatar": "Rei",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
