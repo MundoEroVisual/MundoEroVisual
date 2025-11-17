@@ -1092,5 +1092,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "EduardoGtz",
+    "password": "SatanGtz5",
+    "apodo": "Edu",
+    "avatar": "satan",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
