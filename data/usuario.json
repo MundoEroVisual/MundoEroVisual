@@ -1148,5 +1148,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Lokito21 ",
+    "password": "jose2112",
+    "apodo": "Loki2112",
+    "avatar": "Logo",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
