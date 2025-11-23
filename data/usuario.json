@@ -1170,5 +1170,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "spartesteves@gmail.com",
+    "password": "Spart10#",
+    "apodo": "Spart",
+    "avatar": "🥺🥺",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
