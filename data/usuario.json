@@ -1203,5 +1203,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "ALEX",
+    "password": "RobinCece90",
+    "apodo": "Alex ",
+    "avatar": "ALEX",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
