@@ -1192,5 +1192,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "er3439854@gmail.com",
+    "password": "erika(15)",
+    "apodo": "Odette",
+    "avatar": "Femenina",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
