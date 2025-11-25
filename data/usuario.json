@@ -1234,5 +1234,16 @@
         "date": "2025-11-24T21:08:51.673Z"
       }
     ]
+  },
+  {
+    "usuario": "Alejj",
+    "password": "Arrozconpollo123.",
+    "apodo": "Deku",
+    "avatar": "DukoSsj",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
