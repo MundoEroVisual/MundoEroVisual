@@ -1266,7 +1266,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "meqe7lxzjns5g"
+    ],
     "descargas": [
       {
         "id": "mergrb8x9d1wv",
