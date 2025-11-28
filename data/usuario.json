@@ -1266,12 +1266,14 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [
-      "meqe7lxzjns5g",
-      "hillside-v0-16-1750346035514",
-      "treasure-of-nadia-v1-0112-espa-ol-1751206960734"
-    ],
+    "favoritos": [],
     "descargas": [
+      {
+        "id": "treasure-of-nadia-v1-0112-espa-ol-1751206960734",
+        "title": "Treasure of Nadia [v1.0112] Español",
+        "type": "normal",
+        "date": "2025-11-28T08:37:49.124Z"
+      },
       {
         "id": "hearts-of-the-city-v0-1-1750347209052",
         "title": "Hearts of The City [v0.1]",
