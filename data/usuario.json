@@ -1266,7 +1266,11 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "meqe7lxzjns5g",
+      "hillside-v0-16-1750346035514",
+      "treasure-of-nadia-v1-0112-espa-ol-1751206960734"
+    ],
     "descargas": [
       {
         "id": "hearts-of-the-city-v0-1-1750347209052",
