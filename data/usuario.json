@@ -1266,7 +1266,10 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "meqe7lxzjns5g",
+      "hillside-v0-16-1750346035514"
+    ],
     "descargas": [
       {
         "id": "life-in-santa-county-espa-ol-1750383874018",
