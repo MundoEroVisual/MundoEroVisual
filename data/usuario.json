@@ -1364,5 +1364,16 @@
         "date": "2025-12-01T18:39:55.080Z"
       }
     ]
+  },
+  {
+    "usuario": "Bryan",
+    "password": "Ghost6634$",
+    "apodo": "Proximity",
+    "avatar": "https://discord.com/channels/1372038574731431956/1372061085900865577/1423863956971196436",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
