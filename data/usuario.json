@@ -1323,5 +1323,16 @@
         "date": "2025-11-28T02:54:19.938Z"
       }
     ]
+  },
+  {
+    "usuario": "ale891215@gmail.com",
+    "password": "alejo891225",
+    "apodo": "AAZ",
+    "avatar": "Aaz",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
