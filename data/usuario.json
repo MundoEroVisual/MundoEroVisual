@@ -1344,6 +1344,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "307",
+        "title": "One Pump Chump [v1.0.1] [TwistedScarlett] Español Android",
+        "type": "normal",
+        "date": "2025-12-01T18:37:55.403Z"
+      }
+    ]
   }
 ]
