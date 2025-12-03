@@ -1284,14 +1284,13 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "meqe7lxzjns5g",
+      "hillside-v0-16-1750346035514",
+      "treasure-of-nadia-v1-0112-espa-ol-1751206960734",
+      "298"
+    ],
     "descargas": [
-      {
-        "id": "308",
-        "title": "Back Again [Rework v0.9] [BigBoy Projects] Español Android",
-        "type": "normal",
-        "date": "2025-12-03T03:36:37.224Z"
-      },
       {
         "id": "callisto-v1-00-1751208313059",
         "title": "Callisto [v1.00] ",
