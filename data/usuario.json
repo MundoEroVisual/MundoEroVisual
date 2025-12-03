@@ -1460,5 +1460,16 @@
         "date": "2025-12-03T20:38:18.025Z"
       }
     ]
+  },
+  {
+    "usuario": "Gustabo",
+    "password": "1234567",
+    "apodo": "Gus",
+    "avatar": "N",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
