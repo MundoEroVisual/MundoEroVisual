@@ -1424,5 +1424,16 @@
         "date": "2025-12-01T18:39:55.080Z"
       }
     ]
+  },
+  {
+    "usuario": "baatezu83@gmail.com",
+    "password": "78698140YeR",
+    "apodo": "Baate",
+    "avatar": "https://i.ebayimg.com/images/g/1IYAAOSwNVNmmFGg/s-l400.png",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
