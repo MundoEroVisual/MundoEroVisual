@@ -1495,5 +1495,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Makishi",
+    "password": "konnichiwa",
+    "apodo": "Maki",
+    "avatar": "5548",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
