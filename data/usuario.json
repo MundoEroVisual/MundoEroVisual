@@ -1383,10 +1383,10 @@
     "favoritos": [],
     "descargas": [
       {
-        "id": "pineapple-express-2-v0-1-sadpepper-espa-ol-android-pc-1754018631262",
-        "title": "Pineapple Express 2 [v0.1] [SadPepper] Español Android/PC",
+        "id": "apocalust-v0-09-espa-ol-psychodelusional-1753027457284",
+        "title": "Apocalust [v0.09] Español  [Psychodelusional]",
         "type": "normal",
-        "date": "2025-12-07T03:47:25.954Z"
+        "date": "2025-12-07T03:50:13.661Z"
       },
       {
         "id": "mflxaznvvidxhff",
@@ -1550,16 +1550,5 @@
         "date": "2025-12-06T00:49:10.923Z"
       }
     ]
-  },
-  {
-    "usuario": "Breyer",
-    "password": "brandon2010",
-    "apodo": "Greyrat",
-    "avatar": "BGG",
-    "admin": false,
-    "premium": false,
-    "premium_expira": null,
-    "favoritos": [],
-    "descargas": []
   }
 ]
