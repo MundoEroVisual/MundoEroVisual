@@ -1550,5 +1550,16 @@
         "date": "2025-12-06T00:49:10.923Z"
       }
     ]
+  },
+  {
+    "usuario": "Breyer",
+    "password": "brandon2010",
+    "apodo": "Greyrat",
+    "avatar": "BGG",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
