@@ -1667,5 +1667,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Chupi",
+    "password": "haslojusto100pre",
+    "apodo": "Naggi",
+    "avatar": "Chrome ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
