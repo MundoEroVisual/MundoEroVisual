@@ -1689,5 +1689,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Jackson ",
+    "password": "JACKWON0515",
+    "apodo": "Stick",
+    "avatar": "https://gravatar.com/avatar/5850bbd982beb67d9f64aeeb627c233d?s=400&d=robohash&r=x",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
