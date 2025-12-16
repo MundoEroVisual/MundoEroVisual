@@ -1700,5 +1700,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Emanuel",
+    "password": "NBA11222",
+    "apodo": "Emma",
+    "avatar": "https://gravatar.com/avatar/98312ea8b948ecc42ac9e3cb159fe80f?s=400&d=robohash&r=x",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
