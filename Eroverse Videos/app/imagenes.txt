@@ -1,0 +1,10 @@
+file 'C:/Users/Programando/Desktop/novelas_images_2025-12-15T15-01-55-236Z/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol_/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol___spoiler_1.jpg'
+duration 5
+file 'C:/Users/Programando/Desktop/novelas_images_2025-12-15T15-01-55-236Z/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol_/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol___spoiler_3.jpg'
+duration 5
+file 'C:/Users/Programando/Desktop/novelas_images_2025-12-15T15-01-55-236Z/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol_/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol___spoiler_4.png'
+duration 5
+file 'C:/Users/Programando/Desktop/novelas_images_2025-12-15T15-01-55-236Z/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol_/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol___spoiler_5.jpg'
+duration 5
+file 'C:/Users/Programando/Desktop/novelas_images_2025-12-15T15-01-55-236Z/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol_/Between_Duty_and_Love__v1_3_2___DigitalJPlayground__Espa_ol___spoiler_6.png'
+duration 5
