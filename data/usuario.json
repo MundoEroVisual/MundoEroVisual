@@ -1678,5 +1678,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Pedro",
+    "password": "pedro20150",
+    "apodo": "Ryuuji",
+    "avatar": "Thbb",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
