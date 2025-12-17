@@ -1737,5 +1737,16 @@
         "date": "2025-12-16T04:11:58.020Z"
       }
     ]
+  },
+  {
+    "usuario": "Rojo11223",
+    "password": "amigossonrientes2123",
+    "apodo": "Ojor",
+    "avatar": "pim322441@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
