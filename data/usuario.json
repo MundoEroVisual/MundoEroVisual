@@ -1760,5 +1760,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Baddream ",
+    "password": "Brazuka12",
+    "apodo": "DreeSG",
+    "avatar": "https://www.gettyimages.com.mx/fotos/foto-de-perfil",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
