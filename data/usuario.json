@@ -1780,10 +1780,15 @@
     "favoritos": [
       "mflxaznvvidxhah",
       "regressor-v0-12-piggy-games-espa-ol-android-1754865728726",
-      "red-cloak-v1-0-alexzeroone-espa-ol-android-pc-1754802650618",
-      "mflxaznvvidxhkn"
+      "red-cloak-v1-0-alexzeroone-espa-ol-android-pc-1754802650618"
     ],
     "descargas": [
+      {
+        "id": "red-cloak-v1-0-alexzeroone-espa-ol-android-pc-1754802650618",
+        "title": "Red Cloak [v1.0] [AlexZeroOne] Español Android/Pc",
+        "type": "normal",
+        "date": "2025-12-21T23:45:48.903Z"
+      },
       {
         "id": "no-mercy-v1-03a-1749764109395",
         "title": "No Mercy [v1.03a]",
