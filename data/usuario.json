@@ -705,18 +705,6 @@
     "favoritos": [],
     "descargas": [
       {
-        "id": "mergrb8x9d1wv",
-        "title": "Bright Lord [v1.14.0 Steam] [KissKiss Studio] Español Android",
-        "type": "normal",
-        "date": "2025-12-20T23:10:14.192Z"
-      },
-      {
-        "id": "mflxaznvvidxhkz",
-        "title": "The Power of Truth [v0.0.9.0 Ch.1 P3] [DogCat Studio] Español Android",
-        "type": "normal",
-        "date": "2025-12-20T23:06:42.659Z"
-      },
-      {
         "id": "310",
         "title": "Back Again [Rework v0.10] [BigBoy Projects] Español Android",
         "type": "normal",
@@ -865,7 +853,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "melib8iedpkfn"
+    ],
     "descargas": [
       {
         "id": "melib8iedpkfn",
@@ -1793,12 +1783,6 @@
       "red-cloak-v1-0-alexzeroone-espa-ol-android-pc-1754802650618"
     ],
     "descargas": [
-      {
-        "id": "mflxaznvvidxhah",
-        "title": "Casteen [Ep.3 v3.01] [Lounatick] Español Android",
-        "type": "normal",
-        "date": "2025-12-20T15:42:07.733Z"
-      },
       {
         "id": "no-mercy-v1-03a-1749764109395",
         "title": "No Mercy [v1.03a]",
