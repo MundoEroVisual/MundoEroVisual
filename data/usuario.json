@@ -1813,5 +1813,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Eddie",
+    "password": "58172894edy",
+    "apodo": "Eddie",
+    "avatar": "Edyaroldo@gmail.com ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
