@@ -1835,5 +1835,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Pepe",
+    "password": "puyol1234",
+    "apodo": "Pepep",
+    "avatar": "Pepee",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
