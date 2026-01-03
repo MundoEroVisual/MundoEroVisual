@@ -1724,14 +1724,20 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [
+      "329",
       "328",
       "310",
-      "330",
-      "329",
-      "332",
-      "331"
+      "mfaf0ky6muz5u",
+      "merhsnrcmj02m",
+      "sisterly-affair-final-espa-ol-1751417701839"
     ],
     "descargas": [
+      {
+        "id": "327",
+        "title": "School of Love: Clubs! [v1.9.0] [NijuKozo] Español Android",
+        "type": "normal",
+        "date": "2026-01-03T10:51:06.065Z"
+      },
       {
         "id": "328",
         "title": "New Family [v0.4.7] [King Peanut] Español Android",
