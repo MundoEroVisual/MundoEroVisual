@@ -1889,5 +1889,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Edgar ",
+    "password": "EDHAR11",
+    "apodo": "Sanchexx99 ",
+    "avatar": "99908",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
