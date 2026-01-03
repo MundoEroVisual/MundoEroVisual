@@ -1733,18 +1733,6 @@
     ],
     "descargas": [
       {
-        "id": "327",
-        "title": "School of Love: Clubs! [v1.9.0] [NijuKozo] Español Android",
-        "type": "normal",
-        "date": "2026-01-03T10:51:06.065Z"
-      },
-      {
-        "id": "328",
-        "title": "New Family [v0.4.7] [King Peanut] Español Android",
-        "type": "normal",
-        "date": "2026-01-02T19:21:30.718Z"
-      },
-      {
         "id": "330",
         "title": "The Wants of Summer [v0.44P] [GoldenGob] Español Android",
         "type": "normal",
@@ -1888,17 +1876,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
-  },
-  {
-    "usuario": "Edgar ",
-    "password": "EDHAR11",
-    "apodo": "Sanchexx99 ",
-    "avatar": "99908",
-    "admin": false,
-    "premium": false,
-    "premium_expira": null,
-    "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "mflxaznvvidxhtr",
+        "title": "Dissonance [v4] [Glephy] Español Android",
+        "type": "normal",
+        "date": "2026-01-03T15:55:47.271Z"
+      }
+    ]
   }
 ]
