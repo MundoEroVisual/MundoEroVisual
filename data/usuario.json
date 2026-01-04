@@ -1955,5 +1955,16 @@
         "date": "2026-01-04T08:29:57.728Z"
       }
     ]
+  },
+  {
+    "usuario": "Kikinu",
+    "password": "Omar6969",
+    "apodo": "Lalo",
+    "avatar": "Kikinu",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
