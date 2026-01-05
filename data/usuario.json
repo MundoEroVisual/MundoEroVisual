@@ -1966,5 +1966,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Güayo",
+    "password": "Dany2005",
+    "apodo": "Güayo",
+    "avatar": "gelipe000@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
