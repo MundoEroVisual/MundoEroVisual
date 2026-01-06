@@ -2030,5 +2030,16 @@
         "date": "2026-01-05T16:00:46.427Z"
       }
     ]
+  },
+  {
+    "usuario": "Dean1234",
+    "password": "gasparelmasguapo",
+    "apodo": "Tulipanes ",
+    "avatar": "gastondels@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
