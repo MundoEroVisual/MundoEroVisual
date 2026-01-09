@@ -2190,5 +2190,16 @@
         "date": "2026-01-08T09:07:57.962Z"
       }
     ]
+  },
+  {
+    "usuario": "Piscinasvda@gmail.com ",
+    "password": "4021",
+    "apodo": "Luk",
+    "avatar": "Loco",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
