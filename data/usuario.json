@@ -2031,6 +2031,12 @@
     "favoritos": [],
     "descargas": [
       {
+        "id": "324",
+        "title": "That New Teacher [v0.8.0 EA] [RogueOne] Español Android",
+        "type": "normal",
+        "date": "2026-01-16T10:31:25.097Z"
+      },
+      {
         "id": "323",
         "title": "Clown Squad [Prologue] [NoGlory] Español Android",
         "type": "normal",
@@ -2226,34 +2232,9 @@
       "319",
       "303",
       "306",
-      "melu7z2t0kefa",
-      "lisa-total-investigation-p2-v0-63a-espa-ol-android-dragofinder-studio-1753233463686"
+      "melu7z2t0kefa"
     ],
     "descargas": [
-      {
-        "id": "meliqiqe8nq9w",
-        "title": "Whores of Thrones [S03 E09a] Español Android",
-        "type": "normal",
-        "date": "2026-01-15T17:59:33.066Z"
-      },
-      {
-        "id": "mez16drb4zdr3",
-        "title": "Desert Stalker [v0.19.0 Beta] [Zetan] Español",
-        "type": "normal",
-        "date": "2026-01-15T17:38:29.426Z"
-      },
-      {
-        "id": "lisa-total-investigation-p2-v0-63a-espa-ol-android-dragofinder-studio-1753233463686",
-        "title": "Lisa Total Investigation! [P2 v0.63a]  Español/Android [Dragofinder Studio]",
-        "type": "normal",
-        "date": "2026-01-15T17:29:41.187Z"
-      },
-      {
-        "id": "306",
-        "title": "Simple Days [v0.20.2 Full] [Mega Lono] Español Android",
-        "type": "normal",
-        "date": "2026-01-15T17:25:52.724Z"
-      },
       {
         "id": "grandma-s-house-part-6-v0-82-espa-ol-android-moonbox-1752446296463",
         "title": "Grandma’s House Part 6 v0.82 Español / Android  [Moonbox]",
@@ -2307,17 +2288,6 @@
     "password": "@@@121",
     "apodo": "Bh",
     "avatar": "Si",
-    "admin": false,
-    "premium": false,
-    "premium_expira": null,
-    "favoritos": [],
-    "descargas": []
-  },
-  {
-    "usuario": "Tucan56",
-    "password": "Tucan5033",
-    "apodo": "Tucan79",
-    "avatar": "https://share.google/oZSELpLttVvb1IbC8",
     "admin": false,
     "premium": false,
     "premium_expira": null,
