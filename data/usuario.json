@@ -2317,6 +2317,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "mflxaznvvidxhbv",
+        "title": "Villain’s Legacy 2 [v0.5.0] [Mad scientist lab] Español PC/Android",
+        "type": "normal",
+        "date": "2026-01-18T05:19:34.976Z"
+      }
+    ]
   }
 ]
