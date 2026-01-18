@@ -2307,5 +2307,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Jonathat",
+    "password": "K2E7uFNginvsBba",
+    "apodo": "Jonathan ",
+    "avatar": "Gordoo",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
