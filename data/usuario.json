@@ -2325,5 +2325,16 @@
         "date": "2026-01-18T05:19:34.976Z"
       }
     ]
+  },
+  {
+    "usuario": "Drazen",
+    "password": "67890123",
+    "apodo": "Drazen_010",
+    "avatar": "https://www.mediafire.com/file_premium/dx8mwe7e9f2neu4/villainslegacy2.hotzone18.com-release.apk/file",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
