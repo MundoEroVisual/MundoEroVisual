@@ -2361,6 +2361,13 @@
     "favoritos": [
       "329"
     ],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "329",
+        "title": "Contagion Crisis [v0.6.0] [WeLoveMonsters] Español Android",
+        "type": "normal",
+        "date": "2026-01-19T06:16:57.492Z"
+      }
+    ]
   }
 ]
