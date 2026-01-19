@@ -2358,9 +2358,7 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [
-      "329"
-    ],
+    "favoritos": [],
     "descargas": [
       {
         "id": "329",
