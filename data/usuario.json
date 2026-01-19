@@ -2358,7 +2358,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "mez1y2tjd711o"
+    ],
     "descargas": [
       {
         "id": "mez2opj248alu",
