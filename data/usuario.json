@@ -2387,5 +2387,16 @@
         "date": "2026-01-19T06:16:57.492Z"
       }
     ]
+  },
+  {
+    "usuario": "jaffettsanchez2532@gmail.com",
+    "password": "maxsteel",
+    "apodo": "SwpLighting",
+    "avatar": "Steel150",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
