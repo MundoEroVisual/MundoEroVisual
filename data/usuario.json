@@ -2435,5 +2435,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Aaron",
+    "password": "antonuo3385",
+    "apodo": "El rey ",
+    "avatar": "⚡💨",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
