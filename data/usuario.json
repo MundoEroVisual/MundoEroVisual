@@ -2482,5 +2482,16 @@
     "favoritos": [],
     "descargas": [],
     "discordId": "657734637572849675"
+  },
+  {
+    "usuario": "Diego ",
+    "password": "diegon",
+    "apodo": "dixd",
+    "avatar": "diegocc16",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
