@@ -2526,7 +2526,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "family-faring-ep-8-espa-ol-royal-games-1753144404618"
+    ],
     "descargas": [
       {
         "id": "christmas-eve-v2-0-0-1749744811276",
