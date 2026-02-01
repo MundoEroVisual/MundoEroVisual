@@ -2510,5 +2510,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Rey lagartija ",
+    "password": "Rafa5455",
+    "apodo": "Rey lagarto ",
+    "avatar": "https://avatares.org/",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
