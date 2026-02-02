@@ -2539,5 +2539,16 @@
         "date": "2026-02-01T03:07:32.853Z"
       }
     ]
+  },
+  {
+    "usuario": "Rml",
+    "password": "uno2345",
+    "apodo": "Rhml",
+    "avatar": "De todo",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
