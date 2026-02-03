@@ -2572,5 +2572,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "ErnestCruz",
+    "password": "Killer10*",
+    "apodo": "Ernest ",
+    "avatar": "Sir",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
