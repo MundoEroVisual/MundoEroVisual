@@ -2620,5 +2620,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Jeans007",
+    "password": "Karate.do123",
+    "apodo": "Jeansgod007",
+    "avatar": "Como",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
