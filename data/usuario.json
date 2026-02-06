@@ -2660,5 +2660,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "SuperPower96C",
+    "password": "fullcarlos1996",
+    "apodo": "SuperPower",
+    "avatar": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://es.dreamstime.com/perfil-de-usuario-avatar-icono-mdash-marcador-posici%25C3%25B3n-cuenta-predeterminado-silueta-circular-gris-plana-gen%25C3%25A9rico-para-sitios-image399165083&ved=2ahUKEwj-1cuH8cOSAxVBKbkGHYkiJjUQr4kDegQIMRAA&usg=AOvVaw2fiXrm3k3CtcCfuEpj_hVE",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
