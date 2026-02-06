@@ -2671,5 +2671,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Vaxter ",
+    "password": "Burgo.00",
+    "apodo": "Vax",
+    "avatar": "VXR",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
