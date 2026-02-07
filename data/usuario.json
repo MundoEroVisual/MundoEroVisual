@@ -2296,5 +2296,16 @@
         "date": "2026-02-07T01:59:24.550Z"
       }
     ]
+  },
+  {
+    "usuario": "Yerfrango20 ",
+    "password": "22798979",
+    "apodo": "Yerfrango20 ",
+    "avatar": "Yerfrango20 ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
