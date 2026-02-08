@@ -2325,5 +2325,16 @@
         "date": "2026-02-07T20:02:42.205Z"
       }
     ]
+  },
+  {
+    "usuario": "Krinzo",
+    "password": "Jcc*1979",
+    "apodo": "Krinzo",
+    "avatar": "Como",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
