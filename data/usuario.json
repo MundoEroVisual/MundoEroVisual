@@ -2361,5 +2361,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Goku8293",
+    "password": "vegeta8293",
+    "apodo": "Vegeta",
+    "avatar": "mmalvaro8293@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
