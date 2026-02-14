@@ -2372,5 +2372,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "KDALEX26",
+    "password": "0503677817",
+    "apodo": "Tumarido",
+    "avatar": "Kd",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
