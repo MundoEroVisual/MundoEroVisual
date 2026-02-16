@@ -2413,5 +2413,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Dani",
+    "password": "barcenas1985",
+    "apodo": "Dan",
+    "avatar": "https://www.xtrafondos.com/wallpapers/goku-super-saiyan-13554.jpg",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
