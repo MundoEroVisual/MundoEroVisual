@@ -2442,5 +2442,16 @@
         "date": "2026-02-17T15:57:53.911Z"
       }
     ]
+  },
+  {
+    "usuario": "corellabriana425@gmail.com",
+    "password": "hola12345",
+    "apodo": "Briana ",
+    "avatar": "iPhone ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
