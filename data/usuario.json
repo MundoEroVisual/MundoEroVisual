@@ -2424,5 +2424,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "lmanceborojas@gmail.com",
+    "password": "Popi9912022",
+    "apodo": "El mulato",
+    "avatar": "Leon",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
