@@ -2434,6 +2434,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "296",
+        "title": "Summertime Saga [v21.0.0 wip.6859] [Kompas Productions] Español Android",
+        "type": "normal",
+        "date": "2026-02-17T15:57:53.911Z"
+      }
+    ]
   }
 ]
