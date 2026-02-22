@@ -2475,5 +2475,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Diego",
+    "password": "wwe446677",
+    "apodo": "Diegoxv",
+    "avatar": "L",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
