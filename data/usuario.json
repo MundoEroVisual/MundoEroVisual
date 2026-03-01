@@ -2526,5 +2526,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Nekro",
+    "password": "Mandakidaniel20__!",
+    "apodo": "Nekro",
+    "avatar": "WilledNekro",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
