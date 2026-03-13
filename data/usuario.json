@@ -2473,7 +2473,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "merj2cdplhiwb"
+    ],
     "descargas": []
   }
 ]
