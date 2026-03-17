@@ -2500,7 +2500,10 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "304",
+      "happy-summer-v0-7-1r-espa-ol-caizer-games-1752805160727"
+    ],
     "descargas": []
   }
 ]
