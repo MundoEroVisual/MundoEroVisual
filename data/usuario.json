@@ -2558,5 +2558,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Douglas15",
+    "password": "Bladi15@",
+    "apodo": "Fresa",
+    "avatar": "Avatar ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
