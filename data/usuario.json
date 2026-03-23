@@ -2535,7 +2535,14 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485301",
+        "title": "Sinful Vampires [v0.12.0] [Hematite] Español PC/Android",
+        "type": "normal",
+        "date": "2026-03-23T14:59:20.750Z"
+      }
+    ]
   },
   {
     "usuario": "ander",
