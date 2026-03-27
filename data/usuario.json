@@ -2702,5 +2702,16 @@
         "date": "2026-03-26T00:04:23.573Z"
       }
     ]
+  },
+  {
+    "usuario": "Caxwe ",
+    "password": "javierjesus00.",
+    "apodo": "Caw",
+    "avatar": "CWE",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
