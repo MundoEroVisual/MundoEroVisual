@@ -2756,5 +2756,16 @@
         "date": "2026-03-27T20:34:05.140Z"
       }
     ]
+  },
+  {
+    "usuario": "Ferdinand ",
+    "password": "3095",
+    "apodo": "Flaco ",
+    "avatar": "Logo",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
