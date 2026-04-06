@@ -2767,5 +2767,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "raulfuenteg96",
+    "password": "hunter1996",
+    "apodo": "Hunter",
+    "avatar": "Cazador",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
