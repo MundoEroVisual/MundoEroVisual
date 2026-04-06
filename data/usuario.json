@@ -2777,6 +2777,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485416",
+        "title": "Shadows of Deceit [Ch. 3] [First Sin] Español PC/Android",
+        "type": "normal",
+        "date": "2026-04-06T20:50:09.395Z"
+      }
+    ]
   }
 ]
