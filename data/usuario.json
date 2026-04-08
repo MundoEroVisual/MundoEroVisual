@@ -1106,18 +1106,6 @@
     "favoritos": [],
     "descargas": [
       {
-        "id": "1754864485424",
-        "title": "Away from Home [Ep.1-29] [vatosgames] Español PC/Android",
-        "type": "normal",
-        "date": "2026-04-03T22:48:49.357Z"
-      },
-      {
-        "id": "1754864485426",
-        "title": "Forbidden Thoughts [v0.4.0] [REN3D] Español PC/Android",
-        "type": "normal",
-        "date": "2026-04-03T22:43:52.697Z"
-      },
-      {
         "id": "not-too-refined-prologue-aulantr-espa-ol-android-pc-1754170102519",
         "title": "Not Too Refined [Prologue] [AulaNTR] Español Android/Pc",
         "type": "normal",
@@ -2667,24 +2655,6 @@
     "favoritos": [],
     "descargas": [
       {
-        "id": "1754864485400",
-        "title": "Mother in Lust [v1.0] [Honeylust] Español PC/Android",
-        "type": "normal",
-        "date": "2026-04-08T07:48:42.985Z"
-      },
-      {
-        "id": "1754864485376",
-        "title": "Ring of Lust [Ep.2 v0.0.1a] [Votan] Español PC/Android",
-        "type": "normal",
-        "date": "2026-03-27T09:09:31.467Z"
-      },
-      {
-        "id": "1754864485402",
-        "title": "Back Again [Rework v0.15] [BigBoy Projects] Español PC/Android",
-        "type": "normal",
-        "date": "2026-03-27T08:59:34.576Z"
-      },
-      {
         "id": "foot-of-the-mountains-1750530242829",
         "title": "Foot of the Mountains",
         "type": "normal",
@@ -2717,78 +2687,7 @@
         "id": "lisa-total-investigation-p2-v0-63a-espa-ol-android-dragofinder-studio-1753233463686",
         "title": "Lisa Total Investigation! [P2 v0.63a]  Español/Android [Dragofinder Studio]",
         "type": "normal",
-        "date": "2026-03-26T00:04:23.573Z"
-      }
-    ]
-  },
-  {
-    "usuario": "Caxwe ",
-    "password": "javierjesus00.",
-    "apodo": "Caw",
-    "avatar": "CWE",
-    "admin": false,
-    "premium": false,
-    "premium_expira": null,
-    "favoritos": [],
-    "descargas": [
-      {
-        "id": "1754864485374",
-        "title": "My College Life [Ch.1 v0.3] [SC] Español PC/Android",
-        "type": "normal",
-        "date": "2026-03-27T21:38:23.364Z"
-      },
-      {
-        "id": "1754864485365",
-        "title": "Stained Blood [v0.1] [Obsidian Desire Labs] Español PC/Android",
-        "type": "normal",
-        "date": "2026-03-27T21:34:41.471Z"
-      },
-      {
-        "id": "harmony-haven-ch-2-v0-1-1750348433923",
-        "title": "Harmony Haven [Ch. 2 v0.1]",
-        "type": "normal",
-        "date": "2026-03-27T20:48:22.104Z"
-      },
-      {
-        "id": "merhevr3rwt8q",
-        "title": "Amnesia v0.103 Español ",
-        "type": "normal",
-        "date": "2026-03-27T20:40:09.671Z"
-      },
-      {
-        "id": "it-was-raining-that-night-1750296410225",
-        "title": "It Was Raining That Night",
-        "type": "normal",
-        "date": "2026-03-27T20:34:05.140Z"
-      }
-    ]
-  },
-  {
-    "usuario": "Ferdinand ",
-    "password": "3095",
-    "apodo": "Flaco ",
-    "avatar": "Logo",
-    "admin": false,
-    "premium": false,
-    "premium_expira": null,
-    "favoritos": [],
-    "descargas": []
-  },
-  {
-    "usuario": "raulfuenteg96",
-    "password": "hunter1996",
-    "apodo": "Hunter",
-    "avatar": "Cazador",
-    "admin": false,
-    "premium": false,
-    "premium_expira": null,
-    "favoritos": [],
-    "descargas": [
-      {
-        "id": "1754864485416",
-        "title": "Shadows of Deceit [Ch. 3] [First Sin] Español PC/Android",
-        "type": "normal",
-        "date": "2026-04-06T20:50:09.395Z"
+        "date": "2026-04-08T16:02:06.115Z"
       }
     ]
   }
