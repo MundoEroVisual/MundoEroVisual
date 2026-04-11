@@ -2707,5 +2707,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Jaimitho0",
+    "password": "Bobo123@",
+    "apodo": "Jh",
+    "avatar": "Jh",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
