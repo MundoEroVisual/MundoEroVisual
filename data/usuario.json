@@ -2696,5 +2696,16 @@
         "date": "2026-04-08T16:02:06.115Z"
       }
     ]
+  },
+  {
+    "usuario": "Jaimitho",
+    "password": "bobo123@",
+    "apodo": "Jh",
+    "avatar": "Jh",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
