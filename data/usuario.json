@@ -2717,6 +2717,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485472",
+        "title": "Babysitter [Final v0.2.2b] [T4bbo] Español PC/Android",
+        "type": "normal",
+        "date": "2026-04-12T01:56:34.138Z"
+      }
+    ]
   }
 ]
