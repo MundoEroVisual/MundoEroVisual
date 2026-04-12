@@ -2716,7 +2716,9 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [],
+    "favoritos": [
+      "1754864485423"
+    ],
     "descargas": [
       {
         "id": "1754864485472",
