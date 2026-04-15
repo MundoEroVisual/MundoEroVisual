@@ -2757,5 +2757,16 @@
         "date": "2026-04-12T01:56:34.138Z"
       }
     ]
+  },
+  {
+    "usuario": "Abed",
+    "password": "1380",
+    "apodo": "Metálica ",
+    "avatar": "Loco",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
