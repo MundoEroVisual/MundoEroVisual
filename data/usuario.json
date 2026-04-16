@@ -2768,5 +2768,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Makalopu",
+    "password": "#165260dx",
+    "apodo": "Rex",
+    "avatar": "Nike",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
