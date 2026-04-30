@@ -999,7 +999,14 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485505",
+        "title": "Thirsty Society [v0.1] [Obsidian Desire Labs] Español PC/Android",
+        "type": "normal",
+        "date": "2026-04-30T02:56:18.723Z"
+      }
+    ]
   },
   {
     "usuario": "Draun",
