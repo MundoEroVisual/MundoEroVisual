@@ -2921,6 +2921,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485471",
+        "title": "Pure Love [v0.9.5 Public] [Mr.Axxx] Español PC/Android",
+        "type": "normal",
+        "date": "2026-05-02T05:48:57.671Z"
+      }
+    ]
   }
 ]
