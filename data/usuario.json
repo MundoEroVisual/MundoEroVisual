@@ -2940,5 +2940,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "luxtel09",
+    "password": "Burgos.00",
+    "apodo": "LXL",
+    "avatar": "LX",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
