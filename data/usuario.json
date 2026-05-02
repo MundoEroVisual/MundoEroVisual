@@ -2915,8 +2915,8 @@
   {
     "usuario": "PHS303",
     "password": "Burgo.00",
-    "apodo": "Allex0044",
-    "avatar": "AX0044",
+    "apodo": "Phineas ",
+    "avatar": "Phi",
     "admin": false,
     "premium": false,
     "premium_expira": null,
@@ -2929,5 +2929,16 @@
         "date": "2026-05-02T05:50:42.119Z"
       }
     ]
+  },
+  {
+    "usuario": "Allex0044",
+    "password": "Burgo.00",
+    "apodo": "AX0044",
+    "avatar": "VH",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
