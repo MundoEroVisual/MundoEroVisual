@@ -2989,5 +2989,16 @@
         "date": "2026-05-02T07:00:32.726Z"
       }
     ]
+  },
+  {
+    "usuario": "Baniel ",
+    "password": "baniel1702",
+    "apodo": "Lb",
+    "avatar": "lazarobanielp@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
