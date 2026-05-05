@@ -3010,5 +3010,16 @@
         "date": "2026-05-05T12:52:42.897Z"
       }
     ]
+  },
+  {
+    "usuario": "polo",
+    "password": "polo1718",
+    "apodo": "polopolo",
+    "avatar": "11",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
