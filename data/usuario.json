@@ -3046,5 +3046,16 @@
         "date": "2026-05-05T16:58:33.711Z"
       }
     ]
+  },
+  {
+    "usuario": "Héctor ",
+    "password": "nopor69",
+    "apodo": "Madar",
+    "avatar": "Capcar",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
