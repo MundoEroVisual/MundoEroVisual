@@ -3057,5 +3057,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Hector",
+    "password": "1234567890",
+    "apodo": "Madar",
+    "avatar": "Karn",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
