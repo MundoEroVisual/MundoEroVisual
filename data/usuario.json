@@ -3078,6 +3078,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485503",
+        "title": "Man of Steal [v1.0.1] [Nymphs] Español PC/Android",
+        "type": "normal",
+        "date": "2026-05-15T21:53:32.497Z"
+      }
+    ]
   }
 ]
