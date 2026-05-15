@@ -3068,5 +3068,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Zhatar_got",
+    "password": "10203040",
+    "apodo": "Zhatar",
+    "avatar": "Hhhh",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
