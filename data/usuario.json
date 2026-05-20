@@ -3092,5 +3092,16 @@
         "date": "2026-05-15T21:53:32.497Z"
       }
     ]
+  },
+  {
+    "usuario": "Iker",
+    "password": "ikerrrios890",
+    "apodo": "Rios",
+    "avatar": "riosiker567@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
