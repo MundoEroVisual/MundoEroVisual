@@ -2391,10 +2391,15 @@
     "admin": false,
     "premium": false,
     "premium_expira": null,
-    "favoritos": [
-      "1754864485528"
-    ],
-    "descargas": []
+    "favoritos": [],
+    "descargas": [
+      {
+        "id": "1754864485474",
+        "title": "Esoterika [v0.4b] [Inkshade] Español PC/Android",
+        "type": "normal",
+        "date": "2026-05-27T11:52:24.568Z"
+      }
+    ]
   },
   {
     "usuario": " zacks",
