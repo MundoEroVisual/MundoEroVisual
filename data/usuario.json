@@ -3134,5 +3134,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "azver",
+    "password": "Dolores.00",
+    "apodo": "Azv",
+    "avatar": "Azv",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
