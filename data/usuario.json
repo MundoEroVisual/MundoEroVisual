@@ -3145,5 +3145,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "quinonesmariano85@gmail.com",
+    "password": "al3xcapo17",
+    "apodo": "Murillo",
+    "avatar": "Jsjdb",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
