@@ -3214,12 +3214,19 @@
   {
     "usuario": "Butterfly ",
     "password": "BUTT00.",
-    "apodo": "BUTT",
+    "apodo": "Butt",
     "avatar": "BTy",
     "admin": false,
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485407",
+        "title": "Crazy Lewd Affairs [v0.02a] [Crazy Wanker] Español PC/Android",
+        "type": "normal",
+        "date": "2026-06-23T07:08:17.052Z"
+      }
+    ]
   }
 ]
