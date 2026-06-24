@@ -3228,5 +3228,16 @@
         "date": "2026-06-23T07:08:17.052Z"
       }
     ]
+  },
+  {
+    "usuario": "marcxx10",
+    "password": "mentiende69",
+    "apodo": "marcxx10",
+    "avatar": "https://w0.peakpx.com/wallpaper/93/625/HD-wallpaper-dragon-ball-3d-2-4-star-anime-dragon-ball-goku-star-super.jpg",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
