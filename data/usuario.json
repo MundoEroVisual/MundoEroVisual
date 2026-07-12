@@ -3263,5 +3263,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Griwels",
+    "password": "Maquino1234",
+    "apodo": "Mao",
+    "avatar": "Jessica O’Neil’s Hard News",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
