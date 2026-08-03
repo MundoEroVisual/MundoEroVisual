@@ -3315,5 +3315,16 @@
         "date": "2026-07-28T16:24:45.829Z"
       }
     ]
+  },
+  {
+    "usuario": "JosephEfra",
+    "password": "Pinucko87",
+    "apodo": "Pinucko ",
+    "avatar": "josepheframb.1987@gmail.com",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
