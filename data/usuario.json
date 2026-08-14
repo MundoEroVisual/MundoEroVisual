@@ -3348,5 +3348,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Bus",
+    "password": "alan12",
+    "apodo": "Saca",
+    "avatar": "No tengo",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
