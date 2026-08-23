@@ -3454,5 +3454,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Yasel01",
+    "password": "ya12sel34",
+    "apodo": "Yase",
+    "avatar": "Ya12",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
