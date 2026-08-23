@@ -3464,6 +3464,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "brighton-city-empire-v0-08-espa-ol-fatality17-1752546059131",
+        "title": "Brighton City Empire [v0.08] Español [Fatality17]",
+        "type": "normal",
+        "date": "2026-08-23T14:00:28.815Z"
+      }
+    ]
   }
 ]
