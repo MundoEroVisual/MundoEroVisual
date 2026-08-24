@@ -3531,5 +3531,16 @@
         "date": "2026-08-23T14:00:28.815Z"
       }
     ]
+  },
+  {
+    "usuario": "Obakex",
+    "password": "Daniel2009",
+    "apodo": "Obakex",
+    "avatar": "12345679",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
