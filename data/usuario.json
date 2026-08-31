@@ -3600,6 +3600,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "family-crush-1749750553668",
+        "title": "Family Crush",
+        "type": "normal",
+        "date": "2026-08-31T07:09:57.411Z"
+      }
+    ]
   }
 ]
