@@ -3649,6 +3649,13 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485474",
+        "title": "Esoterika [v0.4b] [Inkshade] Español PC/Android",
+        "type": "normal",
+        "date": "2026-09-05T03:45:42.828Z"
+      }
+    ]
   }
 ]
