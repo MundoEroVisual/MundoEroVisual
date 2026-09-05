@@ -3639,5 +3639,16 @@
         "date": "2026-08-31T07:09:57.411Z"
       }
     ]
+  },
+  {
+    "usuario": "Muffasa.1",
+    "password": "Muffsa.1",
+    "apodo": "MuFF",
+    "avatar": "MFF",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
