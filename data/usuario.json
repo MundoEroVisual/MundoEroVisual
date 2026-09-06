@@ -3669,5 +3669,16 @@
         "date": "2026-09-05T03:45:42.828Z"
       }
     ]
+  },
+  {
+    "usuario": "Saul",
+    "password": "03111995sa7lul",
+    "apodo": "KRATOS",
+    "avatar": "Bsc",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
