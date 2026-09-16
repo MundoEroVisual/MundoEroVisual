@@ -3733,5 +3733,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "MR,Chaquetas",
+    "password": "1234abcd",
+    "apodo": "Chaquton",
+    "avatar": "No se ",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
