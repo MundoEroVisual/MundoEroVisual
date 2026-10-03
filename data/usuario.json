@@ -2346,6 +2346,12 @@
     ],
     "descargas": [
       {
+        "id": "xs-crossing-fate-v1-0-xrus-studios-espa-ol-android-pc-1754621499219",
+        "title": "XS Crossing Fate [v1.0] [Xrus Studios] Español Android/Pc",
+        "type": "pc",
+        "date": "2026-10-03T12:38:56.331Z"
+      },
+      {
         "id": "melx4629knqh6",
         "title": "Shards of the Past [v0.3.1]nEspañol Android",
         "type": "normal",
@@ -2638,12 +2644,6 @@
         "title": "Knightly Passions [v1.60 + DLCs] [FEYADA] Español Android",
         "type": "normal",
         "date": "2026-08-21T09:23:04.601Z"
-      },
-      {
-        "id": "287",
-        "title": "Hero Party Must Fall [v0.6.0 BugFix] [Nitrolith] Español Android",
-        "type": "normal",
-        "date": "2026-08-21T09:12:32.685Z"
       }
     ]
   },
