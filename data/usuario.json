@@ -878,10 +878,15 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [
-      "mflxaznvvidxhck",
       "melib8iedpkfn"
     ],
     "descargas": [
+      {
+        "id": "1754864485538",
+        "title": "Superheroes Suck [v2.081] [Solace] Español PC/Android",
+        "type": "normal",
+        "date": "2026-10-05T23:13:39.443Z"
+      },
       {
         "id": "1754864485495",
         "title": "My Summer Job [v0.2A] [Rose Games] Español PC/Android",
