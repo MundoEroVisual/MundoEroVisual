@@ -3821,5 +3821,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "Luciano05",
+    "password": "lucianop90",
+    "apodo": "Lucho",
+    "avatar": "Hghjkkk",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
