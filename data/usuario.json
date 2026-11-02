@@ -3832,5 +3832,16 @@
     "premium_expira": null,
     "favoritos": [],
     "descargas": []
+  },
+  {
+    "usuario": "damianjoel357@gmail.com",
+    "password": "joelsilvero8888",
+    "apodo": "Dsmian",
+    "avatar": "77777",
+    "admin": false,
+    "premium": false,
+    "premium_expira": null,
+    "favoritos": [],
+    "descargas": []
   }
 ]
