@@ -3739,7 +3739,14 @@
     "premium": false,
     "premium_expira": null,
     "favoritos": [],
-    "descargas": []
+    "descargas": [
+      {
+        "id": "1754864485533",
+        "title": "Nephilim [v0.6.7] [BuuPlays] Español PC/Android",
+        "type": "normal",
+        "date": "2026-11-08T05:02:51.879Z"
+      }
+    ]
   },
   {
     "usuario": "(FacuXGamer)",
